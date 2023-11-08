@@ -1,7 +1,7 @@
 {
-  "name": "react-template",
+  "name": "csgofrontend",
   "version": "1.0.0",
-  "description": "React Template",
+  "description": "CSGO Frontend",
   "main": "index.js",
   "scripts": {
     "build:esbuild": "esbuild src/js/index.js --bundle --minify --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js",

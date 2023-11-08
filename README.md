@@ -1,1 +1,1 @@
-# React Template
+# CSGO Frontend
