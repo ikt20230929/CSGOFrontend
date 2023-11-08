@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build:esbuild": "esbuild src/js/index.js --bundle --minify --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js",
-    "watch:esbuild": "esbuild src/js/index.js --bundle --minify --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js --watch",
+    "watch:esbuild": "esbuild src/js/index.js --bundle --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js --watch",
     "build:css": "esbuild src/css/style.css --bundle --minify --outfile=public/dist/bundle.css",
-    "watch:css": "esbuild src/css/style.css --bundle --minify --outfile=public/dist/bundle.css --watch",
+    "watch:css": "esbuild src/css/style.css --bundle --outfile=public/dist/bundle.css --watch",
     "serve": "serve public/",
     "open": "opener http://localhost:3000",
     "build": "concurrently --kill-others-on-fail npm:build:esbuild npm:build:css",
     "watch": "concurrently --kill-others-on-fail npm:watch:esbuild npm:watch:css npm:serve npm:open"
   },
+  "homepage": "./",
   "keywords": [],
   "author": "",
   "license": "MIT",
@@ -24,6 +25,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.18.0"
   }
 }
