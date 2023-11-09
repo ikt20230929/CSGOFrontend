@@ -8,7 +8,7 @@
     "watch:esbuild": "esbuild src/js/index.js --bundle --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js --watch",
     "build:css": "esbuild src/css/style.css --bundle --minify --outfile=public/dist/bundle.css",
     "watch:css": "esbuild src/css/style.css --bundle --outfile=public/dist/bundle.css --watch",
-    "serve": "serve public/",
+    "serve": "serve public/ -s",
     "open": "opener http://localhost:3000",
     "build": "concurrently --kill-others-on-fail npm:build:esbuild npm:build:css",
     "watch": "concurrently --kill-others-on-fail npm:watch:esbuild npm:watch:css npm:serve npm:open"
@@ -26,6 +26,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
     "react-router-dom": "^6.18.0"
   }
 }
