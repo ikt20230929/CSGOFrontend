@@ -1,31 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { API_URL } from "../Globals";
+import { API_URL, fetchEndpoint } from "../Globals";
 
 export default function ProfilePage() {
     const [profileData, setProfileData] = useState({
       profile: [],
       inventory: []
     });
+    
+    const [caseData, setCaseData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
-          const profileResponse = await fetch(`${API_URL}/profile`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
-            }
+          const profileResponse = await fetchEndpoint("profile").json();
+          const inventoryResponse = await fetchEndpoint("inventory").json();
+          const casesResponse = await fetchEndpoint("cases").json();
+
+          setProfileData({
+            profile: profileResponse,
+            inventory: inventoryResponse
           });
 
-          const inventoryResponse = await fetch(`${API_URL}/inventory`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
-            }
-          });
-          const profileJSON = await profileResponse.json();
-          const inventoryJSON = await inventoryResponse.json();
-          setProfileData({
-            profile: profileJSON,
-            inventory: inventoryJSON
-          });
+          setCaseData(casesResponse);
         };
     
         fetchData();
@@ -43,6 +38,17 @@ export default function ProfilePage() {
 
               </div>
             ]
+          })}
+        </>
+
+        <>
+          <h2>Here is a list of all cases: ({caseData.length} cases)</h2>
+          {caseData.map(_case => {
+            return (
+              <div key={_case.caseId}>
+                <h1>{_case.caseName} (has {_case.items.length} items)</h1>
+              </div>
+            )
           })}
         </>
       </>
