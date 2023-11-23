@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainPage from "./pages/MainPage";
@@ -25,4 +25,7 @@ const router = createBrowserRouter([
 	}
 ]);
 
-createRoot(document.getElementById("root")).render(<RouterProvider router={router} />);
+createRoot(document.getElementById("root")).render(
+<StrictMode>
+	<RouterProvider router={router} />
+</StrictMode>);

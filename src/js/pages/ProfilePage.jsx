@@ -31,18 +31,20 @@ export default function ProfilePage() {
         fetchData();
       }, []);
 
-    return [
-        <h1>Hello {profileData.profile.username}!</h1>,
-        <h1>Your balance is: {profileData.profile.balance}.</h1>,
-        <div>
+    return (
+      <>
+        <h1>Hello {profileData.profile.username}!</h1>
+        <h1>Your balance is: {profileData.profile.balance}.</h1>
+        <>
           <h2>Here is a list of all your inventory items: ({profileData.inventory.length} items)</h2>
           {profileData.inventory.map(item => {
             return [
-            <div>
+              <div key={item.id}>
 
-            </div>
+              </div>
             ]
           })}
-        </div>
-    ]
+        </>
+      </>
+    )
 }
