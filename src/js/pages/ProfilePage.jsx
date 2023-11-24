@@ -11,9 +11,9 @@ export default function ProfilePage() {
 
     useEffect(() => {
         const fetchData = async () => {
-          const profileResponse = await fetchEndpoint("profile").json();
-          const inventoryResponse = await fetchEndpoint("inventory").json();
-          const casesResponse = await fetchEndpoint("cases").json();
+          const profileResponse = (await fetchEndpoint("profile")).data;
+          const inventoryResponse = (await fetchEndpoint("inventory")).data;
+          const casesResponse = (await fetchEndpoint("cases")).data;
 
           setProfileData({
             profile: profileResponse,
