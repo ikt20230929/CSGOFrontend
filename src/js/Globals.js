@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "https://localhost:7233/api";
+export const API_URL = "https://ikt.14c-on.top/api";
 
 export async function fetchEndpoint(endpoint) {
     var request = await doRequest(endpoint);

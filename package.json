@@ -9,7 +9,7 @@
     "build:css": "esbuild src/css/style.css --bundle --minify --outfile=public/dist/bundle.css",
     "watch:css": "esbuild src/css/style.css --bundle --outfile=public/dist/bundle.css --watch",
     "serve": "serve public/ -s",
-    "open": "opener http://localhost:3000",
+    "open": "opener https://ikt.14c-on.top/",
     "build": "concurrently --kill-others-on-fail npm:build:esbuild npm:build:css",
     "watch": "concurrently --kill-others-on-fail npm:watch:esbuild npm:watch:css npm:serve npm:open"
   },
