@@ -5,6 +5,9 @@ import MainPage from "./pages/MainPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import '@mantine/core/styles.css';
+import { MantineProvider } from "@mantine/core";
+import TwoFactorPage from "./pages/TwoFactorPage";
 
 const router = createBrowserRouter([
 	{
@@ -14,6 +17,10 @@ const router = createBrowserRouter([
 	{
 		path: "/login",
 		element: <LoginPage />
+	},
+	{
+		path: "/login/totp",
+		element: <TwoFactorPage />
 	},
 	{
 		path: "/register",
@@ -27,5 +34,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
 <StrictMode>
-	<RouterProvider router={router} />
+	<MantineProvider defaultColorScheme="auto">
+		<RouterProvider router={router} />
+	</MantineProvider>
 </StrictMode>);

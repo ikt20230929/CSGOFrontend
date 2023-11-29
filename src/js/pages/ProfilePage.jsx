@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_URL, fetchEndpoint } from "../Globals";
+import { fetchEndpoint } from "../Globals";
 
 export default function ProfilePage() {
     const [profileData, setProfileData] = useState({

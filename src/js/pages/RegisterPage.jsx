@@ -5,7 +5,6 @@ import { API_URL } from "../Globals";
 export default function RegisterPage() {
     const { register, control } = useForm();
 
-
     return (
         <>
             <h1>Enter your credentials:</h1>

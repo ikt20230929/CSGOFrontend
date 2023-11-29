@@ -6,12 +6,10 @@
   "scripts": {
     "build:esbuild": "esbuild src/js/index.js --bundle --minify --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js",
     "watch:esbuild": "esbuild src/js/index.js --bundle --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js --watch",
-    "build:css": "esbuild src/css/style.css --bundle --minify --outfile=public/dist/bundle.css",
-    "watch:css": "esbuild src/css/style.css --bundle --outfile=public/dist/bundle.css --watch",
     "serve": "serve public/ -s",
     "open": "opener https://ikt.14c-on.top/",
-    "build": "concurrently --kill-others-on-fail npm:build:esbuild npm:build:css",
-    "watch": "concurrently --kill-others-on-fail npm:watch:esbuild npm:watch:css npm:serve npm:open"
+    "build": "concurrently --kill-others-on-fail npm:build:esbuild",
+    "watch": "concurrently --kill-others-on-fail npm:watch:esbuild npm:serve npm:open"
   },
   "homepage": "./",
   "keywords": [],
@@ -21,9 +19,15 @@
     "concurrently": "^8.2.1",
     "esbuild": "0.19.4",
     "opener": "^1.5.2",
+    "postcss": "^8.4.31",
+    "postcss-preset-mantine": "^1.11.0",
+    "postcss-simple-vars": "^7.0.1",
     "serve": "^14.2.1"
   },
   "dependencies": {
+    "@mantine/core": "^7.2.2",
+    "@mantine/hooks": "^7.2.2",
+    "@mantine/nprogress": "^7.2.2",
     "axios": "^1.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
