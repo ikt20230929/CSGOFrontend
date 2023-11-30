@@ -3,23 +3,22 @@ import { useForm } from "react-hook-form"
 import { API_URL } from "../Globals";
 import { useNavigate } from "react-router-dom";
 import { LoginForm } from "../components/LoginForm";
-import { LoginContext } from "../context/LoginContext";
+import { loginContext } from "../context/LoginContext";
 
 export default function LoginPage() {
-    const { getValues } = useForm();
     const navigate = useNavigate();
-    const data = useContext(LoginContext);
+    const data = useContext(loginContext);
 
     return <LoginForm submitURL={`${API_URL}/login`} onSuccess={async ({ response }) => {
         localStorage.setItem("accessToken", (await response.json()).accessToken);
         return navigate("/profile");
+    }} onSubmit={response => {
+        data.username = response.username;
+        data.password = response.password;
     }} onError={async ({ response }) => {
         let res = await response.text();
         switch (res) {
             case "EnterTotp": {
-                const values = getValues();
-                data.username = values.username;
-                data.password = values.password;
                 data.mfa.mfaType = "TOTP";
                 return navigate("/login/totp");
             }

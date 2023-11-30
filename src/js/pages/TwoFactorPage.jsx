@@ -1,18 +1,20 @@
-import React from 'react';
-import { redirect } from "react-router-dom";
-import { LoginContext } from "../context/LoginContext";
+import React, { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { loginContext } from "../context/LoginContext";
 import { useContext } from "react";
 import { TwoFactorForm } from '../components/TwoFactorForm';
 import { API_URL } from '../Globals';
 
 export default function TwoFactorPage() {
-    const data = useContext(LoginContext);
-    console.log(LoginContext)
-
-    if(data.mfa.mfaType !== "TOTP") redirect("/login");
+    const data = useContext(loginContext);
+    const navigate = useNavigate();
     
+    useEffect(() => {
+        if(data.mfa.mfaType !== "TOTP") return navigate("/login");
+    }, []);
+
     return <TwoFactorForm submitURL={`${API_URL}/login`} onSuccess={async ({ response }) => {
         localStorage.setItem("accessToken", (await response.json()).accessToken);
         return navigate("/profile");
-    }} />
+    }} userData={data} />
 }

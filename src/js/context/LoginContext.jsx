@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const LoginContext = createContext({
+export const loginContext = createContext({
     username: '',
     password: '',
     mfa: {

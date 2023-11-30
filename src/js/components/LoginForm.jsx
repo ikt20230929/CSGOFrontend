@@ -13,14 +13,14 @@ import {
 } from '@mantine/core';
 import { Controller, Form, useForm } from "react-hook-form";
 
-export function LoginForm({submitURL, onSuccess, onError}) {
-    const { control } = useForm({
-        defaultValues: {
-            username: "",
-            password: ""
-        }
-    });
-
+export function LoginForm({submitURL, onSubmit, onSuccess, onError }) {
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      username: '',
+      password: ''
+    }
+  });
+  
   return (
     <Container size={420} my={40}>
       <Title ta="center">
@@ -34,7 +34,7 @@ export function LoginForm({submitURL, onSuccess, onError}) {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Form action={submitURL} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
+        <Form action={submitURL} onSubmit={handleSubmit(onSubmit)} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
             <Controller control={control} name="username" render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput onChange={onChange} onBlur={onBlur} value={value} label="Username" required />
             )} />

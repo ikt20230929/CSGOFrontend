@@ -4,7 +4,7 @@ import { Container } from '@mantine/core';
 import { Controller, Form, useForm } from 'react-hook-form';
 
 export const TwoFactorForm = ({ submitURL, onSuccess, onError, userData }) => {
-    const { register, control } = useForm();
+    const { control, register } = useForm();
 
     return (
         <Container size={420}>
@@ -12,6 +12,7 @@ export const TwoFactorForm = ({ submitURL, onSuccess, onError, userData }) => {
                 <Text>Provide a code from your authenticator app.</Text>
                 <Form action={submitURL} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
                     <Controller
+                        defaultValue={""}
                         control={control}
                         name="mfa.totpToken"
                         render={({ field: { onChange, onBlur, value } }) => (
