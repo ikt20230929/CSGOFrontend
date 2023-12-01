@@ -4,12 +4,13 @@
   "description": "CSGO Frontend",
   "main": "index.js",
   "scripts": {
-    "build:esbuild": "esbuild src/js/index.js --bundle --minify --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js",
-    "watch:esbuild": "esbuild src/js/index.js --bundle --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js --watch",
+    "build:esbuild": "esbuild src/js/index.js --bundle --minify --platform=node --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js",
+    "watch:esbuild": "esbuild src/js/index.js --bundle --platform=node --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js --watch",
     "serve": "serve public/ -s",
     "open": "opener https://ikt.14c-on.top/",
-    "build": "concurrently --kill-others-on-fail npm:build:esbuild",
-    "watch": "concurrently --kill-others-on-fail npm:watch:esbuild npm:serve npm:open"
+    "build": "cross-env NODE_ENV=production concurrently --kill-others-on-fail npm:build:esbuild",
+    "build:dev": "cross-env NODE_ENV=development concurrently --kill-others-on-fail npm:build:esbuild",
+    "watch": "cross-env NODE_ENV=development concurrently --kill-others-on-fail npm:watch:esbuild npm:serve npm:open"
   },
   "homepage": "./",
   "keywords": [],
@@ -29,6 +30,8 @@
     "@mantine/hooks": "^7.2.2",
     "@mantine/nprogress": "^7.2.2",
     "axios": "^1.6.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
