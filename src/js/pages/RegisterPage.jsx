@@ -1,5 +1,5 @@
 import React from "react";
-import { API_URL } from "../Globals";
+import { API_URL } from "../settings";
 import  { RegisterForm } from "../components/RegisterForm";
 
 export default function RegisterPage() {

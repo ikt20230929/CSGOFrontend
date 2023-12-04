@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginContext } from "../context/LoginContext";
 import { useContext } from "react";
 import { TwoFactorForm } from '../components/TwoFactorForm';
-import { API_URL } from '../Globals';
+import { API_URL } from "../settings";
 
 export default function TwoFactorPage() {
     const data = useContext(loginContext);

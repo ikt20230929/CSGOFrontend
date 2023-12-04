@@ -11,8 +11,8 @@ import TwoFactorPage from "./pages/TwoFactorPage";
 
 const router = createBrowserRouter([
 	{
-	  	path: "/",
-	  	element: <MainPage />,
+		path: "/",
+		element: <MainPage />,
 	},
 	{
 		path: "/login",
@@ -33,8 +33,8 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-<StrictMode>
-	<MantineProvider defaultColorScheme="auto">
-		<RouterProvider router={router} />
-	</MantineProvider>
-</StrictMode>);
+	<StrictMode>
+		<MantineProvider defaultColorScheme="auto">
+			<RouterProvider router={router} />
+		</MantineProvider>
+	</StrictMode>);

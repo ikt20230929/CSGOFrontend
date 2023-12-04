@@ -1,26 +1,30 @@
 import axios from "axios";
-
-export const API_URL = process.env.API_URL;
+import { API_URL } from "./settings";
 
 export async function fetchEndpoint(endpoint) {
     var request = await doRequest(endpoint);
     if(!request.success && request.code === 401) {
-        await refreshToken();
-        return fetchEndpoint(endpoint);
+        var resp = await refreshToken();
+        if(resp && resp.status == 200) {
+            localStorage.setItem("accessToken", (await resp.json()).accessToken);
+            return fetchEndpoint(endpoint);
+        }else{
+            return {
+                data: null
+            }
+        }
     }else{
         return request;
     }
 }
 
 async function refreshToken() {
-    try {
-        var resp = await axios.get(`${API_URL}/refresh-token`, {
-            withCredentials: true
-        });
-        localStorage.setItem("accessToken", (await resp.json()).accessToken);
-    }catch{
-        
-    }
+    var resp = await axios.get(`${API_URL}/refresh-token`, {
+        withCredentials: true,
+        validateStatus: () => true
+    });
+
+    return resp;
 }
 
 async function doRequest(endpoint) {

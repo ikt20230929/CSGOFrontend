@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { API_URL } from "../Globals";
+import { API_URL } from "../settings";
 import { useNavigate } from "react-router-dom";
 import { LoginForm } from "../components/LoginForm";
 import { loginContext } from "../context/LoginContext";
