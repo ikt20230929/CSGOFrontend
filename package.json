@@ -5,28 +5,34 @@
   "main": "index.js",
   "scripts": {
     "esbuild:base": "esbuild src/js/index.js --bundle --loader:.js=jsx --format=cjs --outfile=public/dist/bundle.js",
-    "build:esbuild": "npm run config && npm run esbuild:base -- --minify",
+    "build:esbuild": "npm run esbuild:base -- --minify",
     "watch:esbuild": "npm run esbuild:base -- --watch",
     "config": "ncp config/settings-prod.js src/js/settings.js --stopOnErr",
-    "config:dev": "nodemon --exec \"ncp config/settings-dev.js src/js/settings.js --stopOnErr\" --watch config/settings-dev.js",
+    "config:dev": "ncp config/settings-dev.js src/js/settings.js --stopOnErr",
+    "config:dev:watch": "nodemon --exec \"ncp config/settings-dev.js src/js/settings.js --stopOnErr\" --watch config/settings-dev.js",
     "serve": "serve public/ -s",
     "open": "opener https://127.0.0.1:3000/",
     "build": "npm run config && npm run build:esbuild",
-    "build:dev": "npm run build:esbuild",
-    "watch": "concurrently --kill-others-on-fail npm:config:dev npm:watch:esbuild npm:serve npm:open"
+    "build:dev": "npm run config:dev && npm run build:esbuild",
+    "watch": "concurrently --kill-others-on-fail npm:config:dev:watch npm:watch:esbuild npm:serve npm:open",
+    "cypress": "wait-on http://localhost:3000 && cypress run",
+    "test": "concurrently --kill-others npm:serve npm:cypress"
   },
   "homepage": "./",
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@testing-library/cypress": "^10.0.1",
     "concurrently": "^8.2.1",
+    "cypress": "^13.6.1",
     "esbuild": "0.19.4",
     "opener": "^1.5.2",
     "postcss": "^8.4.31",
     "postcss-preset-mantine": "^1.11.0",
     "postcss-simple-vars": "^7.0.1",
-    "serve": "^14.2.1"
+    "serve": "^14.2.1",
+    "wait-on": "^7.2.0"
   },
   "dependencies": {
     "@mantine/core": "^7.2.2",

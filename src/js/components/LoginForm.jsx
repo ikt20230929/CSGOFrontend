@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { Controller, Form, useForm } from "react-hook-form";
 
-export function LoginForm({submitURL, onSubmit, onSuccess, onError }) {
+export function LoginForm({submitURL, onSubmit, onSuccess, onError, isInvalid }) {
   const { handleSubmit, control } = useForm({
     defaultValues: {
       username: '',
@@ -36,11 +36,14 @@ export function LoginForm({submitURL, onSubmit, onSuccess, onError }) {
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Form action={submitURL} onSubmit={handleSubmit(onSubmit)} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
             <Controller control={control} name="username" render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput onChange={onChange} onBlur={onBlur} value={value} label="Username" required />
+                <TextInput onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="username" label="Username" required />
             )} />
             <Controller control={control} name="password" render={({ field: { onChange, onBlur, value } }) => (
-                <PasswordInput onChange={onChange} onBlur={onBlur} value={value} label="Password" required mt="md" />
+                <PasswordInput onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="password" label="Password" required mt="md" />
             )} />
+            {isInvalid && <Text id="error" c="red">
+              Invalid username or password.
+            </Text>}
             <Group justify="space-between" mt="lg">
             <Checkbox label="Remember me" />
             <Anchor component="button" size="sm">
