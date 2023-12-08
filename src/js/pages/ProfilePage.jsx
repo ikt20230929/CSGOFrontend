@@ -48,7 +48,7 @@ export default function ProfilePage() {
         <h2>Here is a list of all your inventory items: ({profileData.inventory.length} items)</h2>
         {profileData.inventory.map(item => {
           return [
-            <div key={item.id}>
+            <div key={item.id} data-cy="inventory-item">
 
             </div>
           ]
@@ -59,7 +59,7 @@ export default function ProfilePage() {
         <h2>Here is a list of all cases: ({caseData.length} cases)</h2>
         {caseData.map(_case => {
           return (
-            <div key={_case.caseId}>
+            <div key={_case.caseId} data-cy="case">
               <h1>{_case.caseName} (has {_case.items.length} items)</h1>
             </div>
           )

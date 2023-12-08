@@ -4,7 +4,7 @@ export default defineConfig({
   fixturesFolder: false,
   e2e: {
     baseUrl: "http://localhost:3000",
-    supportFile: "cypress/support/commands.js",
+    supportFile: "cypress/support/index.js",
     screenshotOnRunFailure: false,
     specPattern: "cypress/tests/*.js"
   }
