@@ -29,7 +29,7 @@
     "esbuild": "0.19.11",
     "opener": "^1.5.2",
     "postcss": "^8.4.31",
-    "postcss-preset-mantine": "^1.11.0",
+    "postcss-preset-mantine": "^1.12.3",
     "postcss-simple-vars": "^7.0.1",
     "serve": "^14.2.1",
     "wait-on": "^7.2.0"
