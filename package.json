@@ -25,7 +25,7 @@
   "devDependencies": {
     "@testing-library/cypress": "^10.0.1",
     "concurrently": "^8.2.1",
-    "cypress": "^13.6.2",
+    "cypress": "^13.6.3",
     "esbuild": "0.19.11",
     "opener": "^1.5.2",
     "postcss": "^8.4.33",
