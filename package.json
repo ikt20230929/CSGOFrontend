@@ -28,7 +28,7 @@
     "cypress": "^13.6.4",
     "esbuild": "0.20.0",
     "opener": "^1.5.2",
-    "postcss": "^8.4.33",
+    "postcss": "^8.4.34",
     "postcss-preset-mantine": "^1.13.0",
     "postcss-simple-vars": "^7.0.1",
     "serve": "^14.2.1",
