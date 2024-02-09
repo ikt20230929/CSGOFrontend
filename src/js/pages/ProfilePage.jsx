@@ -23,7 +23,7 @@ export default function ProfilePage() {
         navigate("/login");
         return;
       }
-
+      
       const casesResponse = (await fetchEndpoint("cases")).data;
       if (casesResponse == null) {
         navigate("/login");
@@ -42,29 +42,23 @@ export default function ProfilePage() {
 
   return (
     <>
-      <h1>Hello {profileData.profile.username}!</h1>
-      <h1>Your balance is: {profileData.profile.balance}.</h1>
-      <>
-        <h2>Here is a list of all your inventory items: ({profileData.inventory.length} items)</h2>
-        {profileData.inventory.map(item => {
-          return [
-            <div key={item.id} data-cy="inventory-item">
+      <h2 className="welcome">Megszerzett tárgyak: ({profileData.inventory.length} db)</h2>
+      {profileData.inventory.map(item => {
+        return [
+          <div key={item.id} data-cy="inventory-item">
 
-            </div>
-          ]
-        })}
-      </>
+          </div>
+        ]
+      })}
 
-      <>
-        <h2>Here is a list of all cases: ({caseData.length} cases)</h2>
-        {caseData.map(_case => {
-          return (
-            <div key={_case.caseId} data-cy="case">
-              <h1>{_case.caseName} (has {_case.items.length} items)</h1>
-            </div>
-          )
-        })}
-      </>
+      <h2 className="welcome">Összes láda: ({caseData.length} db)</h2>
+      {caseData.map(_case => {
+        return (
+          <div key={_case.caseId} data-cy="case">
+            <h1>{_case.caseName} (has {_case.items.length} items)</h1>
+          </div>
+        )
+      })}
     </>
   )
 }

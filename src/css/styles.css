@@ -1,0 +1,55 @@
+.regpage{
+  background-color: rgba(0, 0, 0, 0.7)!important;
+  backdrop-filter: blur(8px)!important;
+}
+.welcome{
+  color: white!important;
+}
+body {
+  -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
+  -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);
+  background-image: url('../../img/background.png');
+  backdrop-filter: blur(2px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--mantine-color-text);
+  font-family: var(--mantine-font-family);
+  font-size: var(--mantine-font-size-md);
+  line-height: var(--mantine-line-height);
+  margin: 0;
+}
+
+.header {
+  height: 3.5rem;
+  margin-bottom: 7.5rem;
+  opacity: 0.8;
+  background-color: var(--mantine-color-body);
+  border-bottom: 0.063rem solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+}
+
+.inner {
+  height: 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  display: block;
+  line-height: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+}
+
+.link:hover {
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6)) !important;
+}
+
+.link.active {
+  background-color: var(--mantine-color-blue-filled);
+  color: var(--mantine-color-white);
+}

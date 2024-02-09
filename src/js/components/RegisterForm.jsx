@@ -20,17 +20,18 @@ export function RegisterForm({ submitURL, onSuccess, onError }) {
       }}
     >
         <Container style={{ width: '500px' }}>
-            <Title ta="center">
-                Create an account
-            </Title>
 
-            <Paper withBorder shadow="md" p={30} mt={10} radius="md">
+<Center>
+            <Paper className='regpage' withBorder shadow="md" p={30} mt={10} radius="md">
+            <Title ta="center">
+                Hozz létre egy fiókot!
+            </Title>
                 <Form action={submitURL} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
                     <Controller
                         control={control}
                         name="username"
                         render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput onChange={onChange} onBlur={onBlur} value={value} label="Username" required />
+                            <TextInput onChange={onChange} onBlur={onBlur} value={value} label="Felhasználónév" required />
                         )}
                     />
                     <Controller
@@ -44,15 +45,18 @@ export function RegisterForm({ submitURL, onSuccess, onError }) {
                         control={control}
                         name="password"
                         render={({ field: { onChange, onBlur, value } }) => (
-                            <PasswordInput onChange={onChange} onBlur={onBlur} value={value} label="Password" required />
+                            <PasswordInput onChange={onChange} onBlur={onBlur} value={value} label="Jelszó" required />
                         )}
                     />
-                    <Button type="submit" fullWidth mt="xl">
-                        Register
+                    <Button variant="gradient"
+      gradient={{ from: 'rgba(0, 0, 0, 0.56)', to: 'yellow', deg: 90 }} type="submit" fullWidth mt="xl">
+                        Regisztrálok
                     </Button>
                 </Form>
             </Paper>
+            </Center>
         </Container>
         </Flex>
+        
     );
 };
