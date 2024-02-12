@@ -5,8 +5,9 @@ import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
 const links = [
-  { link: '/', label: 'Kezdőlap' },
+  { link: '/home', label: 'Kezdőlap' },
   { link: '/profile', label: 'Profil' },
+  { link: '/giveaway', label: 'Nyereményjátékok' },
   { link: '/topup', label: 'Töltsd fel az egyenleged!' },
 ];
 

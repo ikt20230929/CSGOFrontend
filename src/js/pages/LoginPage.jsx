@@ -12,6 +12,7 @@ export default function LoginPage() {
     return <LoginForm submitURL={`${API_URL}/login`} isInvalid={invalid} onSuccess={async ({ response }) => {
         localStorage.setItem("accessToken", (await response.json()).accessToken);
         return navigate("/profile");
+        
     }} onSubmit={response => {
         data.username = response.username;
         data.password = response.password;

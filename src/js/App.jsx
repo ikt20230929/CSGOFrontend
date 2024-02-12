@@ -6,6 +6,8 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import TopUpPage from "./pages/TopUpPage";
+import GiveawayPage from "./pages/GiveawayPage";
+import HomePage from "./pages/HomePage";
 import '@mantine/core/styles.css';
 import '../css/styles.css';
 import { MantineProvider } from "@mantine/core";
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
 			{
 				path: "/topup",
 				element: <TopUpPage />
+			},
+			{
+				path: "/giveaway",
+				element: <GiveawayPage />
+			},
+			{
+				path: "/home",
+				element: <HomePage />
 			}
 		]
 	}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextInput, Radio, Checkbox, Card, Text, Badge, Button, Group } from '@mantine/core';
+import { TextInput, Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space } from '@mantine/core';
 import { NavLink, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { fetchEndpoint } from "../Globals";
@@ -40,9 +40,10 @@ export default function TopUpPage() {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
         <Group justify="space-between" mt="lg" mb="xs">
-          <Text fw={900}>Válassz az alábbi fizetési módok közül!</Text>
+          <Text fw={900} size="xl" tt="uppercase">Válassz az alábbi fizetési módok közül!</Text>
           <Badge color="pink">Adataid biztonságban vannak</Badge>
         </Group>
+        <Space h="lg"></Space>
         <form onSubmit={form.onSubmit((values) => console.log(values))}>
           <Radio
             label="Bankkártyás fizetés"
@@ -53,6 +54,7 @@ export default function TopUpPage() {
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
+          <Space h="sm"></Space>
           <Radio
             label="PaySafeCard"
             value="PaySafeCard"
@@ -62,6 +64,7 @@ export default function TopUpPage() {
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
+          <Space h="sm"></Space>
           <Radio
             label="Paypal"
             value="Paypal"
@@ -71,6 +74,7 @@ export default function TopUpPage() {
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
+          <Space h="sm"></Space>
           <Radio
             label="Fizess skinekkel"
             value="Fizess skinekkel"
@@ -80,17 +84,21 @@ export default function TopUpPage() {
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
-          <Text fw={900} mt={15} mb={5}>Egyenleged: {formatCurrency(profileData.profile.balance)}</Text>
-          <TextInput
-            withAsterisk
-            label="Befizetni kívánt összeg"
-            placeholder="100$"
-            {...form.getInputProps('amount')}
-          />
+          <Space h="md"></Space>
+          <NumberInput withAsterisk
+        label="Befizetni kívánt összeg"
+        placeholder="$100"
+        prefix="$"
+        mb="md"
+        allowNegative={false}
+      />
+                <Text size="md" fw={500}>Egyenleged: {formatCurrency(profileData.profile.balance)}</Text>
+          <Space h="md"></Space>
           <Checkbox
             mt="md"
             color="teal"
             label="Elfogadom az Adatvédelmi és Általános Szerződési Feltételeket, beleértve, hogy adataim nem kerülnek publikálásra, és biztonságban lesznek."
+            error="Mező kijelölése kötelező!"
             {...form.getInputProps('termsOfService', { type: 'checkbox' })}
           />
           <Group justify="space-between" mt="md">

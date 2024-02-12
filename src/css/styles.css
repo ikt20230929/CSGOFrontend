@@ -5,10 +5,20 @@
 .welcome{
   color: white!important;
 }
+.regpage{
+  background-color: rgba(0, 0, 0, 0.7)!important;
+  backdrop-filter: blur(8px)!important;
+}
+.editpage{
+  background-color: rgba(0, 0, 0, 0.7)!important;
+}
+.welcome{
+  color: white!important;
+}
 body {
   -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
   -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);
-  background-image: url('../../img/background.png');
+  background-image: url("https://media.discordapp.net/attachments/945254887460044820/1205071964629241896/51272431-afa2-46ce-97b0-cb3f27e23264-transformed.jpeg?ex=65d709b9&is=65c494b9&hm=801e216c0ffcb3eeb36d64f77feca8e119fa72e8ee3e0b3a85821a875b5b53c3&=&format=webp&width=1789&height=1006") ;
   backdrop-filter: blur(2px);
   background-repeat: no-repeat;
   background-size: cover;
