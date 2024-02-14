@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { TextInput, Radio, Checkbox, Card, Text, Badge, Button, Group, Space } from '@mantine/core';
 import { NavLink, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//import 'moment/dist/locale/hu';
-
-moment.locale('hu');
+var localizedFormat = require('dayjs/plugin/localizedFormat')
+require('dayjs/locale/hu')
+dayjs.extend(localizedFormat)
+dayjs.locale("hu");
 
 const giveAwayDatas = [
   {Napi: {
     item: "AK-47 | Example Skin",
-    drawTime: moment().hour(19).minute(0).format("LLL")
+    drawTime: dayjs().hour(19).minute(0).format("LLL")
   }},
   {Heti: {
     item: "AWP | Example Skin",
-    drawTime: moment().day(6).hour(20).minute(0).format("LLL")
+    drawTime: dayjs().day(6).hour(20).minute(0).format("LLL")
   }},
   {Havi: {
     item: "Karambit | Marble Example",
-    drawTime: moment().date(28).hour(20).minute(30).format("LLL")
+    drawTime: dayjs().date(28).hour(20).minute(30).format("LLL")
   }}
 ];
 
