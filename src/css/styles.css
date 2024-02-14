@@ -5,6 +5,47 @@
 .welcome{
   color: white!important;
 }
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.calendar-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  border-radius: 18px;
+  cursor: default;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid transparent;
+  color: black;
+  font-size: 30px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.calendar-cell.active:hover {
+  border-color: lightblue;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.calendar-cell.today {
+  background-color: rgba(3, 255, 238, 0.6)
+}
+
+.calendar-cell.claimed {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #000;
+}
+
+.calendar-cell.today:hover {
+  border-color: aqua;
+}
+.hidden {
+  visibility: hidden;
+}
+
 .regpage{
   background-color: rgba(0, 0, 0, 0.7)!important;
   backdrop-filter: blur(8px)!important;

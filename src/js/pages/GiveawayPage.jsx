@@ -38,7 +38,7 @@ function GiveawayPage() {
         <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
         <Group justify="space-between" mt="lg" mb="xs">
           <Text size='90px' fw={700} tt="uppercase" variant="gradient"
-      gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90  }}>Futó nyereményjátékok</Text>
+      gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90  }}>Futó nyereményjátékok</Text>
           <Badge color="pink">Közjegyző által hitelesítve</Badge>
         </Group>
         <Space h="xl" />
@@ -60,7 +60,7 @@ function GiveawayPage() {
                         ) : (
                                 <Button onClick={() => handleButtonClick(index)}
                                   variant="gradient"
-                                  gradient={{ from: 'lime', to: 'yellow', deg: 90 }}
+                                  gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }}
                                 >
                                   Csatlakozás!
                                 </Button>
