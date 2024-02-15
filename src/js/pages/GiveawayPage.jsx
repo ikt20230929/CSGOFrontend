@@ -1,29 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { TextInput, Radio, Checkbox, Card, Text, Badge, Button, Group, Space } from '@mantine/core';
 import { NavLink, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { fetchEndpoint } from '../Globals';
 var localizedFormat = require('dayjs/plugin/localizedFormat')
 require('dayjs/locale/hu')
 dayjs.extend(localizedFormat)
 dayjs.locale("hu");
 
-const giveAwayDatas = [
-  {Napi: {
-    item: "AK-47 | Example Skin",
-    drawTime: dayjs().hour(19).minute(0).format("LLL")
-  }},
-  {Heti: {
-    item: "AWP | Example Skin",
-    drawTime: dayjs().day(6).hour(20).minute(0).format("LLL")
-  }},
-  {Havi: {
-    item: "Karambit | Marble Example",
-    drawTime: dayjs().date(28).hour(20).minute(30).format("LLL")
-  }}
-];
+export default function GiveawayPage() {
+  const [currentGiveaways, setCurrentGiveaways] = useState([]);
+  const [pastGiveaways, setPastGiveaways] = useState([]);
+  const navigate = useNavigate();
 
-function GiveawayPage() {
+  useEffect(() => {
+    const fetchData = async () => {
+      const currentGiveawaysResponse = (await fetchEndpoint("giveaways/current")).data;
+      if (currentGiveawaysResponse == null) {
+        navigate("/login");
+        return;
+      }
+      
+      const pastGiveawaysResponse = (await fetchEndpoint("giveaways/past")).data;
+      if (pastGiveawaysResponse == null) {
+        navigate("/login");
+        return;
+      }
+
+      setCurrentGiveaways(currentGiveawaysResponse);
+      setPastGiveaways(pastGiveawaysResponse);
+    }
+    fetchData();
+  }, []);
 
   const [userClicked, setUserClicked] = useState([]);
   const [joinSuccess, setJoinSuccess] = useState(false);
@@ -31,36 +40,33 @@ function GiveawayPage() {
   const handleButtonClick = (index, type) => {
     setUserClicked([...userClicked, index]);
     setJoinSuccess(true);
-
   };
   return (
     <div>
         <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
         <Group justify="space-between" mt="lg" mb="xs">
           <Text size='90px' fw={700} tt="uppercase" variant="gradient"
-      gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90  }}>Futó nyereményjátékok</Text>
+      gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90  }}>Futó nyereményjátékok</Text>
           <Badge color="pink">Közjegyző által hitelesítve</Badge>
         </Group>
         <Space h="xl" />
       <div>
-        {giveAwayDatas.map((giveAwayData, index) => {
-            const giveawayType = Object.keys(giveAwayData)[0];
-            const { item, drawTime } = giveAwayData[giveawayType];
+        {currentGiveaways.map(giveaway => {
             return (
-              <div>
-                    <Text size='l' fw={700} tt="uppercase">{giveawayType} nyereményjáték</Text>
-                    <Text c="dimmed">Nyeremény: {item}</Text>
-                    <Text c="dimmed">Sorsolás lejárta: {drawTime}</Text>
+              <div key={giveaway.giveawayId}>
+                    <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                    <Text c="dimmed">Nyeremény: {giveaway.item}</Text>
+                    <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
                     <Space h="sm" />
-                    {userClicked.includes(index) ? (
+                    {userClicked.includes(giveaway.giveawayId) ? (
                           <Button disabled
                         >
                           Már csatlakoztál ehhez a nyereményjátékhoz!
                         </Button>
                         ) : (
-                                <Button onClick={() => handleButtonClick(index)}
+                                <Button onClick={() => handleButtonClick(giveaway.giveawayId)}
                                   variant="gradient"
-                                  gradient={{ from: 'lime', to: 'yellow', deg: 90 }}
+                                  gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }}
                                 >
                                   Csatlakozás!
                                 </Button>
@@ -79,5 +85,3 @@ function GiveawayPage() {
     </div>
   );
 }
-
-export default GiveawayPage;
