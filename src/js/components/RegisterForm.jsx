@@ -16,13 +16,12 @@ export function RegisterForm({ submitURL, onSuccess, onError }) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
       }}
     >
         <Container style={{ width: '500px' }}>
 
 <Center>
-            <Paper className='regpage' withBorder shadow="md" p={30} mt={10} radius="md">
+            <Paper className='regpage' withBorder shadow="md" p={40} mt={20} radius="md">
             <Title ta="center">
                 Hozz létre egy fiókot!
             </Title>

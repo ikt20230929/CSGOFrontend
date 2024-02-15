@@ -13,6 +13,7 @@ import '../css/styles.css';
 import { MantineProvider } from "@mantine/core";
 import TwoFactorPage from "./pages/TwoFactorPage";
 import Navbar from "./components/Navbar";
+import LoginStreak from "./pages/LoginStreak";
 
 const router = createBrowserRouter([
 	{
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
 			{
 				path: "/home",
 				element: <HomePage />
+			},
+			{
+				path: "/loginstreak",
+				element: <LoginStreak />
 			}
 		]
 	}

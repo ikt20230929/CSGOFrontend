@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TextInput, Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space } from '@mantine/core';
+import { TextInput, Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space, Loader } from '@mantine/core';
 import { NavLink, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { fetchEndpoint } from "../Globals";
@@ -9,6 +9,7 @@ export default function TopUpPage() {
   const [profileData, setProfileData] = useState({
     profile: []
   });
+  const [isLoading, setIsLoading] = useState(true); // Loading state
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
@@ -24,6 +25,7 @@ export default function TopUpPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true); // Set loading to true when fetching data
       const profileResponse = (await fetchEndpoint("profile")).data;
       if (profileResponse == null) {
         navigate("/login");
@@ -32,17 +34,23 @@ export default function TopUpPage() {
       setProfileData({
         profile: profileResponse
       });
+      setIsLoading(false); // Set loading to false after data is fetched
     }
     fetchData();
   }, []);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
-        <Group justify="space-between" mt="lg" mb="xs">
-          <Text fw={900} size="xl" tt="uppercase">Válassz az alábbi fizetési módok közül!</Text>
-          <Badge color="pink">Adataid biztonságban vannak</Badge>
-        </Group>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      {isLoading ? ( // Conditional rendering of loader
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+          <Loader color="rgba(0, 102, 255, 1)" size="xl" type="bars" />
+        </div>
+      ) : (
+        <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
+          <Group justify="space-between" mt="lg" mb="xs">
+            <Text fw={900} size="25px" tt="uppercase" variant="gradient" gradient={{from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)'}}>Válassz az alábbi fizetési módok közül!</Text>
+            <Badge color="pink">Adataid biztonságban vannak</Badge>
+          </Group>
         <Space h="lg"></Space>
         <form onSubmit={form.onSubmit((values) => console.log(values))}>
           <Radio
@@ -103,14 +111,14 @@ export default function TopUpPage() {
           />
           <Group justify="space-between" mt="md">
 			<Link to="/profile">
-				<Button variant="gradient" gradient={{ from: 'grape', to: 'indigo', deg: 89 }} radius="lg">
+				<Button variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90}} radius="lg">
 					Vissza
 				</Button>
 			</Link>
-            <Button type="submit" variant="gradient" gradient={{ from: 'grape', to: 'indigo', deg: 89 }} radius="lg">Befizetés</Button>
+            <Button type="submit" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90}} radius="lg">Befizetés</Button>
           </Group>
         </form>
-      </Card>
+      </Card>)}
     </div>
   );
 }

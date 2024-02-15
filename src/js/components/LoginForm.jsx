@@ -26,7 +26,7 @@ export function LoginForm({submitURL, onSubmit, onSuccess, onError, isInvalid })
 
 
 <Center>
-      <Paper className="regpage" withBorder shadow="md" p={30} mt={200} radius="md">
+      <Paper className="regpage" withBorder shadow="md" p={40} mt={20} radius="md">
             <Container
      size={420} my={40}>
       <Title ta="center">
@@ -62,7 +62,7 @@ export function LoginForm({submitURL, onSubmit, onSuccess, onError, isInvalid })
             </Group>
             <Button
             variant="gradient"
-            gradient={{ from: 'rgba(0, 0, 0, 0.6)', to: 'green', deg: 123 }} type="submit" fullWidth mt="xl" >
+            gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 123 }} type="submit" fullWidth mt="xl" >
             Bejelentkezés
             </Button>
         </Form>

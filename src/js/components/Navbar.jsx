@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 
 const links = [
   { link: '/home', label: 'Kezdőlap' },
+  { link: '/loginstreak', label: "Napi jutalom"},
   { link: '/profile', label: 'Profil' },
   { link: '/giveaway', label: 'Nyereményjátékok' },
   { link: '/topup', label: 'Töltsd fel az egyenleged!' },

@@ -20,13 +20,13 @@ export default function MainPage() {
 
       <NavLink to="/login">
       <Button variant="gradient"
-      gradient={{ from: 'indigo', to: 'grape', deg: 89 }}fullWidth mt="md" radius="lg">
+      gradient={{  from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }}fullWidth mt="md" radius="lg">
         Bejelentkezés
       </Button>
       </NavLink>
       <NavLink to="/register">
       <Button variant="gradient"
-      gradient={{ from: 'grape', to: 'indigo', deg: 89 }}fullWidth mt="md" radius="lg">
+      gradient={{  from: 'rgba(99, 234, 255, 0.8)', to: 'rgba(255, 255, 255, 0.2)', deg: 90 }}fullWidth mt="md" radius="lg">
         Regisztráció
       </Button>
       </NavLink>
