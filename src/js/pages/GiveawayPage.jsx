@@ -43,7 +43,7 @@ export default function GiveawayPage() {
   };
   return (
     <div>
-        <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
+        <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{minHeight: "calc(100vh - 3.5rem)"}}>
         <Group justify="space-between" mt="lg" mb="xs">
           <Text size='90px' fw={700} tt="uppercase" variant="gradient"
       gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90  }}>Futó nyereményjátékok</Text>
@@ -51,7 +51,7 @@ export default function GiveawayPage() {
         </Group>
         <Space h="xl" />
       <div>
-        {currentGiveaways.map(giveaway => {
+        {currentGiveaways.length == 0 ? <h2>Jelenleg nem fut egy nyereményjáték sem...</h2> : currentGiveaways.map(giveaway => {
             return (
               <div key={giveaway.giveawayId}>
                     <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
@@ -80,7 +80,17 @@ export default function GiveawayPage() {
       <Space h="lg" />
       <Text size='30px' fw={700} tt="uppercase" variant="gradient"
       gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90  }}>Korábbi nyertesek</Text>
-      {/*Last 3 winners of each type*/}
+      {pastGiveaways.length == 0 ? <h2>Még senki sem nyert, légy te az első!</h2> : pastGiveaways.map(giveaway => {
+            return (
+              <div key={giveaway.giveawayId}>
+                    <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                    <Text c="dimmed">Nyeremény: {giveaway.item}</Text>
+                    <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
+                    <Text c="dimmed">Nyertes: {giveaway.winner}</Text>
+                    <Space h="md" />
+              </div>
+            );
+          })}
       </Card>
     </div>
   );

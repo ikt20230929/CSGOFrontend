@@ -10,15 +10,15 @@ export default function LoginPage() {
     const [invalid, setInvalid] = useState(false);
 
     return <LoginForm submitURL={`${API_URL}/login`} isInvalid={invalid} onSuccess={async ({ response }) => {
-        localStorage.setItem("accessToken", (await response.json()).accessToken);
+        localStorage.setItem("accessToken", (await response.json()).message);
         return navigate("/profile");
         
     }} onSubmit={response => {
         data.username = response.username;
         data.password = response.password;
     }} onError={async ({ response }) => {
-        let res = await response.text();
-        switch (res) {
+        let res = await response.json();
+        switch (res.message) {
             case "EnterTotp": {
                 data.mfa.mfaType = "TOTP";
                 return navigate("/login/totp");

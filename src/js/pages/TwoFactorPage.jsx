@@ -14,7 +14,7 @@ export default function TwoFactorPage() {
     }, []);
 
     return <TwoFactorForm submitURL={`${API_URL}/login`} onSuccess={async ({ response }) => {
-        localStorage.setItem("accessToken", (await response.json()).accessToken);
+        localStorage.setItem("accessToken", (await response.json()).message);
         return navigate("/profile");
     }} userData={data} />
 }

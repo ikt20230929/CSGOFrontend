@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/hu';
-import { Card, Group, Text, Space, Badge, Notification } from "@mantine/core"; 
+import { Card, Group, Text, Space, Badge, Notification } from "@mantine/core";
+import CenteredContainer from '../components/CenteredContainer';
 
 dayjs.locale('hu');
 
@@ -26,7 +27,7 @@ export default function LoginStreak() {
     };
 
     return (
-        <div>
+        <CenteredContainer size={"xl"}>
             {claimSuccess && (
                 <Notification color="lime" radius="lg" title="Sikeresen kiváltottad a napi jutalmad!" mt="md">
                     Gyere vissza holnap is!
@@ -54,6 +55,6 @@ export default function LoginStreak() {
                     ))}
                 </div>
             </Card>
-        </div>
+        </CenteredContainer>
     );
 }

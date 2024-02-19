@@ -1,11 +1,12 @@
 import React from "react";
 import { Card, Image, Text, Badge, Button, Group, Space, Grid } from '@mantine/core';
+import CenteredContainer from "../components/CenteredContainer";
 
 export default function MainPage() {
   return (
-    <span style={{width:10}}>
+    <CenteredContainer size="xl">
 
-    <Card className="regpage" mt={250} shadow="sm" padding="lg" radius="md" withBorder>
+    <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "2500px" }}>
 
 
       <Group justify="space-between" mt="md" mb="xs">
@@ -13,7 +14,7 @@ export default function MainPage() {
         <Badge color="pink">Most felkapottak</Badge>
       </Group>
 
-      <Text size="sm" c="dimmed">
+      <Text span size="sm" c="dimmed">
       <Grid gutter="xl">
       <Grid.Col span={4}>1</Grid.Col>
       <Grid.Col span={4}>2</Grid.Col>
@@ -27,7 +28,7 @@ export default function MainPage() {
     </Grid>
       </Text>
     </Card>
-</span>
+</CenteredContainer>
 
 
   );
