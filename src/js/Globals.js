@@ -1,12 +1,13 @@
 import axios from "axios";
 import { API_URL } from "./settings";
+import store, { actions } from "./store";
 
 export async function fetchEndpoint(endpoint) {
     var request = await doRequest(endpoint);
     if(!request.success && request.code === 401) {
         var resp = await refreshToken();
         if(resp && resp.status == 200) {
-            localStorage.setItem("accessToken", (await resp.json()).accessToken);
+            store.dispatch(actions.setAccessToken((await resp.json()).accessToken));
             return fetchEndpoint(endpoint);
         }else{
             return {

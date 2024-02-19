@@ -5,7 +5,7 @@ export default function MainPage() {
   return (
     <span style={{width:10}}>
 
-    <Card className="regpage" mt={250} fullWidth shadow="sm" padding="lg" radius="md" withBorder>
+    <Card className="regpage" mt={250} shadow="sm" padding="lg" radius="md" withBorder>
 
 
       <Group justify="space-between" mt="md" mb="xs">

@@ -62,7 +62,7 @@ export function LoginForm({submitURL, onSubmit, onSuccess, onError, isInvalid })
             </Group>
             <Button
             variant="gradient"
-            gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 123 }} type="submit" fullWidth mt="xl" >
+            gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 123 }} type="submit" fullWidth={true} mt="xl" >
             Bejelentkezés
             </Button>
         </Form>

@@ -23,7 +23,7 @@ export const TwoFactorForm = ({ submitURL, onSuccess, onError, userData }) => {
                     <input hidden {...register("username")} value={userData.username} />
                     <input hidden {...register("password")} value={userData.password} />
                     <input hidden {...register("mfa.mfaType")} value="1" />
-                    <Button type="submit" fullWidth mt="xl">
+                    <Button type="submit" fullWidth={true} mt="xl">
                         Verify
                     </Button>
                 </Form>

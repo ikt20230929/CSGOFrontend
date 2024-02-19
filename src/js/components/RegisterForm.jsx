@@ -48,7 +48,7 @@ export function RegisterForm({ submitURL, onSuccess, onError }) {
                         )}
                     />
                     <Button variant="gradient"
-      gradient={{ from: 'rgba(0, 0, 0, 0.56)', to: 'yellow', deg: 90 }} type="submit" fullWidth mt="xl">
+      gradient={{ from: 'rgba(0, 0, 0, 0.56)', to: 'yellow', deg: 90 }} type="submit" fullWidth={true} mt="xl">
                         Regisztrálok
                     </Button>
                 </Form>

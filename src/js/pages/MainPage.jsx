@@ -6,7 +6,7 @@ export default function MainPage() {
   return (
     <span style={{width:10}}>
 
-    <Card className="regpage" mt={250} fullWidth shadow="sm" padding="lg" radius="md" withBorder>
+    <Card className="regpage" mt={250} shadow="sm" padding="lg" radius="md" withBorder={true}>
 
 
       <Group justify="space-between" mt="md" mb="xs">
@@ -20,13 +20,13 @@ export default function MainPage() {
 
       <NavLink to="/login">
       <Button variant="gradient"
-      gradient={{  from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }}fullWidth mt="md" radius="lg">
+      gradient={{  from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} fullWidth={true} mt="md" radius="lg">
         Bejelentkezés
       </Button>
       </NavLink>
       <NavLink to="/register">
       <Button variant="gradient"
-      gradient={{  from: 'rgba(99, 234, 255, 0.8)', to: 'rgba(255, 255, 255, 0.2)', deg: 90 }}fullWidth mt="md" radius="lg">
+      gradient={{  from: 'rgba(99, 234, 255, 0.8)', to: 'rgba(255, 255, 255, 0.2)', deg: 90 }} fullWidth={true} mt="md" radius="lg">
         Regisztráció
       </Button>
       </NavLink>

@@ -14,6 +14,8 @@ import { MantineProvider } from "@mantine/core";
 import TwoFactorPage from "./pages/TwoFactorPage";
 import Navbar from "./components/Navbar";
 import LoginStreak from "./pages/LoginStreak";
+import { Provider } from 'react-redux';
+import store from './store';
 
 const router = createBrowserRouter([
 	{
@@ -62,7 +64,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
-		<MantineProvider defaultColorScheme="auto">
-			<RouterProvider router={router} />
-		</MantineProvider>
+		<Provider store={store}>
+			<MantineProvider defaultColorScheme="auto">
+				<RouterProvider router={router} />
+			</MantineProvider>
+		</Provider>
 	</StrictMode>);

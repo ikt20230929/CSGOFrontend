@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Group, Burger } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 const links = [
   { link: '/home', label: 'Kezdőlap' },
@@ -17,6 +17,7 @@ const formatCurrency = (amount) => {
 }
 
 export default function Navbar({ profileData }) {
+  const profile = useSelector(state => state.session);
   const items = links.map((link) => (
     <NavLink
       key={link.label}
@@ -30,12 +31,12 @@ export default function Navbar({ profileData }) {
 	<>
 		<header className="header">
 		  <Container size="md" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-		  {profileData && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profileData.profile.username}!</a> }
+		  {profile.username && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
 			<Group gap={5} visibleFrom="xs">
 			  {items}
 			</Group>
 			{profileData && <span className="navbar-text">
-			  Egyenleged: {formatCurrency(profileData.profile.balance)}
+			  Egyenleged: {formatCurrency(profileData.balance)}
 			</span>}
 		  </Container>
 		</header>
