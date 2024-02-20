@@ -4,9 +4,12 @@ import { loginContext } from "../context/LoginContext";
 import { useContext } from "react";
 import { TwoFactorForm } from '../components/TwoFactorForm';
 import { API_URL } from "../settings";
+import { useDispatch } from 'react-redux';
+import { actions } from '../store';
 
 export default function TwoFactorPage() {
     const data = useContext(loginContext);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -14,7 +17,8 @@ export default function TwoFactorPage() {
     }, []);
 
     return <TwoFactorForm submitURL={`${API_URL}/login`} onSuccess={async ({ response }) => {
-        localStorage.setItem("accessToken", (await response.json()).message);
+        var token = (await response.json()).message;
+        dispatch(actions.setAccessToken(token));
         return navigate("/profile");
     }} userData={data} />
 }

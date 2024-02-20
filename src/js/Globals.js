@@ -7,7 +7,8 @@ export async function fetchEndpoint(endpoint) {
     if(!request.success && request.code === 401) {
         var resp = await refreshToken();
         if(resp && resp.status == 200) {
-            store.dispatch(actions.setAccessToken((await resp.json()).message));
+            var token = (await resp.json()).message;
+            store.dispatch(actions.setAccessToken(token));
             return fetchEndpoint(endpoint);
         }else{
             return {
@@ -18,6 +19,30 @@ export async function fetchEndpoint(endpoint) {
         return request;
     }
 }
+
+export async function fetchProfile() {   
+    const profileResponse = (await fetchEndpoint("profile")).data;
+    if (profileResponse == null) {
+        return false;
+    }
+
+    const inventoryResponse = (await fetchEndpoint("inventory")).data;
+    if (inventoryResponse == null) {
+        return false;
+    }
+    
+    const casesResponse = (await fetchEndpoint("cases")).data;
+    if (casesResponse == null) {
+        return false;
+    }
+    
+    store.dispatch(actions.setProfile(profileResponse));
+    store.dispatch(actions.setInventory(inventoryResponse));
+    store.dispatch(actions.setCases(casesResponse));
+
+    return true;
+}
+
 
 async function refreshToken() {
     var resp = await axios.get(`${API_URL}/refresh-token`, {
@@ -34,7 +59,7 @@ async function doRequest(endpoint) {
         resp = await axios.get(`${API_URL}/${endpoint}`, {
             withCredentials: true,
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+                'Authorization': `Bearer ${store.getState().auth.accessToken}`
             }
         });
     }catch (error) {

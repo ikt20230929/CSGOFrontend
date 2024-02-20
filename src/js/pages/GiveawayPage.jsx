@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { TextInput, Radio, Checkbox, Card, Text, Badge, Button, Group, Space } from '@mantine/core';
-import { NavLink, Link } from "react-router-dom";
+import { Card, Text, Badge, Button, Group, Space } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import { fetchEndpoint } from '../Globals';
 var localizedFormat = require('dayjs/plugin/localizedFormat')
@@ -55,7 +54,7 @@ export default function GiveawayPage() {
             return (
               <div key={giveaway.giveawayId}>
                     <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
-                    <Text c="dimmed">Nyeremény: {giveaway.item}</Text>
+                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
                     <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
                     <Space h="sm" />
                     {userClicked.includes(giveaway.giveawayId) ? (
@@ -84,9 +83,9 @@ export default function GiveawayPage() {
             return (
               <div key={giveaway.giveawayId}>
                     <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
-                    <Text c="dimmed">Nyeremény: {giveaway.item}</Text>
+                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
                     <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
-                    <Text c="dimmed">Nyertes: {giveaway.winner}</Text>
+                    <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
                     <Space h="md" />
               </div>
             );

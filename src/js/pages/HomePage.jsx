@@ -6,7 +6,7 @@ export default function MainPage() {
   return (
     <CenteredContainer size="xl">
 
-    <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "2500px" }}>
+    <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
 
 
       <Group justify="space-between" mt="md" mb="xs">

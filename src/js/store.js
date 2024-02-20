@@ -4,10 +4,20 @@ import { rememberEnhancer, rememberReducer } from 'redux-remember';
 const dataSlice = createSlice({
   name: 'data',
   initialState: {
-    
+    profile: [],
+    inventory: [],
+    cases: []
   },
   reducers: {
-    
+    setProfile: (state, action) => {
+      state.profile = action.payload;
+    },
+    setInventory: (state, action) => {
+      state.inventory = action.payload;
+    },
+    setCases: (state, action) => {
+      state.cases = action.payload;
+    }  
   },
 });
 
@@ -23,34 +33,14 @@ const authSlice = createSlice({
   }
 })
 
-const sessionSlice = createSlice({
-  name: 'session',
-  initialState: {
-    username: null,
-    email: null,
-    balance: 0,
-    isAdmin: false
-  },
-  reducers: {
-    setSession: (state, action) => {
-      state.username = action.payload.username;
-      state.balance = action.payload.balance;
-      state.email = action.payload.email;
-      state.isAdmin = action.payload.isAdmin;
-    }
-  }
-})
-
 const reducers = {
   data: dataSlice.reducer,
-  auth: authSlice.reducer,
-  session: sessionSlice.reducer
+  auth: authSlice.reducer
 };
 
 export const actions = {
   ...dataSlice.actions,
-  ...authSlice.actions,
-  ...sessionSlice.actions
+  ...authSlice.actions
 }
 
 const rememberedKeys = [ 'auth' ];
