@@ -41,13 +41,11 @@ export default function Navbar({ profileData }) {
 	<>
 		<header className="header">
 		  <Container size="md" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-		  {profile && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
+		  {(profile && profile.username !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
 			<Group gap={5} visibleFrom="xs">
 			  {items}
 			</Group>
-			{profile && <span className="navbar-text">
-			  Egyenleged: {formatCurrency(profile.balance)}
-			</span>}
+			{(profile && profile.balance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: {formatCurrency(profile.balance)}</a>}
 		  </Container>
 		</header>
 		<Outlet/>
