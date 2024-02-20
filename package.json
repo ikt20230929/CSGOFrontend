@@ -10,7 +10,7 @@
     "config:dev": "ncp config/settings-dev.js src/js/settings.js --stopOnErr",
     "config:dev:watch": "nodemon --exec \"ncp config/settings-dev.js src/js/settings.js --stopOnErr\" --watch config/settings-dev.js",
     "serve": "serve public/ -s",
-    "open": "opener https://127.0.0.1:3000/",
+    "open": "opener http://localhost:3000",
     "build": "npm run config && npm run build:esbuild",
     "build:dev": "npm run config:dev && npm run build:esbuild",
     "watch": "concurrently --kill-others-on-fail npm:config:dev:watch npm:watch:esbuild npm:serve npm:open",

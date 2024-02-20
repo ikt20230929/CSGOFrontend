@@ -7,7 +7,7 @@ export async function fetchEndpoint(endpoint) {
     if(!request.success && request.code === 401) {
         var resp = await refreshToken();
         if(resp && resp.status == 200) {
-            store.dispatch(actions.setAccessToken((await resp.json()).accessToken));
+            store.dispatch(actions.setAccessToken((await resp.json()).message));
             return fetchEndpoint(endpoint);
         }else{
             return {
