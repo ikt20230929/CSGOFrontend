@@ -5,10 +5,11 @@ import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 const links = [
-	{ link: '/home', label: 'Kezdőlap', needsLogin: false },
+	{ link: '/home', label: 'Kezdőlap', needsLogin: true },
 	{ link: '/loginstreak', label: "Napi jutalom", needsLogin: true},
 	{ link: '/profile', label: 'Profil', needsLogin: true },
 	{ link: '/giveaway', label: 'Nyereményjátékok', needsLogin: true },
+	{ link: '/upgrader', label: 'Upgrader', needsLogin: true },
 	{ link: '/topup', label: 'Töltsd fel az egyenleged!', needsLogin: true },
 	{ link: '/login', label: 'Bejelentkezés', needsLogin: false, hideWhenLoggedIn: true },
 	{ link: '/logout', label: 'Kijelentkezés', needsLogin: true },
@@ -40,7 +41,7 @@ export default function Navbar({ profileData }) {
   return (
 	<>
 		<header className="header">
-		  <Container size="md" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+		  <Container size="md" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems:'center' }}>
 		  {(profile && profile.username !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
 			<Group gap={5} visibleFrom="xs">
 			  {items}
