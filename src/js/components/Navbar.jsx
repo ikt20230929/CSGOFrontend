@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 const links = [
-	{ link: '/home', label: 'Kezdőlap', needsLogin: true },
+	{ link: '/home', label: 'Kezdőlap', needsLogin: false },
 	{ link: '/loginstreak', label: "Napi jutalom", needsLogin: true},
 	{ link: '/profile', label: 'Profil', needsLogin: true },
 	{ link: '/giveaway', label: 'Nyereményjátékok', needsLogin: true },
