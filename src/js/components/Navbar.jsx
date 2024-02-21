@@ -17,12 +17,12 @@ const formatCurrency = (amount) => {
 	return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
 
-export default function Navbar({ profileData }) {
+export default function Navbar() {
   const authenticated = useSelector(state => state.auth.accessToken != null);
   const { profile } = useSelector(state => state.data);
   
   const items = links.map((link) => {
-    const shouldRender = authenticated === link.needsLogin || (!authenticated && link.needsLogin === false);
+	const shouldRender = !link.needsLogin || (authenticated && link.needsLogin);
     if (!shouldRender || (authenticated && link.hideWhenLoggedIn)) {
       return null;
     }
@@ -40,12 +40,12 @@ export default function Navbar({ profileData }) {
   return (
 	<>
 		<header className="header">
-		  <Container size="md" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-		  {(profile && profile.username !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
+		  <Container size="xl" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<Group gap={5} visibleFrom="xs">
+			  {(profile && profile.username !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
 			  {items}
+			  {(profile && profile.balance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: {formatCurrency(profile.balance)}</a>}
 			</Group>
-			{(profile && profile.balance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: {formatCurrency(profile.balance)}</a>}
 		  </Container>
 		</header>
 		<Outlet/>
