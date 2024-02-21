@@ -17,6 +17,17 @@ export default function MainPage() {
       <Text span size="sm" c="dimmed">
         asdasdasdas
       </Text>
+      <Grid gutter="xl">
+      <Grid.Col span={4}>1</Grid.Col>
+      <Grid.Col span={4}>2</Grid.Col>
+      <Grid.Col span={4}>3</Grid.Col>
+      <Grid.Col span={4}>4</Grid.Col>
+      <Grid.Col span={4}>5</Grid.Col>
+      <Grid.Col span={4}>6</Grid.Col>
+      <Grid.Col span={4}>7</Grid.Col>
+      <Grid.Col span={4}>8</Grid.Col>
+      <Grid.Col span={4}>9</Grid.Col>
+    </Grid>
     </Card>
 </CenteredContainer>
 
