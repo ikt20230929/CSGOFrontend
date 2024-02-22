@@ -27,12 +27,14 @@ export default function LoginStreak() {
     };
 
     return (
-        <CenteredContainer size={"xl"}>
+        <>
             {claimSuccess && (
-                <Notification color="lime" radius="lg" title="Sikeresen kiváltottad a napi jutalmad!" mt="md">
-                    Gyere vissza holnap is!
-                </Notification>
+    <Notification  withCloseButton={false} className='alerteles' withBorder color="cyan" radius="lg" title="Sikeresen kiváltottad a napi jutalmad!">
+    Gyere vissza holnap is!
+  </Notification>
             )}
+            
+            <CenteredContainer size={"xl"}>
             <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
                 <Group justify="space-between" mt="lg" mb="xs">
                     <Text fw={900} size="50px" tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
@@ -56,5 +58,6 @@ export default function LoginStreak() {
                 </div>
             </Card>
         </CenteredContainer>
+        </>
     );
 }

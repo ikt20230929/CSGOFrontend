@@ -75,8 +75,9 @@ const MultiplierWheel = () => {
                                 <Button
                                     key={multiplier}
                                     onClick={() => handleMultiplierChange(multiplier)}
-                                    variant={selectedMultiplier === multiplier ? 'filled' : 'outline'}
+                                    variant={selectedMultiplier === multiplier ? 'gradient' : 'outline'}
                                     style={{ marginRight: 10 }}
+                                    gradient={{ from: 'rgba(255, 255, 255, 0.3)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}
                                 >
                                     {multiplier}x
                                 </Button>
@@ -86,11 +87,12 @@ const MultiplierWheel = () => {
                             <Text>Választott szorzó: {selectedMultiplier}x</Text>
                             <Text>Várható nyeremény: {amount*selectedMultiplier}</Text>
                             <Text>Esélyed: {winningChances[selectedMultiplier]}%</Text>
-                            <Progress value={winningChances[selectedMultiplier]} animated max={100} />
+                            <Progress color='rgba(99, 234, 255, 1)' value={winningChances[selectedMultiplier]} animated max={100} />
                             <Badge color={result && result.won ? 'green' : 'red'}>{result && result.won ? 'Nyertél' : 'Vesztettél'}</Badge>
                             <Text>Ennyit nyertél: {result && result.amount}</Text>
                         </div>
-                        <Button onClick={spinWheel} disabled={spinning || amount === "" || amount === "0" || amount<0 || amount === "-0"} style={{ marginTop: 10 }}>
+                        <Button variant="gradient"
+                            gradient={{ from: 'rgba(255, 255, 255, 0.3)', to: 'rgba(99, 234, 255, 1)', deg: 90 }} onClick={spinWheel} disabled={spinning || amount === "" || amount === "0" || amount<0 || amount === "-0"} style={{ marginTop: 10 }}>
                             UPGRADE
                         </Button>
                     </div>

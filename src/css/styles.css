@@ -60,6 +60,13 @@
 .welcome{
   color: white!important;
 }
+.alerteles{
+  max-width: 300px;
+  max-height: 100px;
+  background-color: rgba(3, 255, 238, 0.2)!important;
+  margin: 10px;
+  position: absolute;
+}
 body {
   -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
   -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);

@@ -22,7 +22,7 @@ export default function ProfilePage() {
           <Space h="sm"/>
           <Text size="xl">Egyenleged: {formatCurrency(profile.balance)}</Text>
           <Space h="xl" />
-          <Modal opened={opened} onClose={close} title="Adataid szerkesztése" transitionProps={{ transition: 'fade', duration: 600, timingFunction: 'linear' }}>
+          <Modal opened={opened} onClose={close} title="Adataid szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
             <TextInput label="Steam URL módosítása" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=yourowntoken" />
             <TextInput label="Partner kód" placeholder="FREE3USD" />
             <FileInput variant="filled" label="Profilkép" description="Válassz magadnak egy új profilképet!" placeholder="Katt!" />
@@ -40,15 +40,6 @@ export default function ProfilePage() {
             return (
               <div key={item.id} data-cy="inventory-item">
                 {}
-              </div>
-            );
-          })}
-
-          <h2 className="welcome">Összes láda: ({cases.length} db)</h2>
-          {cases.map(_case => {
-            return (
-              <div key={_case.caseId} data-cy="case">
-                <h1>{_case.caseName} (has {_case.items.length} items)</h1>
               </div>
             );
           })}
