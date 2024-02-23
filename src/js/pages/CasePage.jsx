@@ -23,6 +23,14 @@ function CasePage() {
       setCaseData(item);
   }, []);
 
+  // Rendezzük az 'items' tömböt az árak alapján növekvő sorrendben
+  useEffect(() => {
+    if (caseData.items.length > 0) {
+      const sortedItems = [...caseData.items].sort((a, b) => a.itemSkinValue - b.itemSkinValue);
+      setCaseData(prevState => ({ ...prevState, items: sortedItems }));
+    }
+  }, [caseData.items]);
+
   return (
     <div>
         <Space h="sm"/>
@@ -43,7 +51,7 @@ function CasePage() {
         {caseData.items.map(item => (
           <Grid.Col span={3} key={item.itemId}>
              <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
-             <Text>{item.itemName} - {item.itemSkinName}</Text>
+             <Text>{item.itemName} - {item.itemSkinName} <br></br><Text c="dimmed">{item.itemSkinValue} $</Text></Text>
             </Card>
           </Grid.Col>
         ))}

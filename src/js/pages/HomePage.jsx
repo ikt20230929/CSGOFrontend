@@ -23,9 +23,9 @@ export default function MainPage() {
               <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>{_case.caseName}</Text>
                 <Text size="sm" color="dimmed">({_case.items.length} db)</Text>
-                {_case.items.map(_caseItem => (
-                  <Text key={_caseItem.itemId} size="sm" color="dimmed">({_caseItem.itemName} - {_caseItem.itemSkinName})</Text>
-                ))}
+                {/*{_case.items.map(_caseItem => (
+                  <Text key={_caseItem.itemId} size="sm" color="dimmed">{_caseItem.itemName} - {_caseItem.itemSkinName} (Ár: {_caseItem.itemSkinValue} $)</Text>
+                ))}*/}
               </Card>
             </Grid.Col>
           ))}
