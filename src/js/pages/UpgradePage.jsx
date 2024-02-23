@@ -92,7 +92,7 @@ const MultiplierWheel = () => {
                             <Text>Ennyit nyertél: {result && result.amount}</Text>
                         </div>
                         <Button variant="gradient"
-                            gradient={{ from: 'rgba(255, 255, 255, 0.3)', to: 'rgba(99, 234, 255, 0.9)', deg: 90 }} onClick={spinWheel} disabled={spinning || amount === "" || amount === "0" || amount<0 || amount === "-0"} style={{ marginTop: 10 }}>
+                            gradient={{ from: 'rgba(255, 255, 255, 0.3)', to: 'rgba(99, 234, 255, 1)', deg: 90 }} onClick={spinWheel} disabled={spinning || amount === "" || amount === "0" || amount<0 || amount === "-0"} style={{ marginTop: 10 }}>
                             UPGRADE
                         </Button>
                     </div>
