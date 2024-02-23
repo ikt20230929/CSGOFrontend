@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import TopUpPage from "./pages/TopUpPage";
 import GiveawayPage from "./pages/GiveawayPage";
 import HomePage from "./pages/HomePage";
+import CasePage from "./pages/CasePage";
 import '@mantine/core/styles.css';
 import '../css/styles.css';
 import { Loader, MantineProvider } from "@mantine/core";
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
 			{
 				path: "/logout",
 				element: <AuthenticatedRoute><LogoutPage /></AuthenticatedRoute>
+			},
+			{
+				path: "/casepage/:caseId",
+				element: <CasePage/>
 			}
 		]
 	}
