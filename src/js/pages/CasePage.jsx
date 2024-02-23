@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchEndpoint } from '../Globals';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function CasePage() {
   const { caseId } = useParams();
-  const [caseData, setCaseData] = useState(null);
+  const cases = useSelector((state) => state.data).cases;
+  const [caseData, setCaseData] = useState({
+      caseName: '',
+      items: []
+  });
+  const [navigateAway, setNavigateAway] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-     let ddata = await fetchEndpoint(`cases/${caseId}`).data;
-  setCaseData(ddata);
-    };
-    fetchData();
-  }, [caseId]);
+      let item = cases.find((item) => item.caseId == caseId);
 
-  if (!caseData) {
-    return <div>Loading...</div>;
-  }
-   
+      if (!item) {
+          setNavigateAway(true);
+      }
+
+      setCaseData(item);
+  }, []);
+
   return (
     <div>
+      {navigateAway ? <Navigate to="/" replace={true} /> : <>
       <h1>{caseData.caseName}</h1>
       <p>Items:</p>
       <ul>
@@ -28,7 +33,7 @@ function CasePage() {
             {item.itemName} - {item.itemSkinName}
           </li>
         ))}
-      </ul>
+      </ul></>}
     </div>
   );
 }
