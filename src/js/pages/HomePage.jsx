@@ -22,7 +22,7 @@ export default function MainPage() {
             <Grid.Col span={3} key={_case.caseId} onClick={() => handleCaseClick(_case.caseId)}>
               <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>{_case.caseName}</Text>
-                <Text size="sm" color="dimmed">({_case.items.length} items)</Text>
+                <Text size="sm" color="dimmed">({_case.items.length} db)</Text>
                 {_case.items.map(_caseItem => (
                   <Text key={_caseItem.itemId} size="sm" color="dimmed">({_caseItem.itemName} - {_caseItem.itemSkinName})</Text>
                 ))}
