@@ -30,7 +30,7 @@
     "esbuild": "0.20.1",
     "esbuild-sass-plugin": "^3.0.0",
     "ncp": "^2.0.0",
-    "nodemon": "^3.0.3",
+    "nodemon": "^3.1.0",
     "opener": "^1.5.2",
     "postcss": "^8.4.35",
     "postcss-preset-mantine": "^1.13.0",
