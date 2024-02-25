@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Group } from '@mantine/core';
+import { Container, Group, NumberFormatter } from '@mantine/core';
 import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
@@ -14,9 +14,6 @@ const links = [
 	{ link: '/login', label: 'Bejelentkezés', needsLogin: false, hideWhenLoggedIn: true },
 	{ link: '/logout', label: 'Kijelentkezés', needsLogin: true },
 ];
-const formatCurrency = (amount) => {
-	return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-}
 
 export default function Navbar() {
   const authenticated = useSelector(state => state.auth.accessToken != null);
@@ -45,7 +42,7 @@ export default function Navbar() {
 			<Group gap={5} visibleFrom="xs">
 			  {(profile && profile.username !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
 			  {items}
-			  {(profile && profile.balance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: {formatCurrency(profile.balance)}</a>}
+			  {(profile && profile.balance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.balance} /></a>}
 			</Group>
 		  </Container>
 		</header>

@@ -65,6 +65,7 @@ const MultiplierWheel = () => {
                     value={amount}
                     onChange={(event) => setAmount(event.target.value)}
                     disabled={spinning}
+                    classNames={{ input: 'regpage' }}
                     style={{ width: 100 }}
                 />
                 </Center>
@@ -87,7 +88,7 @@ const MultiplierWheel = () => {
                             <Text>Választott szorzó: {selectedMultiplier}x</Text>
                             <Text>Várható nyeremény: {amount*selectedMultiplier}</Text>
                             <Text>Esélyed: {winningChances[selectedMultiplier]}%</Text>
-                            <Progress color='rgba(99, 234, 255, 1)' value={winningChances[selectedMultiplier]} animated max={100} />
+                            <Progress classNames={{ root: 'regpage' }} color='rgba(99, 234, 255, 1)' value={winningChances[selectedMultiplier]} animated max={100} />
                             <Badge color={result && result.won ? 'green' : 'red'}>{result && result.won ? 'Nyertél' : 'Vesztettél'}</Badge>
                             <Text>Ennyit nyertél: {result && result.amount}</Text>
                         </div>

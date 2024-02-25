@@ -1,5 +1,5 @@
 import React from "react";
-import { Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space } from '@mantine/core';
+import { Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space, NumberFormatter } from '@mantine/core';
 import { Link } from "react-router-dom";
 import { useForm } from '@mantine/form';
 import CenteredContainer from "../components/CenteredContainer";
@@ -14,10 +14,6 @@ export default function TopUpPage() {
     }
   });
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  }
-
   const { profile } = useSelector(state => state.data);
 
   return (
@@ -30,6 +26,7 @@ export default function TopUpPage() {
         <Space h="lg"></Space>
         <form onSubmit={form.onSubmit((values) => console.log(values))}>
           <Radio
+            classNames={{ radio: 'regpage' }}
             label="Bankkártyás fizetés"
             value="Bankkártyás fizetés"
             name="paymentMethod"
@@ -40,6 +37,7 @@ export default function TopUpPage() {
           />
           <Space h="sm"></Space>
           <Radio
+            classNames={{ radio: 'regpage' }}
             label="PaySafeCard"
             value="PaySafeCard"
             name="paymentMethod"
@@ -50,6 +48,7 @@ export default function TopUpPage() {
           />
           <Space h="sm"></Space>
           <Radio
+            classNames={{ radio: 'regpage' }}
             label="Paypal"
             value="Paypal"
             name="paymentMethod"
@@ -60,6 +59,7 @@ export default function TopUpPage() {
           />
           <Space h="sm"></Space>
           <Radio
+            classNames={{ radio: 'regpage' }}
             label="Fizess skinekkel"
             value="Fizess skinekkel"
             name="paymentMethod"
@@ -70,15 +70,17 @@ export default function TopUpPage() {
           />
           <Space h="md"></Space>
           <NumberInput withAsterisk
+            classNames={{ input: 'regpage' }}
             label="Befizetni kívánt összeg"
             placeholder="$100"
             prefix="$"
             mb="md"
             allowNegative={false}
           />
-          <Text size="md" fw={500}>Egyenleged: {formatCurrency(profile.balance)}</Text>
+          <Text size="md" fw={500}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.balance} /></Text>
           <Space h="md"></Space>
           <Checkbox
+            classNames={{ input: 'regpage' }}
             mt="md"
             color="teal"
             label="Elfogadom az Adatvédelmi és Általános Szerződési Feltételeket, beleértve, hogy adataim nem kerülnek publikálásra, és biztonságban lesznek."

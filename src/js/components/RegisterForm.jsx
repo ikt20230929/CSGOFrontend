@@ -22,21 +22,21 @@ export function RegisterForm({ submitURL, onSuccess, onError }) {
                             control={control}
                             name="username"
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput onChange={onChange} onBlur={onBlur} value={value} label="Felhasználónév" required />
+                                <TextInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Felhasználónév" required />
                             )}
                         />
                         <Controller
                             control={control}
                             name="email"
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput onChange={onChange} onBlur={onBlur} value={value} label="Email" type="email" required />
+                                <TextInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Email" type="email" required />
                             )}
                         />
                         <Controller
                             control={control}
                             name="password"
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <PasswordInput onChange={onChange} onBlur={onBlur} value={value} label="Jelszó" required />
+                                <PasswordInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Jelszó" required />
                             )}
                         />
                         <Button variant="gradient"

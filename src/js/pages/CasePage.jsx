@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Card, Text, Button, Grid, Center, Space } from '@mantine/core';
+import ItemContainer from '../components/ItemContainer';
 
 function CasePage() {
   const { caseId } = useParams();
@@ -48,13 +49,7 @@ function CasePage() {
       <Text size="xl">Megszerezhető tárgyak:</Text>
       <Space h="md" />
       <Grid>
-        {caseData.items.map(item => (
-          <Grid.Col span={3} key={item.itemId}>
-             <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
-             <Text>{item.itemName} - {item.itemSkinName} <br></br><Text c="dimmed">{item.itemSkinValue} $</Text></Text>
-            </Card>
-          </Grid.Col>
-        ))}
+        {caseData.items.map(item => <ItemContainer key={item.inventoryId} item={item} />)}
       </Grid>
     </Card>
       </>}

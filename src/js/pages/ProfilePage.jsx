@@ -1,25 +1,13 @@
-import React from "react";
-import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid } from "@mantine/core";
+import React, { useState } from "react";
+import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, ComboboxSearch, Flex, NumberFormatter } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector } from "react-redux";
+import InventorySearchWrapper from "../components/InventorySearchWrapper";
 
 export default function ProfilePage() {
-  const { profile, inventory, cases } = useSelector(state => state.data);
+  const { profile, inventory } = useSelector(state => state.data);
   const [opened, { open, close }] = useDisclosure(false);
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  }
-
-  const rarityColors = {
-    1: '#afafaf',
-    2: '#6496e1',
-    3: '#4b69cd',
-    4: '#8847ff',
-    5: '#d32ce6',
-    6: '#eb4b4b',
-    7: '#ffcc00'
-  }
+  const [ searchTerm, setSearchTerm ] = useState('');
 
   return (
     <div>
@@ -30,7 +18,7 @@ export default function ProfilePage() {
             </Text>
           </Group>
           <Space h="sm"/>
-          <Text size="xl">Egyenleged: {formatCurrency(profile.balance)}</Text>
+          <Text size="xl">Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.balance} /></Text>
           <Space h="xl" />
           <Modal opened={opened} onClose={close} title="Adataid szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
             <TextInput label="Steam URL módosítása" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=yourowntoken" />
@@ -45,18 +33,12 @@ export default function ProfilePage() {
             Adatok módosítása
           </Button>
 
-          <h2 className="welcome">Megszerzett tárgyak: ({inventory.length} db)</h2>
+          <Group justify="space-between">
+            <h2 className="welcome">Megszerzett tárgyak: ({inventory.length} db)</h2>
+            <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
+          </Group>
           <Grid gutter="lg">
-          {[...inventory].sort((a, b) => b.itemRarity - a.itemRarity).map(item => {
-            return (
-              <Grid.Col span={3} key={item.inventoryId} data-cy="inventory-item">
-                <Card className="regpage" shadow="sm" padding="lg" radius={0} style={{borderLeftColor: rarityColors[item.itemRarity], borderLeftWidth: "5px"}} withBorder>
-                  <Text>{item.itemName}</Text>
-                  <Text size="sm" c="dimmed">{item.itemSkinName}</Text>
-                </Card>
-              </Grid.Col>
-            );
-          })}
+            <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} />
           </Grid>
         </Card>
     </div>

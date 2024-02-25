@@ -16,7 +16,7 @@ export const TwoFactorForm = ({ submitURL, onSuccess, onError, userData }) => {
                         control={control}
                         name="mfa.totpToken"
                         render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput name="totpToken" onChange={onChange} onBlur={onBlur} value={value} label="2FA Code" required />
+                            <TextInput classNames={{ input: 'regpage' }} name="totpToken" onChange={onChange} onBlur={onBlur} value={value} label="2FA Code" required />
                         )}
                     />
                     
