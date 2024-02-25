@@ -62,7 +62,7 @@
 body {
   -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
   -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);
-  background-image: url("https://media.discordapp.net/attachments/945254887460044820/1209837869468745778/Kepernyokep_2024-02-21_132155-transformed.png?ex=65e86051&is=65d5eb51&hm=a815410cfe4a938c7132961b511829f5f0599cf7e81c82e816b27c04aaec8205&=&format=webp&quality=lossless&width=1990&height=1006") ;
+  background-image: url("../../public/assets/background.png") ;
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--mantine-color-text);
