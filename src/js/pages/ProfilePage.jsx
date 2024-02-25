@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput } from "@mantine/core";
+import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector } from "react-redux";
 
@@ -9,6 +9,16 @@ export default function ProfilePage() {
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  }
+
+  const rarityColors = {
+    1: '#afafaf',
+    2: '#6496e1',
+    3: '#4b69cd',
+    4: '#8847ff',
+    5: '#d32ce6',
+    6: '#eb4b4b',
+    7: '#ffcc00'
   }
 
   return (
@@ -36,13 +46,18 @@ export default function ProfilePage() {
           </Button>
 
           <h2 className="welcome">Megszerzett tárgyak: ({inventory.length} db)</h2>
-          {inventory.map(item => {
+          <Grid gutter="lg">
+          {[...inventory].sort((a, b) => b.itemRarity - a.itemRarity).map(item => {
             return (
-              <div key={item.id} data-cy="inventory-item">
-                {}
-              </div>
+              <Grid.Col span={3} key={item.inventoryId} data-cy="inventory-item">
+                <Card className="regpage" shadow="sm" padding="lg" radius={0} style={{borderLeftColor: rarityColors[item.itemRarity], borderLeftWidth: "5px"}} withBorder>
+                  <Text>{item.itemName}</Text>
+                  <Text size="sm" c="dimmed">{item.itemSkinName}</Text>
+                </Card>
+              </Grid.Col>
             );
           })}
+          </Grid>
         </Card>
     </div>
   );
