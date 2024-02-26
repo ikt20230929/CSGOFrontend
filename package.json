@@ -42,7 +42,7 @@
     "@mantine/core": "^7.5.3",
     "@mantine/form": "^7.5.3",
     "@mantine/hooks": "^7.5.3",
-    "@mantine/nprogress": "^7.5.3",
+    "@mantine/nprogress": "^7.6.0",
     "@reduxjs/toolkit": "^2.2.1",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
