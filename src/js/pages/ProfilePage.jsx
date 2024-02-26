@@ -39,6 +39,7 @@ export default function ProfilePage() {
           </Group>
           <Grid gutter="lg">
             <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} />
+            <Button variant="light" color="red" size="xs">💸</Button>
           </Grid>
         </Card>
     </div>

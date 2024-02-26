@@ -8,7 +8,7 @@ export default function ItemContainer({ item }) {
         <Grid.Col span={3} data-cy="inventory-item">
             <Card className="regpage" padding="lg" radius={0} style={{borderLeftColor: rarityColors[item.itemRarity - 1], borderLeftWidth: "5px"}} withBorder>
                 <Text>{item.itemName}</Text>
-                <Text size="sm" c="dimmed">{item.itemSkinName}</Text>
+                <Text size="sm" c="dimmed">{item.itemSkinName} - {item.itemValue} $</Text>
             </Card>
         </Grid.Col>
     )
