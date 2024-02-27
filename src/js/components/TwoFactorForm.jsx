@@ -1,22 +1,22 @@
 import React from 'react';
 import { Paper, TextInput, Button, Text } from '@mantine/core';
-import { Container } from '@mantine/core';
 import { Controller, Form, useForm } from 'react-hook-form';
+import CenteredContainer from './CenteredContainer';
 
 export const TwoFactorForm = ({ submitURL, onSuccess, onError, userData }) => {
     const { control, register } = useForm();
 
     return (
-        <Container size={420}>
-            <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-                <Text>Provide a code from your authenticator app.</Text>
+        <CenteredContainer size={"lg"}>
+            <Paper className='regpage' withBorder shadow="md" p={30} mt={30} radius="md">
+                <Text>Adjon meg egy kódot a hitelesítő alkalmazásból.</Text>
                 <Form action={submitURL} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
                     <Controller
                         defaultValue={""}
                         control={control}
                         name="mfa.totpToken"
                         render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput classNames={{ input: 'regpage' }} name="totpToken" onChange={onChange} onBlur={onBlur} value={value} label="2FA Code" required />
+                            <TextInput classNames={{ input: 'regpage' }} name="totpToken" onChange={onChange} onBlur={onBlur} value={value} label="2FA Kód" required />
                         )}
                     />
                     
@@ -24,10 +24,10 @@ export const TwoFactorForm = ({ submitURL, onSuccess, onError, userData }) => {
                     <input hidden {...register("password")} value={userData.password} />
                     <input hidden {...register("mfa.mfaType")} value="1" />
                     <Button type="submit" fullWidth={true} mt="xl">
-                        Verify
+                        Ellenőrzés
                     </Button>
                 </Form>
             </Paper>
-        </Container>
+        </CenteredContainer>
     );
 };

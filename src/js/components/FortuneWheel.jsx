@@ -43,7 +43,7 @@ export default function FortuneWheel() {
   };
 
   return (
-    <div className="container">
+    <div className="wheelContainer">
       <div className="wheelCenter" onClick={!isSpinning ? spin : null}/>
       <div className="win" ref={winRef}></div>
       <div className="wheel" style={{ transform: `rotate(${value}deg)`, transition: 'transform 5s' }} ref={wheelRef}>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Text, Input, Badge, Progress, Card, Group, Space, Center } from '@mantine/core';
-import CenteredContainer from "../components/CenteredContainer";
+import { Button, Text, Input, Badge, Progress, Card, Space } from '@mantine/core';
+import FortuneWheel from '../components/FortuneWheel';
 
 const MultiplierWheel = () => {
     const [selectedMultiplier, setSelectedMultiplier] = useState(2);
@@ -43,63 +43,50 @@ const MultiplierWheel = () => {
 
     return (
         <div>
-            <FortuneWheel />
-            <CenteredContainer size="xl">
-                <Card className="regpage" shadow="sm" padding="lg" radius="md">
-                    <Group justify="space-between" mt="lg" mb="xs">
-                        <Text size='90px' fw={700} tt="uppercase" variant="gradient"
-                            gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>Upgrader</Text>
-                    </Group>
-                    <Space h="xl" />
-                </Card>
-
-                <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "30vw" }}>
-                    <Center>
+            <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(100vh - 3.5rem)" }}>
+                <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
+                    Upgrader
+                </Text>
+                <FortuneWheel />
+                <div style={{ textAlign: 'center' }}>
                     <Text>Befizetni kívánt összeg:</Text>
-                    </Center>
-                    <Space h="sm"></Space>
-                    <Center>
-                    <Input
-                    type="number"
-                    min={1}
-                    max={1000}
-                    value={amount}
-                    onChange={(event) => setAmount(event.target.value)}
-                    disabled={spinning}
-                    classNames={{ input: 'regpage' }}
-                    style={{ width: 100 }}
-                />
-                </Center>
-                    <Space h="sm" />
-                    <div style={{ textAlign: 'center', maxWidth: 500, margin: 'auto' }}>
-                        <div style={{ marginTop: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            {[2, 5, 10, 20].map(multiplier => (
-                                <Button
-                                    key={multiplier}
-                                    onClick={() => handleMultiplierChange(multiplier)}
-                                    variant={selectedMultiplier === multiplier ? 'gradient' : 'outline'}
-                                    style={{ marginRight: 10 }}
-                                    gradient={{ from: 'rgba(255, 255, 255, 0.3)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}
-                                >
-                                    {multiplier}x
-                                </Button>
-                            ))}
-                        </div>
-                        <div style={{ marginTop: 10 }}>
-                            <Text>Választott szorzó: {selectedMultiplier}x</Text>
-                            <Text>Várható nyeremény: {amount*selectedMultiplier}</Text>
-                            <Text>Esélyed: {winningChances[selectedMultiplier]}%</Text>
-                            <Progress classNames={{ root: 'regpage' }} color='rgba(99, 234, 255, 1)' value={winningChances[selectedMultiplier]} animated max={100} />
-                            <Badge color={result && result.won ? 'green' : 'red'}>{result && result.won ? 'Nyertél' : 'Vesztettél'}</Badge>
-                            <Text>Ennyit nyertél: {result && result.amount}</Text>
-                        </div>
-                        <Button variant="gradient"
-                            gradient={{ from: 'rgba(255, 255, 255, 0.3)', to: 'rgba(99, 234, 255, 1)', deg: 90 }} onClick={spinWheel} disabled={spinning || amount === "" || amount === "0" || amount<0 || amount === "-0"} style={{ marginTop: 10 }}>
-                            UPGRADE
-                        </Button>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10, marginBottom: 10 }}>
+                        <Input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            disabled={spinning}
+                            classNames={{ input: 'regpage' }}
+                        />
                     </div>
-                </Card>
-            </CenteredContainer>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
+                        <Button onClick={() => handleMultiplierChange(2)}>2x</Button>
+                        <Button onClick={() => handleMultiplierChange(5)}>5x</Button>
+                        <Button onClick={() => handleMultiplierChange(10)}>10x</Button>
+                        <Button onClick={() => handleMultiplierChange(20)}>20x</Button>
+                    </div>
+
+                    <div style={{ marginTop: 10 }}>
+                        <Text>Választott szorzó: {selectedMultiplier}x</Text>
+                        <Text>Várható nyeremény: {amount * selectedMultiplier}</Text>
+                        <Text>Esélyed: {winningChances[selectedMultiplier]}%</Text>
+                        <Progress classNames={{ root: 'regpage' }} value={winningChances[selectedMultiplier]} max={100} />
+                        <Badge color={result && result.won ? 'green' : 'red'}>
+                            {result && result.won ? 'Nyertél' : 'Vesztettél'}
+                        </Badge>
+                        <Text>Ennyit nyertél: {result && result.amount}</Text>
+                    </div>
+
+                    <Button
+                        variant="gradient"
+                        onClick={spinWheel}
+                        disabled={spinning}
+                    >
+                        UPGRADE
+                    </Button>
+                </div>
+            </Card>
         </div>
     );
 };
