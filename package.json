@@ -39,7 +39,7 @@
     "wait-on": "^7.2.0"
   },
   "dependencies": {
-    "@mantine/core": "^7.5.3",
+    "@mantine/core": "^7.6.1",
     "@mantine/form": "^7.5.3",
     "@mantine/hooks": "^7.5.3",
     "@mantine/nprogress": "^7.5.3",
