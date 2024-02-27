@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@mantine/core": "^7.5.3",
-    "@mantine/form": "^7.5.3",
+    "@mantine/form": "^7.6.1",
     "@mantine/hooks": "^7.5.3",
     "@mantine/nprogress": "^7.5.3",
     "@reduxjs/toolkit": "^2.2.1",
