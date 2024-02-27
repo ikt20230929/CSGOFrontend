@@ -43,6 +43,7 @@ const MultiplierWheel = () => {
 
     return (
         <div>
+            <FortuneWheel />
             <CenteredContainer size="xl">
                 <Card className="regpage" shadow="sm" padding="lg" radius="md">
                     <Group justify="space-between" mt="lg" mb="xs">
