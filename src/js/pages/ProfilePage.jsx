@@ -14,11 +14,11 @@ export default function ProfilePage() {
         <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{minHeight: "calc(100vh - 3.5rem)"}}>
           <Group justify="space-between" mt="lg" mb="xs">
             <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90 }}>
-              {profile.username} profilja
+              {profile.userName} profilja
             </Text>
           </Group>
           <Space h="sm"/>
-          <Text size="xl">Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.balance} /></Text>
+          <Text size="xl">Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></Text>
           <Space h="xl" />
           <Modal opened={opened} onClose={close} title="Adataid szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
             <TextInput label="Steam URL módosítása" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=yourowntoken" />

@@ -39,13 +39,14 @@
     "wait-on": "^7.2.0"
   },
   "dependencies": {
-    "@mantine/core": "^7.5.3",
-    "@mantine/form": "^7.5.3",
-    "@mantine/hooks": "^7.5.3",
-    "@mantine/nprogress": "^7.5.3",
+    "@mantine/core": "^7.6.1",
+    "@mantine/form": "^7.6.1",
+    "@mantine/hooks": "^7.6.1",
+    "@mantine/nprogress": "^7.6.1",
     "@reduxjs/toolkit": "^2.2.1",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",

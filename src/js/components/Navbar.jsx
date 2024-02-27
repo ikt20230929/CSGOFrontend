@@ -11,6 +11,7 @@ const links = [
 	{ link: '/giveaway', label: 'Nyereményjátékok', needsLogin: true },
 	{ link: '/upgrader', label: 'Upgrader', needsLogin: true },
 	{ link: '/topup', label: 'Töltsd fel az egyenleged!', needsLogin: true },
+	{ link: '/options', label: 'Beállítások', needsLogin: true },
 	{ link: '/login', label: 'Bejelentkezés', needsLogin: false, hideWhenLoggedIn: true },
 	{ link: '/logout', label: 'Kijelentkezés', needsLogin: true },
 ];
@@ -40,9 +41,9 @@ export default function Navbar() {
 		<header className="header">
 		  <Container size="xl" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<Group gap={5} visibleFrom="xs">
-			  {(profile && profile.username !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.username}!</a> }
+			  {(profile && profile.userName !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.userName}!</a> }
 			  {items}
-			  {(profile && profile.balance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.balance} /></a>}
+			  {(profile && profile.userBalance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></a>}
 			</Group>
 		  </Container>
 		</header>

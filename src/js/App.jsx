@@ -22,6 +22,7 @@ import { AuthenticatedRoute } from "./components/AuthenticatedRoute";
 import { fetchProfile } from "./Globals";
 import CenteredContainer from "./components/CenteredContainer";
 import LogoutPage from "./pages/LogoutPage";
+import UserOptionsPage from "./pages/UserOptionsPage";
 
 const router = createBrowserRouter([
 	{
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
 			{
 				path: "/casepage/:caseId",
 				element: <CasePage/>
+			},
+			{
+				path: "/options",
+				element: <AuthenticatedRoute><UserOptionsPage /></AuthenticatedRoute>
 			}
 		]
 	}
