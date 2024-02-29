@@ -44,18 +44,12 @@
 }
 
 .regpage{
-  background-color: rgba(0, 0, 0, 0.7)!important;
+  background-color: rgba(0, 0, 0, 0.7);
 }
-.editpage{
-  background-color: rgba(0, 0, 0, 0.7)!important;
-}
-.welcome{
-  color: white!important;
-}
+
 .alerteles{
   max-width: 300px;
   max-height: 100px;
-  background-color: rgba(3, 255, 238, 0.2)!important;
   margin: 10px;
   position: absolute;
 }
@@ -97,8 +91,8 @@ body {
   font-weight: 500;
 }
 
-.link:hover {
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6)) !important;
+.link:not(.active):hover {
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
 }
 
 .link.active {

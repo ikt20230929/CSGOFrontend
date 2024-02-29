@@ -34,7 +34,7 @@ export default function ProfilePage() {
           </Button>
 
           <Group justify="space-between">
-            <h2 className="welcome">Megszerzett tárgyak: ({inventory.length} db)</h2>
+            <h2 style={{ color: 'white' }}>Megszerzett tárgyak: ({inventory.length} db)</h2>
             <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
           </Group>
           <Grid gutter="lg">
