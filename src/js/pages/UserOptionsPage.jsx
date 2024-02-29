@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useSelector } from 'react-redux';
-import { Button, Card, Group, Modal, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Card, Group, Modal, PasswordInput, Stack, Text, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { fetchEndpoint, fetchProfile } from '../Globals';
@@ -11,12 +11,14 @@ import { API_URL } from '../settings';
 export default function UserOptionsPage() {
     const { profile } = useSelector(state => state.data);
     const { accessToken } = useSelector(state => state.auth);
-    const [opened, { open, close }] = useDisclosure(false);
+    const modal1 = useDisclosure(false);
+    const modal2 = useDisclosure(false);
     const [totpSecret, setTotpSecret] = useState("");
     const [fallback, setFallback] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [confirmationCode, setConfirmationCode] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,29 +31,55 @@ export default function UserOptionsPage() {
 
             setTotpSecret(totpToken)
         }
-        if (opened) {
+
+        if (modal1[0] || modal2[0]) {
+            setPassword("");
+            setErrorMessage("");
             setConfirmationCode("");
             setConfirm(false);
             setFallback(false);
 
-            fetchData();
+            if(modal1[0]) fetchData();
         };
-    }, [opened]);
+    }, [modal1[0], modal2[0]]);
 
-    const handleConfirmClick = async() => {
-        if(confirmationCode.length != 6) return;
-        var result = await axios.post(`${API_URL}/totp`, {code: confirmationCode}, {
+    const handleConfirmClick = async () => {
+        if (confirmationCode.length != 6) return;
+        var result = await axios.post(`${API_URL}/totp`, { code: confirmationCode }, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             },
             validateStatus: () => true
         });
 
-        if(result.status == 204) {
+        if (result.status == 204) {
             await fetchProfile();
-            close();
-        }else{
+            modal1[1].close();
+        } else {
             setErrorMessage("Érveletlen kód");
+        }
+    }
+
+    const handleDisableClick = async () => {
+        if(confirmationCode.length != 6) return;
+        if(password.length == 0) return;
+
+        var result = await axios.delete(`${API_URL}/totp`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            },
+            data: {
+                code: confirmationCode,
+                password: password
+            },
+            validateStatus: () => true
+        })
+
+        if (result.status == 204) {
+            await fetchProfile();
+            modal2[1].close();
+        }else{
+            setErrorMessage("Érvénytlen kód vagy jelszó");
         }
     }
 
@@ -60,9 +88,9 @@ export default function UserOptionsPage() {
             <Group mt="lg" mb="xs">
                 <Text fw={500}>Két-faktoros authentikáció</Text>
                 <Text fw={500}>{profile.userTotpEnabled ? "Aktív" : "Inaktív"}</Text>
-                {!profile.userTotpEnabled && <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={open}>Aktiválás</Button>}
+                {!profile.userTotpEnabled ? <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={() => modal1[1].open()}>Aktiválás</Button> : <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={() => modal2[1].open()}>Kikapcsolás</Button>}
             </Group>
-            <Modal opened={opened} title="Két-faktoros authentikáció" centered classNames={{ header: 'regpage', content: 'regpage' }} size={"auto"} onClose={close} withCloseButton={false} styles={{
+            <Modal opened={modal1[0]} title="Két-faktoros authentikáció" centered classNames={{ header: 'regpage', content: 'regpage' }} size={"auto"} onClose={modal1[1].close} withCloseButton={false} styles={{
                 title: { textAlign: 'center' },
             }}>
                 {confirm ? (
@@ -96,9 +124,38 @@ export default function UserOptionsPage() {
                         </>
                 )}
                 <Group mt={20} gap={5} justify='flex-end'>
-                    <Button onClick={close}>Mégse</Button>
+                    <Button onClick={modal1[1].close}>Mégse</Button>
                     {!confirm && <Button onClick={() => setConfirm(true)}>Tovább</Button>}
                     {confirm && <Button onClick={handleConfirmClick}>OK</Button>}
+                </Group>
+            </Modal>
+            <Modal opened={modal2[0]} title="Erősítse meg, hogy ön az" centered classNames={{ header: 'regpage', content: 'regpage' }} size={"auto"} onClose={modal2[1].close} withCloseButton={false} styles={{
+                title: { textAlign: 'center' },
+            }}>
+                <Stack align='center'>
+                    <Text size='xl'>A két faktoros bejelentkezés kikapcsolásához adja meg az alábbi adatokat:</Text>
+                    <Text>Hitelesítési kód</Text>
+                    <TextInput error={errorMessage}
+                        value={confirmationCode}
+                        onChange={(event) => setConfirmationCode(event.target.value)}
+                        placeholder="Hitelesítési kód"
+                        maxLength={6}
+                        style={{ width: '50%' }}
+                        classNames={{ input: 'regpage' }}
+                    />
+
+                    <Text>Jelszó</Text>
+                    <PasswordInput error={errorMessage}
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        placeholder="Jelszó"
+                        style={{ width: '50%' }}
+                        classNames={{ input: 'regpage' }}
+                    />
+                </Stack>
+                <Group mt={20} gap={5} justify='flex-end'>
+                    <Button onClick={modal2[1].close}>Mégse</Button>
+                    <Button onClick={handleDisableClick}>OK</Button>
                 </Group>
             </Modal>
         </Card>
