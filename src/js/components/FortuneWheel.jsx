@@ -51,7 +51,7 @@ export default function FortuneWheel() {
           className="number quarter green"
           style={{
             '--i': 1,
-            boxShadow: number >= 25 ? '0 0 0 1px green' : '',
+            boxShadow: number >= 25 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
           }}
         >
         </div>
@@ -75,7 +75,7 @@ export default function FortuneWheel() {
               left: '0%',
               transformOrigin: 'top right',
               transform: number <= 50 ? `rotate(${angle}deg)` : '',
-              boxShadow: number >= 50 ? '0 0 0 1px green' : '',
+              boxShadow: number >= 50 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
             }}
           ></div>
         )}
@@ -87,7 +87,7 @@ export default function FortuneWheel() {
               left: '50%',
               transformOrigin: 'top left',
               transform: number <= 75 ? `rotate(${angle}deg)` : '',
-              boxShadow: number >= 75 ? '0 0 0 1px green' : '',
+              boxShadow: number >= 75 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
             }}
           ></div>
         )}
@@ -99,7 +99,7 @@ export default function FortuneWheel() {
               left: '50%',
               transformOrigin: 'bottom left',
               transform: `rotate(${angle}deg)`,
-              boxShadow: number == 100 ? '0 0 0 1px green' : '',
+              boxShadow: number == 100 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
             }}
           ></div>
         )}
