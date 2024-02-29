@@ -11,7 +11,7 @@ import HomePage from "./pages/HomePage";
 import CasePage from "./pages/CasePage";
 import '@mantine/core/styles.css';
 import '../css/styles.css';
-import '../css/wheel.css';
+import '../css/anim.css';
 import { Loader, MantineProvider } from "@mantine/core";
 import TwoFactorPage from "./pages/TwoFactorPage";
 import Navbar from "./components/Navbar";
