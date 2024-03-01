@@ -47,12 +47,30 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+.topup{
+  margin: auto;
+  width: 90vh;
+  padding-top: 150px;
+}
+
+.loginstreak{
+  margin: auto;
+  width: 110vh;
+  padding-top: 20px;
+}
+
 .alerteles{
   max-width: 300px;
   max-height: 100px;
   margin: 10px;
   position: absolute;
 }
+
+.openalert{
+top: 130px;
+position: absolute;
+}
+
 body {
   -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
   -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);

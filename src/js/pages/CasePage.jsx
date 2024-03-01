@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Card, Text, Button, Grid, Center, Space } from '@mantine/core';
 import ItemContainer from '../components/ItemContainer';
+import CaseOpeningAnim from '../components/CaseOpeningAnim';
 
 function CasePage() {
   const { caseId } = useParams();
@@ -41,9 +42,7 @@ function CasePage() {
         </Text>
       {navigateAway ? <Navigate to="/home" replace={true} /> : <>
       <Space h="xl" />
-      <Center>
-      <Button type="submit" size='md' variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg" >Láda kinyitása</Button>
-      </Center>
+      <CaseOpeningAnim></CaseOpeningAnim>
       <Space h="xl" />
              <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
       <Text size="xl">Megszerezhető tárgyak:</Text>

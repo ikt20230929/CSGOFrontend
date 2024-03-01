@@ -3,11 +3,14 @@ import React, { useState, useEffect, useRef } from 'react';
 
 export default function FortuneWheel() {
   const [value, setValue] = useState(Math.ceil(Math.random() * 3600));
-  const [number, setNumber] = useState(50); 
+  const [number, setNumber] = useState(64); 
   const [isSpinning, setIsSpinning] = useState(false);
   const angle = Math.min(number, 100) / 100 * 360; 
   const wheelRef = useRef(null);
   const winRef = useRef(null);
+
+  const color = `rgb(99, 234, 255)`;
+  const boxShadow = `0 0 0 1px ${color}`;
 
   
   const checkWin = () => {
@@ -51,7 +54,7 @@ export default function FortuneWheel() {
           className="number quarter green"
           style={{
             '--i': 1,
-            boxShadow: number >= 25 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
+            boxShadow: number >= 25 ? `${boxShadow}` : '',
           }}
         >
         </div>
@@ -75,7 +78,7 @@ export default function FortuneWheel() {
               left: '0%',
               transformOrigin: 'top right',
               transform: number <= 50 ? `rotate(${angle}deg)` : '',
-              boxShadow: number >= 50 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
+              boxShadow: number >= 50 ? `${boxShadow}` : '',
             }}
           ></div>
         )}
@@ -87,7 +90,7 @@ export default function FortuneWheel() {
               left: '50%',
               transformOrigin: 'top left',
               transform: number <= 75 ? `rotate(${angle}deg)` : '',
-              boxShadow: number >= 75 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
+              boxShadow: number >= 75 ? `${boxShadow}` : '',
             }}
           ></div>
         )}
@@ -99,7 +102,7 @@ export default function FortuneWheel() {
               left: '50%',
               transformOrigin: 'bottom left',
               transform: `rotate(${angle}deg)`,
-              boxShadow: number == 100 ? '0 0 0 0px rgba(99, 234, 255, 0)' : '',
+              boxShadow: number == 100 ? `${boxShadow}` : '',
             }}
           ></div>
         )}
