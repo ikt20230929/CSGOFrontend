@@ -1,11 +1,13 @@
 .wheelContainer {
   position:relative;
-  width: 250px;
-  height: 250px;
+  width: 25vh;
+  height: 25vh;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
+  top: 20px;
+  margin-bottom: 50px;
 }
 
 .wheelContainer .wheelCenter {
