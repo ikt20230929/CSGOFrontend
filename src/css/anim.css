@@ -83,7 +83,8 @@ top: 0;
   height: 100px;
   width: 800px;
   position: relative;
-  border: 1px solid #33e; 
+  border: 1px solid rgba(99, 234, 255, 0.8);
+  border-radius: 9px; 
   overflow: hidden;
   white-space: nowrap;
   margin: auto;
@@ -96,11 +97,12 @@ top: 0;
   text-align: center;
   width: 100px;
   line-height: 100px;
-  background-color: #99e; /* <-- Az itemek mögötti szín változtatásához ezt írd át */
+  background-color: rgba(0, 0, 0, 0.75); /* <-- Az itemek mögötti szín változtatásához ezt írd át */
   font-size: 2em;
   color: #444;
-  border-left: 1px solid #33e;
-  border-right: 1px solid #33e;
+  border-left: 1px solid rgba(99, 234, 255, 0.8);
+  border-right: 1px solid rgba(99, 234, 255, 0.8);
+  border-radius: 10px;
 }
 
 /* A következő stíluselemek a nyílak megjelenítéséért felelősek */
@@ -118,12 +120,12 @@ top: 0;
 .itemContainer::before {
   position: absolute;
   left: 50%;
-  border-top: 12px solid #33e;
+  border-top: 12px solid rgba(99, 234, 255, 0.8);
 }
 
 .itemContainer::after {
   position: absolute;
   bottom: 0px;
   left: 50%;
-  border-bottom: 12px solid #33e;
+  border-bottom: 12px solid rgba(99, 234, 255, 0.8);
 }

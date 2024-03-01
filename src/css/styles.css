@@ -53,6 +53,12 @@
   margin: 10px;
   position: absolute;
 }
+
+.openalert{
+top: 130px;
+position: absolute;
+}
+
 body {
   -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
   -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);

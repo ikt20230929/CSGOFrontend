@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './anim.css';
+import { Button, Center, Space, Notification } from '@mantine/core';
 
 const CardList = () => {
     const [margin, setMargin] = useState(0);
@@ -32,6 +32,12 @@ const CardList = () => {
 
     return (
         <div>
+            {spin==true && (
+        <Center>
+                    <Notification withCloseButton={false} className='openalert' withBorder color="cyan" radius="lg" title="Láda nyitása folyamatban...">
+      </Notification>
+      </Center>
+            )}
             <div className='spinContainer'>
               <div className="itemContainer" style={{
                   marginLeft: `${margin}px`, 
@@ -44,7 +50,10 @@ const CardList = () => {
                   ))}
               </div>
             </div>
-            <button onClick={spinHandler} disabled={spin}>Spin</button>
+            <Space h="md"></Space>
+            <Center>
+      <Button type="submit" size='md' variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg"  onClick={spinHandler} disabled={spin} >Láda kinyitása</Button>
+      </Center>
         </div>
     );
 };
