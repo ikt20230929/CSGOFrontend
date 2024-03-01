@@ -41,6 +41,7 @@ export default function Navbar() {
 		<header className="header">
 		  <Container size="xl" className="inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<Group gap={5} visibleFrom="xs">
+			<img width="75px" src='https://cdn.discordapp.com/attachments/945254887460044820/1213053983187406908/logo.png?ex=65f4138f&is=65e19e8f&hm=f0afb11377cedf380cccb79209e795e553542a39cf7bb2f07e88b1a1c242a2b0&'></img>
 			  {(profile && profile.userName !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.userName}!</a> }
 			  {items}
 			  {(profile && profile.userBalance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></a>}
