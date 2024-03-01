@@ -75,3 +75,60 @@ async function doRequest(endpoint) {
         data: resp.data
     }
 }
+
+// https://stackoverflow.com/a/61725074
+export function coerceToArrayBuffer(input) {
+    if (typeof input === "string") {
+        input = input.replace(/-/g, "+").replace(/_/g, "/");
+
+        var str = window.atob(input);
+        var bytes = new Uint8Array(str.length);
+        for (var i = 0; i < str.length; i++) {
+            bytes[i] = str.charCodeAt(i);
+        }
+        input = bytes;
+    }
+
+    if (Array.isArray(input)) {
+        input = new Uint8Array(input);
+    }
+
+    if (input instanceof Uint8Array) {
+        input = input.buffer;
+    }
+
+    if (!(input instanceof ArrayBuffer)) {
+        throw new TypeError(`could not coerce to ArrayBuffer`);
+    }
+
+    return input;
+}
+
+// https://stackoverflow.com/a/61725074
+export function coerceToBase64Url(input) {
+    if (Array.isArray(input)) {
+        input = Uint8Array.from(input);
+    }
+
+    if (input instanceof ArrayBuffer) {
+        input = new Uint8Array(input);
+    }
+
+    if (input instanceof Uint8Array) {
+        var str = "";
+        var len = input.byteLength;
+
+        for (var i = 0; i < len; i++) {
+            str += String.fromCharCode(input[i]);
+        }
+        input = window.btoa(str);
+    }
+
+    if (typeof input !== "string") {
+        throw new Error("could not coerce to string");
+    }
+
+    input = input.replace(/\+/g, "-").replace(/\//g, "_").replace(/=*$/g, "");
+
+    return input;
+}

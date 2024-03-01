@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Button, Card, Group, Modal, PasswordInput, Stack, Text, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
-import { fetchEndpoint, fetchProfile } from '../Globals';
+import { coerceToArrayBuffer, coerceToBase64Url, fetchEndpoint, fetchProfile } from '../Globals';
 import axios from 'axios';
 import { API_URL } from '../settings';
 
@@ -83,12 +83,62 @@ export default function UserOptionsPage() {
         }
     }
 
+    async function enableWebauthn() {
+        var credentialOptions = (await fetchEndpoint(`webauthn`)).data;
+        credentialOptions.challenge = coerceToArrayBuffer(credentialOptions.challenge);
+        credentialOptions.user.id = coerceToArrayBuffer(credentialOptions.user.id);
+    
+        if (credentialOptions.authenticatorSelection.authenticatorAttachment === null) 
+        {
+            credentialOptions.authenticatorSelection.authenticatorAttachment = undefined;
+        }
+
+        let newCredential;
+        try 
+        {
+            newCredential = await navigator.credentials.create({publicKey: credentialOptions});
+        } catch (e) 
+        {
+            console.error(e);
+            return;
+        }
+
+        let attestationObject = new Uint8Array(newCredential.response.attestationObject);
+        let clientDataJSON = new Uint8Array(newCredential.response.clientDataJSON);
+        let rawId = new Uint8Array(newCredential.rawId);
+
+        const data = {
+            id: newCredential.id,
+            rawId: coerceToBase64Url(rawId),
+            type: newCredential.type,
+            extensions: newCredential.getClientExtensionResults(),
+            response: {
+            AttestationObject: coerceToBase64Url(attestationObject),
+            clientDataJson: coerceToBase64Url(clientDataJSON)
+            }
+        };
+
+        var response = await axios.post(`${API_URL}/webauthn`, data, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        console.log(response);
+    }
+
     return (
         <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ minHeight: "calc(100vh - 3.5rem)" }}>
             <Group mt="lg" mb="xs">
                 <Text fw={500}>Két-faktoros authentikáció</Text>
                 <Text fw={500}>{profile.userTotpEnabled ? "Aktív" : "Inaktív"}</Text>
                 {!profile.userTotpEnabled ? <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={() => modal1[1].open()}>Aktiválás</Button> : <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={() => modal2[1].open()}>Kikapcsolás</Button>}
+            </Group>
+            <Group mt="lg" mb="xs">
+                <Text fw={500}>Biztonsági kulcsos authentikáció</Text>
+                <Text fw={500}>{profile.userWebauthnEnabled ? "Aktív" : "Inaktív"}</Text>
+                {!profile.userWebauthnEnabled ? <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={enableWebauthn}>Aktiválás</Button> : null}
             </Group>
             <Modal opened={modal1[0]} title="Két-faktoros authentikáció" centered classNames={{ header: 'regpage', content: 'regpage' }} size={"auto"} onClose={modal1[1].close} withCloseButton={false} styles={{
                 title: { textAlign: 'center' },

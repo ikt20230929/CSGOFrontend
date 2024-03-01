@@ -37,6 +37,10 @@ export default function LoginPage() {
                 setInvalid(true);
                 return;
             }
+            case "EnterWebAuthn": {
+                data.mfa.mfaType = "WebAuthn";
+                return navigate("/login/webauthn");
+            }
             default: {
                 alert("Unknown error!" + res)
             }

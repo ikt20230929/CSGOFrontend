@@ -24,6 +24,7 @@ import { fetchProfile } from "./Globals";
 import CenteredContainer from "./components/CenteredContainer";
 import LogoutPage from "./pages/LogoutPage";
 import UserOptionsPage from "./pages/UserOptionsPage";
+import WebAuthnPage from "./pages/WebAuthnPage";
 
 const router = createBrowserRouter([
 	{
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
 			{
 				path: "/login/totp",
 				element: <TwoFactorPage />
+			},
+			{
+				path: "/login/webauthn",
+				element: <WebAuthnPage />
 			},
 			{
 				path: "/register",
