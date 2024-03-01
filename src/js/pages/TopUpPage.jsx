@@ -17,7 +17,7 @@ export default function TopUpPage() {
   const { profile } = useSelector(state => state.data);
 
   return (
-    <CenteredContainer>
+    <div className="topup">
       <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
         <Group justify="space-between" mt="lg" mb="xs">
           <Text fw={900} size="25px" tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)' }}>Válassz az alábbi fizetési módok közül!</Text>
@@ -97,6 +97,6 @@ export default function TopUpPage() {
           </Group>
         </form>
       </Card>
-    </CenteredContainer>
+      </div>
   )
 }
