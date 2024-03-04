@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 
-export default function FortuneWheel() {
+export default function FortuneWheel({number, onSpin}) {
   const [value, setValue] = useState(Math.ceil(Math.random() * 3600));
-  const [number, setNumber] = useState(64); 
   const [isSpinning, setIsSpinning] = useState(false);
   const angle = Math.min(number, 100) / 100 * 360; 
   const wheelRef = useRef(null);
@@ -35,8 +34,7 @@ export default function FortuneWheel() {
       setIsSpinning(false);
       wheelRef.current.removeEventListener('transitionend', checkWin);
     }, 200); 
-  };
-  
+  };  
 
   const spin = () => {
     setIsSpinning(true);
@@ -45,9 +43,15 @@ export default function FortuneWheel() {
     wheelRef.current.addEventListener('transitionend', checkWin);
   };
 
+  useEffect(() => {
+    if (onSpin) {
+      onSpin(spin);
+    }
+  }, [onSpin]);
+
   return (
     <div className="wheelContainer">
-      <div className="wheelCenter" onClick={!isSpinning ? spin : null}/>
+      <div className="wheelCenter"/>
       <div className="win" ref={winRef}></div>
       <div className="wheel" style={{ transform: `rotate(${value}deg)`, transition: 'transform 5s' }} ref={wheelRef}>
         <div
@@ -64,7 +68,7 @@ export default function FortuneWheel() {
             style={{
               bottom: '50%',
               left: '50%',
-              backgroundColor: 'red',
+              backgroundColor: 'rgba(119, 119, 119)',
               transformOrigin: 'bottom left',
               transform: `rotate(${270 + angle}deg)`,
             }}

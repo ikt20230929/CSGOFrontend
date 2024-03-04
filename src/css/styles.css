@@ -117,3 +117,10 @@ body {
   background-color: var(--mantine-color-blue-filled);
   color: var(--mantine-color-white);
 }
+
+.sliders {
+  margin-top: 10;
+  margin-bottom: 10;
+  width: 150px;
+  margin: auto;
+}
