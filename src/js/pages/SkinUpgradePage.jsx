@@ -3,6 +3,7 @@ import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Cente
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
+import {Link} from 'react-router-dom';
 
 const MultiplierWheel = () => {
     const { profile, inventory } = useSelector(state => state.data);
@@ -32,7 +33,7 @@ const MultiplierWheel = () => {
       <Grid.Col span={4}>
         <Center>
       <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
-                <Text size='20px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
+                <Text size='20px' fw={700}   tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                     A te tárgyaid, {profile.userName} ({inventory.length} db)
                     </Text> 
                     <Space h="xs"></Space>
@@ -62,6 +63,7 @@ const MultiplierWheel = () => {
                     </Center>
                     <Space h="xs"></Space>
                     <Center>
+                        <Link to="/upgrader">
                     <Button fullWidth
                         variant="gradient"
                         style={{ marginTop: 20 }}
@@ -71,6 +73,7 @@ const MultiplierWheel = () => {
                     >
                         Balance upgrade
                     </Button>
+                    </Link>
                     </Center>
       </Grid.Col>
       <Grid.Col span={4}>

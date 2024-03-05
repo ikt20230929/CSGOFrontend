@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Text, Slider, Card, Input, Space } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
+import {Link} from 'react-router-dom';
 
 const MultiplierWheel = () => {
     const { profile } = useSelector(state => state.data);
@@ -69,6 +70,7 @@ const MultiplierWheel = () => {
                         UPGRADE
                     </Button>
                     <Space h="xs"></Space>
+                    <Link to="/skinupgrade">
                     <Button
                         variant="gradient"
                         style={{ marginTop: 20 }}
@@ -78,6 +80,7 @@ const MultiplierWheel = () => {
                     >
                         Skin upgrade
                     </Button>
+                    </Link>
                 </div>
             </Card>
         </div>
