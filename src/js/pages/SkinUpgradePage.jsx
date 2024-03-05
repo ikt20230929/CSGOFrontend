@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
 import {Link} from 'react-router-dom';
+import { fetchEndpoint } from '../Globals';
 
 const MultiplierWheel = () => {
     const { profile, inventory } = useSelector(state => state.data);
@@ -12,6 +13,16 @@ const MultiplierWheel = () => {
     const [result, setResult] = useState(null);
     const [winningAmount, setWinningAmount] = useState(profile.userBalance * 50); 
     const [ searchTerm, setSearchTerm ] = useState('');
+    const [ allItems, setAllItems ] = useState([]);
+
+    useEffect(() => {
+      fetchItems = async () => {
+        var items = (await fetchEndpoint("items")).data;
+        setAllItems(items);
+      }
+
+      fetchItems();
+    }, []);
 
     // Esély kiszámítása
     const chance = (0.75 + (winningAmount - (amount + 0.1)) / (amount * 50 - (amount + 0.1)) * (0.01 - 0.75)) * 100;
@@ -88,7 +99,7 @@ const MultiplierWheel = () => {
           </Group>
           <Space h="xs"></Space>
           <Grid gutter="lg">
-            <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} />
+            <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} />
           </Grid>
                 </Card>
                 </Center>
