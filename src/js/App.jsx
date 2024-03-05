@@ -25,6 +25,7 @@ import CenteredContainer from "./components/CenteredContainer";
 import LogoutPage from "./pages/LogoutPage";
 import UserOptionsPage from "./pages/UserOptionsPage";
 import WebAuthnPage from "./pages/WebAuthnPage";
+import SkinUpgradePage from "./pages/SkinUpgradePage";
 
 const router = createBrowserRouter([
 	{
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
 			{
 				path: "/options",
 				element: <AuthenticatedRoute><UserOptionsPage /></AuthenticatedRoute>
+			},
+			{
+				path: "/skinupgrade",
+				element: <SkinUpgradePage/>
 			}
 		]
 	}

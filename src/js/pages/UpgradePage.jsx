@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Text, Slider, Card, Input } from '@mantine/core';
+import { Button, Text, Slider, Card, Input, Space } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
 
@@ -20,11 +20,12 @@ const MultiplierWheel = () => {
 
     return (
         <div>
-            <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(100vh - 3.5rem)" }}>
+            
                 <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                     Upgrader
                 </Text>
                 <FortuneWheel number={chance}/>
+                <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
                 <div style={{ textAlign: 'center', marginTop: 10 }}>
                     <Text>Befizetni kívánt összeg:</Text>
                     <Slider
@@ -39,7 +40,7 @@ const MultiplierWheel = () => {
                         type="number"
                         value={amount}
                         onChange={(e) => setAmount(parseFloat(e.target.value))} 
-                        classNames={{ input: 'regpage' }}
+                        classNames={{ input: 'upgradeinput' }}
                         step={0.1} 
                     />
                     <Text>Nyeremény mennyisége:</Text>
@@ -55,7 +56,7 @@ const MultiplierWheel = () => {
                         type="number"
                         value={winningAmount}
                         onChange={(e) => setWinningAmount(parseFloat(e.target.value))} 
-                        classNames={{ input: 'regpage' }}
+                        classNames={{ input: 'upgradeinput' }}
                         step={0.1} 
                     />
                     <Button
@@ -66,6 +67,16 @@ const MultiplierWheel = () => {
                         }}
                     >
                         UPGRADE
+                    </Button>
+                    <Space h="xs"></Space>
+                    <Button
+                        variant="gradient"
+                        style={{ marginTop: 20 }}
+                        onClick={() => {
+                            
+                        }}
+                    >
+                        Skin upgrade
                     </Button>
                 </div>
             </Card>

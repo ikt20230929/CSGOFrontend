@@ -47,6 +47,29 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+.upgradeinput{
+  background-color: rgba(0, 0, 0, 0.7);
+  max-width: 100px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.upgrdcard{
+  background-color: rgba(0, 0, 0, 0.7);
+  max-width: 90vh;
+  margin-top: 30px;
+  display: flex;
+  position: relative;
+}
+
+.upgrdcard2{
+  background-color: rgba(0, 0, 0, 0.7);
+  max-width: 90vh;
+  margin-top: 30px;
+  display: flex;
+  position: relative;
+}
+
 .topup{
   margin: auto;
   width: 90vh;
