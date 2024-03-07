@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 
-export default function FortuneWheel({number, onSpin}) {
-  const [value, setValue] = useState(Math.ceil(Math.random() * 3600));
+export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) {
+  const [value, setValue] = useState(Math.ceil(Math.random() * 3600) + 1800);
   const [isSpinning, setIsSpinning] = useState(false);
   const angle = Math.min(number, 100) / 100 * 360; 
   const wheelRef = useRef(null);
@@ -11,7 +11,6 @@ export default function FortuneWheel({number, onSpin}) {
   const color = `rgb(99, 234, 255)`;
   const boxShadow = `0 0 0 1px ${color}`;
 
-  
   const checkWin = () => {
     const winElement = winRef.current;
     const winRect = winElement.getBoundingClientRect();
@@ -44,10 +43,11 @@ export default function FortuneWheel({number, onSpin}) {
   };
 
   useEffect(() => {
-    if (onSpin) {
-      onSpin(spin);
+    if (spinTrigger) {
+        spin();
+        resetSpinTrigger();
     }
-  }, [onSpin]);
+  }, [spinTrigger, resetSpinTrigger, spin]);
 
   return (
     <div className="wheelContainer">

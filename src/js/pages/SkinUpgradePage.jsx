@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
@@ -9,11 +9,19 @@ import { fetchEndpoint } from '../Globals';
 const MultiplierWheel = () => {
     const { profile, inventory } = useSelector(state => state.data);
     const [amount, setAmount] = useState(profile.userBalance);
-    const [spinning, setSpinning] = useState(false);
-    const [result, setResult] = useState(null);
     const [winningAmount, setWinningAmount] = useState(profile.userBalance * 50); 
     const [ searchTerm, setSearchTerm ] = useState('');
     const [ allItems, setAllItems ] = useState([]);
+
+    const [spinTrigger, setSpinTrigger] = useState(false);
+
+    const triggerSpin = useCallback(() => {
+        setSpinTrigger(true);
+    }, []);
+
+    const resetSpinTrigger = useCallback(() => {
+        setSpinTrigger(false);
+    }, []);
 
     useEffect(() => {
       fetchItems = async () => {
@@ -38,7 +46,7 @@ const MultiplierWheel = () => {
                 <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                     Skin Upgrader
                 </Text>
-                <FortuneWheel number={chance}/>
+                <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} />
                 <Center>
                 <Grid align='center'>
       <Grid.Col span={4}>
@@ -65,9 +73,7 @@ const MultiplierWheel = () => {
       <Button fullWidth
                         variant="gradient"
                         style={{ marginTop: 20 }}
-                        onClick={() => {
-                            
-                        }}
+                        onClick={triggerSpin}
                     >
                         UPGRADE
                     </Button>
