@@ -26,6 +26,7 @@ import LogoutPage from "./pages/LogoutPage";
 import UserOptionsPage from "./pages/UserOptionsPage";
 import WebAuthnPage from "./pages/WebAuthnPage";
 import SkinUpgradePage from "./pages/SkinUpgradePage";
+import AdminPage from "./pages/AdminPage";
 
 const router = createBrowserRouter([
 	{
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
 			{
 				path: "/skinupgrade",
 				element: <SkinUpgradePage/>
+			},
+			{
+				path: "/adminpage",
+				element: <AdminPage/>
 			}
 		]
 	}

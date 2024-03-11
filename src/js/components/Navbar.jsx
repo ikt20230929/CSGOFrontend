@@ -16,6 +16,7 @@ const menuLinks = [
 	{ link: '/profile', label: 'Profil', needsLogin: true },
 	{ link: '/topup', label: 'Töltsd fel az egyenleged!', needsLogin: true },
 	{ link: '/options', label: 'Beállítások', needsLogin: true, divider: true },
+	{ link: '/adminpage', label: 'Admin felület', needsLogin: true},
 	{ link: '/logout', label: 'Kijelentkezés', needsLogin: true }
 ];
 
