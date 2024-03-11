@@ -7,6 +7,8 @@ import CenteredContainer from "../components/CenteredContainer";
 export default function ProfilePage() {
   const { profile, inventory } = useSelector(state => state.data);
   const [opened, { open, close }] = useDisclosure(false);
+  const [banplayeropened, setbanplayeropened] = useState(false);
+  const [newcaseopened, setnewcaseopened] = useState(false);
   const { cases } = useSelector(state => state.data);
 
   const handleCaseClick = (caseId) => {
@@ -19,13 +21,16 @@ export default function ProfilePage() {
         <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{minHeight: "calc(100vh - 3.5rem)"}}>
           <Group justify="space-between" mt="lg" mb="xs">
             <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90 }}>
-              {profile.userName} ADMIN
+            ADMIN PANEL
+            <Text size='20px' fw={700} variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90 }}>
+              Szia, {profile.userName}!
+            </Text>
             </Text>
           </Group>
           <Space h="sm"/>
           <Text size="xl">Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></Text>
           <Space h="xl" />
-          <Modal opened={opened} onClose={close} title="Új láda adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <Modal opened={newcaseopened} onClose={() => setnewcaseopened(false)} title="Új láda adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
             <TextInput label="Név" placeholder="Your Case" />
             <TextInput label="Ár" placeholder="20$" />
             <TextInput label="SkinID" placeholder="10" />
@@ -35,9 +40,24 @@ export default function ProfilePage() {
               Mentés
             </Button>
           </Modal>
-          <Button onClick={open} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          <Button onClick={() => setnewcaseopened(true)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
             Új láda hozzáadása
           </Button>
+          <Space h="sm"></Space>
+
+          <Modal opened={banplayeropened} onClose={() => setbanplayeropened(false)} title="Felhasználó kitiltása" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+            <TextInput label="Név" placeholder="Username" />
+            <TextInput label="Ban ideje(óra)" placeholder="24" />
+            <TextInput label="Indok" placeholder="..." />
+            <Space h="md" />
+            <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={close}>
+              Tiltás!
+            </Button>
+          </Modal>
+          <Button onClick={() => setbanplayeropened(true)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Felhasználó kitiltása
+          </Button>
+
 
           <Modal opened={opened} onClose={close} title="Láda szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
             <TextInput label="Név" placeholder="Your Case" />
@@ -50,8 +70,7 @@ export default function ProfilePage() {
             </Button>
           </Modal>
 
-          <CenteredContainer size="xl">
-      <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
+      <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
         <Group justify="space-between" mt="md" mb="xs">
           <Text fw={500}>LÁDÁK SZERKESZTÉSE</Text>
           <Badge color="pink">Összes láda: ({cases.length} db)</Badge>
@@ -59,7 +78,7 @@ export default function ProfilePage() {
         <Grid gutter="lg">
           {cases.map(_case => (
             <Grid.Col span={3} key={_case.caseId}>
-              <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
+              <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>{_case.caseName}</Text>
                 <Text size="sm" color="dimmed">({_case.items.length} db)</Text>
                 <Space h="xs"></Space>
@@ -76,7 +95,6 @@ export default function ProfilePage() {
           ))}
         </Grid>
       </Card>
-    </CenteredContainer>
         </Card>
     </div>
   );
