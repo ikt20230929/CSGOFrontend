@@ -63,7 +63,7 @@ export default function Navbar() {
 	<>
 		<header className="header">
 		  <Container fluid={true} size="xl" className="inner">
-		  	<img width="75px" src='https://cdn.discordapp.com/attachments/945254887460044820/1213053983187406908/logo.png?ex=65f4138f&is=65e19e8f&hm=f0afb11377cedf380cccb79209e795e553542a39cf7bb2f07e88b1a1c242a2b0&'></img>
+		  	<img width="75px" src="../../../public/assets/aim4gain_logo.png"></img>
 			<Group gap={5} visibleFrom="xs" justify='center'>
 				{items}
 			</Group>
