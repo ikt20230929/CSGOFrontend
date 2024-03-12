@@ -33,7 +33,7 @@ export default function LoginPage() {
                 data.mfa.mfaType = "TOTP";
                 return navigate("/login/totp");
             }
-            case "InvalidCredentials": {
+            case "InvalidCredential": {
                 setInvalid(true);
                 return;
             }
