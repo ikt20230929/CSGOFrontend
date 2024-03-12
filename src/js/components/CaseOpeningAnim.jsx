@@ -14,7 +14,7 @@ const CardList = () => {
 
             setTimeout(() => {
                 setTransitionEnabled(true);
-                const newDistance = ((9 + (Math.random() * 0.355)) * (items.length - 7));
+                const newDistance = 228 + Math.random() * (220 - 228);
                 console.log(newDistance, items.length);
                 setMargin(-newDistance * 10);
                 
