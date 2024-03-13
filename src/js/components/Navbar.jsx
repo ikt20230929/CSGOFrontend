@@ -63,7 +63,7 @@ export default function Navbar() {
 	<>
 		<header className="header">
 		  <Container fluid={true} size="xl" className="inner">
-		  	<img width="75px" src="../../../public/assets/aim4gain_logo.png"></img>
+		  	<img width="75px" src="/assets/aim4gain_logo.png"></img>
 			<Group gap={5} visibleFrom="xs" justify='center'>
 				{items}
 			</Group>
