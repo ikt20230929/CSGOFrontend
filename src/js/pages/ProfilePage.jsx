@@ -32,6 +32,14 @@ export default function ProfilePage() {
           <Button onClick={open} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
             Adatok módosítása
           </Button>
+          <Space h="xs"></Space>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Kiválasztott tárgyak eladása
+          </Button>
+          <Space h="xs"></Space>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Kiválasztott tárgyak kikérése
+          </Button>
 
           <Group justify="space-between">
             <h2 style={{ color: 'white' }}>Megszerzett tárgyak: ({inventory.length} db)</h2>
@@ -39,7 +47,6 @@ export default function ProfilePage() {
           </Group>
           <Grid gutter="lg">
             <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} />
-            <Button variant="light" color="red" size="xs">💸</Button>
           </Grid>
         </Card>
     </div>

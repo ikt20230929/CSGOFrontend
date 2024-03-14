@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Card, Text, Button, Grid, Center, Space } from '@mantine/core';
-import ItemContainer from '../components/ItemContainer';
+import ItemContainerCase from '../components/ItemContainerCase';
 import CaseOpeningAnim from '../components/CaseOpeningAnim';
 
 function CasePage() {
@@ -48,7 +48,7 @@ function CasePage() {
       <Text size="xl">Megszerezhető tárgyak:</Text>
       <Space h="md" />
       <Grid>
-        {caseData.items.map(item => <ItemContainer key={item.inventoryId} item={item} />)}
+        {caseData.items.map(item => <ItemContainerCase key={item.inventoryId} item={item} />)}
       </Grid>
     </Card>
       </>}
