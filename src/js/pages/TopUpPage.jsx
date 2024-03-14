@@ -31,7 +31,7 @@ export default function TopUpPage() {
             value="Bankkártyás fizetés"
             name="paymentMethod"
             description="Ezzel a fizetési móddal +10% jóváírásra kerül az egyenlegedre."
-            color="teal"
+            color="cyan"
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
@@ -42,7 +42,7 @@ export default function TopUpPage() {
             value="PaySafeCard"
             name="paymentMethod"
             description="Pötyögd be a hátoldalán található kódot, és már pörgethetsz is!"
-            color="teal"
+            color="cyan"
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
@@ -53,7 +53,7 @@ export default function TopUpPage() {
             value="Paypal"
             name="paymentMethod"
             description="Ezzel a fizetési móddal +15% jóváírásra kerül az egyenlegedre."
-            color="teal"
+            color="cyan"
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
@@ -64,7 +64,7 @@ export default function TopUpPage() {
             value="Fizess skinekkel"
             name="paymentMethod"
             description="Van néhány skined, amire nincs szükséged már, és szerencsét próbálnál? Akkor ez a te választásod!"
-            color="teal"
+            color="cyan"
             size="lg"
             {...form.getInputProps('paymentMethod')}
           />
@@ -82,7 +82,7 @@ export default function TopUpPage() {
           <Checkbox
             classNames={{ input: 'regpage' }}
             mt="md"
-            color="teal"
+            color="cyan"
             label="Elfogadom az Adatvédelmi és Általános Szerződési Feltételeket, beleértve, hogy adataim nem kerülnek publikálásra, és biztonságban lesznek."
             error="Mező kijelölése kötelező!"
             {...form.getInputProps('termsOfService', { type: 'checkbox' })}
