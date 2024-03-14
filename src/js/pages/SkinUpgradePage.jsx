@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center, ScrollArea } from '@mantine/core';
+import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
@@ -60,15 +60,9 @@ const MultiplierWheel = () => {
             <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
           </Group>
           <Space h="xs"></Space>
-          <Grid gutter="lg">
-          <ScrollArea style={{ height: 500, width: 900 }} offsetScrollbars>
-            {
-              <div style={{width: 700}}>
+          <Grid gutter="lg" direction="row" style={{overflowY: 'auto', overflowX: 'hidden'}}>
             <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} />
-            </div>
-            }  
-          </ScrollArea>
-          </Grid>
+            </Grid>
           </Card>
           </Center>
 
@@ -110,7 +104,7 @@ const MultiplierWheel = () => {
             <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
           </Group>
           <Space h="xs"></Space>
-          <Grid gutter="lg">
+          <Grid gutter="lg" direction="row" style={{overflowY: 'auto', overflowX: 'hidden'}}>
             <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} />
           </Grid>
                 </Card>
