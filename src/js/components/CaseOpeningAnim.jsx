@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Center, Space, Notification } from '@mantine/core';
+import axios from 'axios';
+import { API_URL } from "../settings.js";
+import store from "../store.js";
 
-const CardList = () => {
+const CardList = ({caseId}) => {
+
     const [margin, setMargin] = useState(0);
     const [spin, setSpin] = useState(false);
     const [items, setItems] = useState(Array.from({length: 32}, (_, i) => i + 1));
@@ -26,8 +30,28 @@ const CardList = () => {
         }
     }, [spin, items]);
 
-    const spinHandler = () => {
+    const spinHandler = async () => {
         setSpin(true);
+
+        // Add the logic to open the case here
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `${API_URL}/open_case/${caseId}`,
+                headers: {
+                    'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                alert(`You won: ${response.data.itemName}`);
+            }
+        } catch (error) {
+            console.log("Ez a hiba faszos fasz:");
+            console.error(error);
+            console.log(response);
+        }
     };
 
     return (

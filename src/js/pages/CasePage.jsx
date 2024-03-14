@@ -42,7 +42,7 @@ function CasePage() {
         </Text>
       {navigateAway ? <Navigate to="/home" replace={true} /> : <>
       <Space h="xl" />
-      <CaseOpeningAnim></CaseOpeningAnim>
+      <CaseOpeningAnim caseId = {caseId}></CaseOpeningAnim>
       <Space h="xl" />
              <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
       <Text size="xl">Megszerezhető tárgyak:</Text>
