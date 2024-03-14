@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center } from '@mantine/core';
+import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center, ScrollArea } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
@@ -48,8 +48,8 @@ const MultiplierWheel = () => {
                 </Text>
                 <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} />
                 <Center>
-                <Grid align='center'>
-      <Grid.Col span={4}>
+                <Grid align='center' justify="center">
+      <Grid.Col span={5}>
         <Center>
       <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
                 <Text size='20px' fw={700}   tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
@@ -61,13 +61,19 @@ const MultiplierWheel = () => {
           </Group>
           <Space h="xs"></Space>
           <Grid gutter="lg">
+          <ScrollArea style={{ height: 500, width: 900 }} offsetScrollbars>
+            {
+              <div style={{width: 700}}>
             <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} />
+            </div>
+            }  
+          </ScrollArea>
           </Grid>
           </Card>
           </Center>
 
       </Grid.Col>
-      <Grid.Col span={4}>
+      <Grid.Col span={2}>
         <Center>
         <Space h="xl"></Space>
       <Button fullWidth
@@ -93,7 +99,7 @@ const MultiplierWheel = () => {
                     </Link>
                     </Center>
       </Grid.Col>
-      <Grid.Col span={4}>
+      <Grid.Col span={5}>
 <Center>
       <Card className="upgrdcard2" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
                 <Text size='20px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
