@@ -54,6 +54,17 @@
   margin-top: 10px;
 }
 
+.balupgrdcard{
+  background-color: rgba(0, 0, 0, 0.7);
+  max-width: 90vh;
+  width: 60vh;
+  height: 40vh;
+  margin: auto;
+  margin-top: 30px;
+  display: flex;
+  position: relative;
+}
+
 .upgrdcard{
   background-color: rgba(0, 0, 0, 0.7);
   max-width: 90vh;

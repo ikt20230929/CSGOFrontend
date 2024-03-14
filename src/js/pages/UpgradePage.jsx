@@ -32,7 +32,7 @@ const MultiplierWheel = () => {
                 Upgrader
             </Text> 
             <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} />
-            <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
+            <Card className="balupgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
                 <div style={{ textAlign: 'center', marginTop: 10 }}>
                     <Text>Befizetni kívánt összeg:</Text>
                     <Slider
