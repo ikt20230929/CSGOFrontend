@@ -8,11 +8,28 @@ export default function ProfilePage() {
   const { profile, inventory } = useSelector(state => state.data);
   const [opened, { open, close }] = useDisclosure(false);
   const [ searchTerm, setSearchTerm ] = useState('');
-
+  const [selectedItems, setSelectedItems] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
+
   const handlebtnclick = () => {
     setShowNotification(true);
   }
+
+  const handleSell = (items) => {
+    // Ide írd meg az eladással kapcsolatos műveleteket
+    // Például: tárgyak eltávolítása az inventory-ból, árak hozzáadása a felhasználó egyenlegéhez
+    // Ebben a példában csak üresre állítjuk a kiválasztott tárgyakat
+    
+    setSelectedItems([]);
+  };
+
+  const toggleItemSelection = (itemId) => {
+    if (selectedItems.includes(itemId)) {
+      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+    } else {
+      setSelectedItems([...selectedItems, itemId]);
+    }
+  };
 
   return (
     <div>
@@ -38,7 +55,7 @@ export default function ProfilePage() {
             Adatok módosítása
           </Button>
           <Space h="xs"></Space>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          <Button onClick={() => handleSell(selectedItems)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
             Kiválasztott tárgyak eladása
           </Button>
           <Space h="xs"></Space>
@@ -46,16 +63,16 @@ export default function ProfilePage() {
             Kiválasztott tárgyak kikérése
           </Button>
           <Center>
-          {showNotification && (
-        <Notification withCloseButton={true} className='openalert' withBorder color="cyan" radius="lg" title="A kiválaszott tárgyak hamarosan a Steam csere kérelmeid között lesznek!" />
-      )}
-      </Center>
+            {showNotification && (
+              <Notification withCloseButton={true} className='openalert' withBorder color="cyan" radius="lg" title="A kiválaszott tárgyak hamarosan a Steam csere kérelmeid között lesznek!" />
+            )}
+          </Center>
           <Group justify="space-between">
             <h2 style={{ color: 'white' }}>Megszerzett tárgyak: ({inventory.length} db)</h2>
             <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
           </Group>
           <Grid gutter="lg">
-            <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} />
+            <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
           </Grid>
         </Card>
     </div>
