@@ -19,7 +19,31 @@ export default function ProfilePage() {
     // Ide írd meg az eladással kapcsolatos műveleteket
     // Például: tárgyak eltávolítása az inventory-ból, árak hozzáadása a felhasználó egyenlegéhez
     // Ebben a példában csak üresre állítjuk a kiválasztott tárgyakat
-    
+
+    async function deleteInventoryItem(userId, itemId) {
+      const response = await fetch(`/api/inventory/${userId}/${itemId}`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+              // Add your auth token here
+          },
+      });
+  
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data;
+  }
+  
+  // Usage
+  deleteInventoryItem(userId, itemId)
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+  
+
+
     setSelectedItems([]);
   };
 
