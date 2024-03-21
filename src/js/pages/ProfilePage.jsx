@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, ComboboxSearch, Flex, NumberFormatter } from "@mantine/core";
+import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Center, NumberFormatter, Notification } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
@@ -8,6 +8,11 @@ export default function ProfilePage() {
   const { profile, inventory } = useSelector(state => state.data);
   const [opened, { open, close }] = useDisclosure(false);
   const [ searchTerm, setSearchTerm ] = useState('');
+
+  const [showNotification, setShowNotification] = useState(false);
+  const handlebtnclick = () => {
+    setShowNotification(true);
+  }
 
   return (
     <div>
@@ -37,10 +42,14 @@ export default function ProfilePage() {
             Kiválasztott tárgyak eladása
           </Button>
           <Space h="xs"></Space>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          <Button onClick={handlebtnclick} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
             Kiválasztott tárgyak kikérése
           </Button>
-
+          <Center>
+          {showNotification && (
+        <Notification withCloseButton={true} className='openalert' withBorder color="cyan" radius="lg" title="A kiválaszott tárgyak hamarosan a Steam csere kérelmeid között lesznek!" />
+      )}
+      </Center>
           <Group justify="space-between">
             <h2 style={{ color: 'white' }}>Megszerzett tárgyak: ({inventory.length} db)</h2>
             <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
