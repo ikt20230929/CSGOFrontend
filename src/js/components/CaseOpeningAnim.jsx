@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Center, Space, Notification } from '@mantine/core';
-import { fetchEndpoint, useSelector } from "../store.js";
+import { Button, Center, Space, Notification, Modal } from '@mantine/core';
+import axios from 'axios';
+import { API_URL } from "../settings";
+import { useSelector } from 'react-redux';
+import store from "../store";
 
 const CardList = ({caseId}) => {
 
@@ -9,6 +12,8 @@ const CardList = ({caseId}) => {
     const [items, setItems] = useState([]);
     const [transitionEnabled, setTransitionEnabled] = useState(true);
     const cases = useSelector(state => state.data.cases);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [winnerItem, setWinnerItem] = useState("");   
 
     const fetchCases = async () => {
         try {
@@ -34,7 +39,7 @@ const CardList = ({caseId}) => {
     
 
     useEffect(() => {
-        //fetchCases();
+        fetchCases();
 
     }, [caseId]);
 
@@ -53,6 +58,7 @@ const CardList = ({caseId}) => {
                     if (!spin) {
                         fetchCases();
                     }
+                    setIsModalOpen(true);
                 }, 7700); 
             }, 50);  
         }
@@ -63,16 +69,26 @@ const CardList = ({caseId}) => {
         setSpin(true);
         
         try {
-            const response = await fetchEndpoint(`open_case/${caseId}`);
+            const response = await axios({
+                method: 'post',
+                url: `${API_URL}/open_case/${caseId}`,
+                headers: {
+                    'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            if (response.success) {
+            if (response.status === 200) {
 
                 // Ha a nyitás sikeres, a győztes slot-ra kerül a nyeremény
-                items[26] = response.data.itemSkinName;
-                console.log(response.data.itemSkinName);
+                const winnerItemName = response.data.itemSkinName; 
+
+                setWinnerItem(winnerItemName);
+                items[26] = winnerItemName;
             }
         } catch (error) {
             alert('Hiba a nyitás során!');
+            console.log(error);
         }
     };
 
@@ -100,6 +116,14 @@ const CardList = ({caseId}) => {
             <Center>
       <Button type="submit" size='md' variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg"  onClick={spinHandler} disabled={spin} >Láda kinyitása</Button>
       </Center>
+      <Modal
+          opened={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Gratulálunk!"
+        >
+            <div>Nyereményed: {winnerItem}</div>
+        </Modal>
+        {/* További elemek */}
         </div>
     );
 };
