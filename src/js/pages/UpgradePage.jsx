@@ -7,12 +7,13 @@ import {Link} from 'react-router-dom';
 const MultiplierWheel = () => {
     const { profile } = useSelector(state => state.data);
     const [amount, setAmount] = useState(profile.userBalance);
-    const [winningAmount, setWinningAmount] = useState(profile.userBalance * 50); 
+    const [winningAmount, setWinningAmount] = useState(profile.userBalance * 50);
     
     const [spinTrigger, setSpinTrigger] = useState(false);
 
     const triggerSpin = useCallback(() => {
         setSpinTrigger(true);
+
     }, []);
 
     const resetSpinTrigger = useCallback(() => {

@@ -123,7 +123,6 @@ const CardList = ({caseId}) => {
         >
             <div>Nyereményed: {winnerItem}</div>
         </Modal>
-        {/* További elemek */}
         </div>
     );
 };

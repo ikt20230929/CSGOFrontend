@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-
 export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) {
   const [value, setValue] = useState(Math.ceil(Math.random() * 3600) + 1800);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -55,7 +54,7 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) 
       <div className="win" ref={winRef}></div>
       <div className="wheel" style={{ transform: `rotate(${value}deg)`, transition: 'transform 5s' }} ref={wheelRef}>
         <div
-          className="number quarter green"
+          className="number quarter green default"
           style={{
             '--i': 1,
             boxShadow: number >= 25 ? `${boxShadow}` : '',
@@ -64,7 +63,7 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) 
         </div>
         {number < 25  && (
           <div
-            className="quarter"
+            className="quarter under25"
             style={{
               bottom: '50%',
               left: '50%',
@@ -76,31 +75,31 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) 
         )}
         {number > 25  && (
           <div
-            className="quarter green"
+            className="quarter green 25"
             style={{
               bottom: '0%',
               left: '0%',
               transformOrigin: 'top right',
-              transform: number <= 50 ? `rotate(${angle}deg)` : '',
+              transform: number <= 50 ? `rotate(${angle}deg)` : 'rotate(180deg)',
               boxShadow: number >= 50 ? `${boxShadow}` : '',
             }}
           ></div>
         )}
         {number > 50  && (
           <div
-            className="quarter green"
+            className="quarter green 50"
             style={{
               bottom: '0%',
               left: '50%',
               transformOrigin: 'top left',
-              transform: number <= 75 ? `rotate(${angle}deg)` : '',
+              transform: number <= 75 ? `rotate(${90 + angle}deg)` : '',
               boxShadow: number >= 75 ? `${boxShadow}` : '',
             }}
           ></div>
         )}
         {number > 75  && (
           <div
-            className="quarter green"
+            className="quarter green 75"
             style={{
               bottom: '50%',
               left: '50%',
