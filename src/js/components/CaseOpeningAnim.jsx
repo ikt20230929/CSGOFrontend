@@ -1,15 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Center, Space, Notification } from '@mantine/core';
-import axios from 'axios';
-import { API_URL } from "../settings.js";
-import store from "../store.js";
+import { fetchEndpoint, useSelector } from "../store.js";
 
 const CardList = ({caseId}) => {
 
     const [margin, setMargin] = useState(0);
     const [spin, setSpin] = useState(false);
-    const [items, setItems] = useState(Array.from({length: 32}, (_, i) => i + 1));
+    const [items, setItems] = useState([]);
     const [transitionEnabled, setTransitionEnabled] = useState(true);
+    const cases = useSelector(state => state.data.cases);
+
+    const fetchCases = async () => {
+        try {
+            const caseItems = cases.filter(caseItem => caseItem.caseId == caseId)[0].items;
+            console.log(caseItems);
+    
+            // A tárgyakat ritkaság szerint súlyozzuk
+            const weightedItems = [];
+            caseItems.forEach(item => {
+                const weight = 9 - item.itemRarity;
+                for (let i = 0; i < weight; i++) {
+                    weightedItems.push(item.itemSkinName);
+                }
+            });
+    
+            // Frissítjük az items állapotot
+            setItems(Array.from({length: 32}, () => weightedItems[Math.floor(Math.random() * weightedItems.length)]));
+    
+        } catch (error) {
+            console.error('Hiba a láda betöltése közben!', error);
+        }
+    };
+    
+
+    useEffect(() => {
+        //fetchCases();
+
+    }, [caseId]);
 
     useEffect(() => {
         if (spin) {
@@ -19,38 +46,33 @@ const CardList = ({caseId}) => {
             setTimeout(() => {
                 setTransitionEnabled(true);
                 const newDistance = 228 + Math.random() * (220 - 228);
-                console.log(newDistance, items.length);
                 setMargin(-newDistance * 10);
-                
                 
                 setTimeout(() => {
                     setSpin(false);
+                    if (!spin) {
+                        fetchCases();
+                    }
                 }, 7700); 
             }, 50);  
         }
-    }, [spin, items]);
+
+    }, [spin]);
 
     const spinHandler = async () => {
         setSpin(true);
-
-        // Add the logic to open the case here
+        
         try {
-            const response = await axios({
-                method: 'post',
-                url: `${API_URL}/open_case/${caseId}`,
-                headers: {
-                    'Authorization': `Bearer ${store.getState().auth.accessToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+            const response = await fetchEndpoint(`open_case/${caseId}`);
 
-            if (response.status === 200) {
-                alert(`You won: ${response.data.itemName}`);
+            if (response.success) {
+
+                // Ha a nyitás sikeres, a győztes slot-ra kerül a nyeremény
+                items[26] = response.data.itemSkinName;
+                console.log(response.data.itemSkinName);
             }
         } catch (error) {
-            console.log("Ez a hiba faszos fasz:");
-            console.error(error);
-            console.log(response);
+            alert('Hiba a nyitás során!');
         }
     };
 
