@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemContainer from './ItemContainer';
 
-const InventorySearchWrapper = ({ searchTerm, items }) => {
+const InventorySearchWrapper = ({ searchTerm, items, onToggleItem }) => {
     return (
         <>
             {items
@@ -11,7 +11,7 @@ const InventorySearchWrapper = ({ searchTerm, items }) => {
                         (item.itemSkinName != null && item.itemSkinName.toLowerCase().includes(searchTerm.toLowerCase()))
                 )
                 .map((item) => (
-                    <ItemContainer key={item.inventoryId} item={item} />
+                    <ItemContainer key={item.inventoryId} item={item} onToggleItem={onToggleItem} />
                 ))}
         </>
     );

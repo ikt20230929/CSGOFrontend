@@ -13,7 +13,7 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) 
   const checkWin = () => {
     const winElement = winRef.current;
     const winRect = winElement.getBoundingClientRect();
-    const winPoint = { x: winRect.left + winRect.width / 2, y: winRect.bottom };
+    const winPoint = { x: winRect.left + winRect.width / 2, y: winRect.bottom + 1 };
     const greenElements = document.querySelectorAll('.green');
     let won = false;
     greenElements.forEach((greenElement) => {
@@ -22,6 +22,7 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) 
       if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
         won = true;
       }
+      console.log(document.elementFromPoint(winPoint.x, winPoint.y).classList);
     });
     setTimeout(() => {
       if (won) {

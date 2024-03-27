@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Center, NumberFormatter, Notification } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
+import axios from "axios";
+import { API_URL } from "../settings";
+import store from "../store";
 
 export default function ProfilePage() {
   const { profile, inventory } = useSelector(state => state.data);
@@ -10,41 +13,38 @@ export default function ProfilePage() {
   const [ searchTerm, setSearchTerm ] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
+  const [confirmSellModal, { open: openConfirmSellModal, close: closeConfirmSellModal }] = useDisclosure(false);
+  const [sellConfirmationModal, { open: openSellConfirmationModal, close: closeSellConfirmationModal }] = useDisclosure(false);
+  const [isInventoryUpdated, setIsInventoryUpdated] = useState(false);
+
 
   const handlebtnclick = () => {
     setShowNotification(true);
   }
 
-  const handleSell = (items) => {
-    // Ide írd meg az eladással kapcsolatos műveleteket
-    // Például: tárgyak eltávolítása az inventory-ból, árak hozzáadása a felhasználó egyenlegéhez
-    // Ebben a példában csak üresre állítjuk a kiválasztott tárgyakat
+  const handleSell = () => {
+    openConfirmSellModal();
+  };
 
-    async function deleteInventoryItem(userId, itemId) {
-      const response = await fetch(`/api/inventory/${userId}/${itemId}`, {
-          method: 'DELETE',
+  const confirmSell = async () => {
+    closeConfirmSellModal();
+    try {
+      await Promise.all(selectedItems.map(async (element) => {
+        const response = await axios({
+          method: 'post',
+          url: `${API_URL}/sell_item/${element}`,
           headers: {
-              'Content-Type': 'application/json',
-              // Add your auth token here
-          },
-      });
-  
-      if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      return data;
-  }
-  
-  // Usage
-  deleteInventoryItem(userId, itemId)
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  
-
-
-    setSelectedItems([]);
+              'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+              'Content-Type': 'application/json'
+          }
+        });
+        
+      }));
+      setIsInventoryUpdated(true);
+      openSellConfirmationModal();
+    } catch (error) {
+      alert("Hiba az eladás során!")
+    }
   };
 
   const toggleItemSelection = (itemId) => {
@@ -54,6 +54,16 @@ export default function ProfilePage() {
       setSelectedItems([...selectedItems, itemId]);
     }
   };
+
+  useEffect(() => {
+    if (isInventoryUpdated) {
+      setIsInventoryUpdated(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+  }, [isInventoryUpdated]);
+  
 
   return (
     <div>
@@ -98,6 +108,23 @@ export default function ProfilePage() {
           <Grid gutter="lg">
             <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
           </Grid>
+          <Modal opened={confirmSellModal} onClose={closeConfirmSellModal} title="Eladás megerősítése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+            <Text>Biztosan el akarod adni a kiválasztott tárgyakat?</Text>
+            <Space h="md" />
+            <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={confirmSell}>
+              Eladás
+            </Button>
+            <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={closeConfirmSellModal}>
+              Mégse
+            </Button>
+          </Modal>
+          <Modal opened={sellConfirmationModal} onClose={closeSellConfirmationModal} title="Eladás megerősítve" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+            <Text>Az eladás sikeresen megtörtént!</Text>
+            <Space h="md" />
+            <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={closeSellConfirmationModal}>
+              Ok
+            </Button>
+          </Modal>
         </Card>
     </div>
   );
