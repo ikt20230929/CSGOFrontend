@@ -4,7 +4,6 @@ import FortuneWheel from '../components/FortuneWheel';
 import { useSelector } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
 import {Link} from 'react-router-dom';
-import { fetchEndpoint } from '../Globals';
 import axios from 'axios';
 import store from '../store';
 import { API_URL } from '../settings';
@@ -14,7 +13,7 @@ const MultiplierWheel = () => {
     const [ searchTerm, setSearchTerm ] = useState('');
     const [ allItems, setAllItems ] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
-
+    const [upgradeChance, setUpgradeChance] = useState([]);
     const [spinTrigger, setSpinTrigger] = useState(false);
 
     const triggerSpin = useCallback(() => {
@@ -28,18 +27,18 @@ const MultiplierWheel = () => {
     const chance = 0;
 
     const toggleItemSelection = (itemId) => {
-      let newSelectedItems;
-      if (selectedItems.includes(itemId)) {
-          newSelectedItems = selectedItems.filter((id) => id !== itemId);
-      } else {
-          newSelectedItems = [...selectedItems, itemId];
-      }
-      setSelectedItems(newSelectedItems);
-      if (newSelectedItems.length >= 1) {
-          fetchUpgradeItems(newSelectedItems);
-      }
-  };
-
+        let newSelectedItems;
+        if (selectedItems.includes(itemId)) {
+            newSelectedItems = selectedItems.filter((id) => id !== itemId);
+        } else {
+            newSelectedItems = [...selectedItems, itemId];
+        }
+        setSelectedItems(newSelectedItems);
+        if (newSelectedItems.length >= 1) {
+            fetchUpgradeItems(newSelectedItems);
+        }
+    };
+  
     const fetchUpgradeItems = async (itemsToUpgrade) => {
       try {
           const response = await axios({
@@ -56,8 +55,17 @@ const MultiplierWheel = () => {
           });
           const items = response.data.items.map(obj => obj.item);
           setAllItems(items);
+  
+          const upgradeChanceArray = response.data.items.map(obj => {
+            return {
+                itemId: obj.item.itemId, 
+                chance: obj.chance
+            };
+        });
+        setUpgradeChance(upgradeChanceArray);
+        console.log(upgradeChanceArray);
       } catch (error) {
-          
+  
       }
     };
 
@@ -125,7 +133,7 @@ const MultiplierWheel = () => {
                                 <Space h="xs"></Space>
                                 {selectedItems.length > 0 && (
                                   <Grid gutter="lg" direction="row" style={{overflowY: 'auto', overflowX: 'hidden'}}>
-                                      <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} />
+                                      <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance}/>
                                   </Grid>
                               )}
                             </Card>
