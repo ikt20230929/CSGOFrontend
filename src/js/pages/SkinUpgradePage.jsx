@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import store from '../store';
 import { API_URL } from '../settings';
+import { isDayjs } from 'dayjs';
 
 const MultiplierWheel = () => {
     const { profile, inventory } = useSelector(state => state.data); 
@@ -15,16 +16,20 @@ const MultiplierWheel = () => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [upgradeChance, setUpgradeChance] = useState([]);
     const [spinTrigger, setSpinTrigger] = useState(false);
+    const [chance, setChance] = useState(66);
+    const [winSelection, setWinSelection] = useState(0);
+    const [isSuccess, setIsSuccess] = useState(true);
+    let upgradeChanceArray = [];  
 
-    const triggerSpin = useCallback(() => {
+    const triggerSpin = useCallback(async () => {
+        handleUpgrade(winSelection, selectedItems);
+
         setSpinTrigger(true);
-    }, []);
+    }, [winSelection, selectedItems]);
 
     const resetSpinTrigger = useCallback(() => {
         setSpinTrigger(false);
     }, []);
-
-    const chance = 0;
 
     const toggleItemSelection = (itemId) => {
         let newSelectedItems;
@@ -38,7 +43,18 @@ const MultiplierWheel = () => {
             fetchUpgradeItems(newSelectedItems);
         }
     };
-  
+
+    const winSelectedItems = (itemId) => {
+        setWinSelection(itemId);
+        upgradeChance.forEach(element => {
+            if (element.itemId === itemId) {
+                 setChance(element.chance * 100); 
+                 
+            } 
+        });
+        
+    }
+
     const fetchUpgradeItems = async (itemsToUpgrade) => {
       try {
           const response = await axios({
@@ -51,30 +67,54 @@ const MultiplierWheel = () => {
               data: {
                   Items: itemsToUpgrade,
                   Multiplier: 1
+                  
               }
           });
           const items = response.data.items.map(obj => obj.item);
           setAllItems(items);
   
-          const upgradeChanceArray = response.data.items.map(obj => {
+          upgradeChanceArray = response.data.items.map(obj => {
             return {
                 itemId: obj.item.itemId, 
                 chance: obj.chance
             };
         });
         setUpgradeChance(upgradeChanceArray);
-        console.log(upgradeChanceArray);
+        
       } catch (error) {
   
       }
     };
+
+    const handleUpgrade = async () => {
+        try {
+            
+            const response = await axios({
+                method: 'post',
+                url: `${API_URL}/items/upgrade`,
+                headers: {
+                    'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    Items: selectedItems,
+                    Multiplier: 1,
+                    Target: winSelection
+                }
+            });
+            setIsSuccess(response.data.success);
+            console.log(response.data.success);
+        } catch (error) {
+            
+        }
+    }
 
     return (
         <div style={{width:"100%"}}>
             <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                 Skin Upgrader
             </Text>
-            <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} />
+            <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess}/>
             <Center>
                 <Grid align='center' justify="center">
                     <Grid.Col span={5}>
@@ -101,6 +141,7 @@ const MultiplierWheel = () => {
                                     variant="gradient"
                                     style={{ marginTop: 20 }}
                                     onClick={triggerSpin}
+                                    disabled={!winSelection}
                             >
                                 UPGRADE
                             </Button>
@@ -133,7 +174,7 @@ const MultiplierWheel = () => {
                                 <Space h="xs"></Space>
                                 {selectedItems.length > 0 && (
                                   <Grid gutter="lg" direction="row" style={{overflowY: 'auto', overflowX: 'hidden'}}>
-                                      <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance}/>
+                                      <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems}/>
                                   </Grid>
                               )}
                             </Card>

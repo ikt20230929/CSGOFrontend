@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) {
-  const [value, setValue] = useState(Math.ceil(Math.random() * 3600) + 1800);
+export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, success }) {
+  const [value, setValue] = useState(2700);
   const [isSpinning, setIsSpinning] = useState(false);
   const angle = Math.min(number, 100) / 100 * 360; 
   const wheelRef = useRef(null);
@@ -18,11 +18,21 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) 
     let won = false;
     greenElements.forEach((greenElement) => {
       const greenRect = greenElement.getBoundingClientRect();
-      console.log(document.elementFromPoint(winPoint.x, winPoint.y).classList);
-      if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
-        won = true;
+      //document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")
+      if (success == true) {
+        if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
+          won = true;
+        } else {
+          spin(100);
+        }
+      } else {
+        if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
+          spin(100)
+        } else {
+          won = false;
+        }
       }
-      console.log(document.elementFromPoint(winPoint.x, winPoint.y).classList);
+      
     });
     setTimeout(() => {
       if (won) {
@@ -35,16 +45,15 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger }) 
     }, 200); 
   };  
 
-  const spin = () => {
+  const spin = (val) => {
     setIsSpinning(true);
-    const newValue = value + Math.ceil(Math.random() * 3600);
-    setValue(newValue);
+    setValue(value + val);
     wheelRef.current.addEventListener('transitionend', checkWin);
   };
 
   useEffect(() => {
     if (spinTrigger) {
-        spin();
+        spin(5000);
         resetSpinTrigger();
     }
   }, [spinTrigger, resetSpinTrigger, spin]);

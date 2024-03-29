@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ItemContainer from './ItemContainer';
 
 const InventorySearchWrapper = ({ searchTerm, items, onToggleItem, showChance, chances }) => {
     let chance = undefined;
+    const [selectedId, setSelectedId] = useState(null);
     
     return (
         <>
@@ -18,7 +19,9 @@ const InventorySearchWrapper = ({ searchTerm, items, onToggleItem, showChance, c
                         chance = chanceObj ? chanceObj.chance : null;
                     }
                     return (
-                        <ItemContainer key={item.inventoryId} item={item} onToggleItem={onToggleItem} chance = {showChance ? chance : null}/>
+                        <ItemContainer key={item.inventoryId} item={item} 
+                        onToggleItem={!showChance ? onToggleItem : (id) => {setSelectedId(id); onToggleItem(id);}} 
+                        chance = {showChance ? chance : null} selected={selectedId === item.itemId}/>
                     );
                 })}
         </>
