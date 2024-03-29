@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, success }) {
-  const [value, setValue] = useState(2700);
+  const [value, setValue] = useState(1800);
   const [isSpinning, setIsSpinning] = useState(false);
   const angle = Math.min(number, 100) / 100 * 360; 
   const wheelRef = useRef(null);
@@ -17,20 +17,9 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
     const greenElements = document.querySelectorAll('.green');
     let won = false;
     greenElements.forEach((greenElement) => {
-      const greenRect = greenElement.getBoundingClientRect();
-      //document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")
-      if (success == true) {
-        if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
-          won = true;
-        } else {
-          spin(100);
-        }
-      } else {
-        if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
-          spin(100)
-        } else {
-          won = false;
-        }
+      
+      if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
+        won = true;
       }
       
     });
@@ -45,15 +34,34 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
     }, 200); 
   };  
 
-  const spin = (val) => {
+  const spin = () => {
+    setValue(1800);
+
     setIsSpinning(true);
-    setValue(value + val);
+    let newValue = value;
+    console.log(success)
+    if (success == true) {
+      newValue += Math.floor(Math.random() * (angle) + (5489 - angle));
+      console.log(angle)
+    } else {
+      newValue += Math.floor(Math.random() * (5495 - 5489 + (360 - angle)) + 5489);
+      console.log(angle)
+    }
+    setValue(newValue);
     wheelRef.current.addEventListener('transitionend', checkWin);
   };
 
   useEffect(() => {
     if (spinTrigger) {
-        spin(5000);
+        spin();
+        resetSpinTrigger();
+    }
+  }, [spinTrigger, resetSpinTrigger, spin]);
+
+
+  useEffect(() => {
+    if (spinTrigger) {
+        spin();
         resetSpinTrigger();
     }
   }, [spinTrigger, resetSpinTrigger, spin]);
@@ -102,7 +110,7 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
               bottom: '0%',
               left: '50%',
               transformOrigin: 'top left',
-              transform: number <= 75 ? `rotate(${90 + angle}deg)` : '',
+              transform: number <= 75 ? `rotate(${90 + angle}deg)` : 'rotate(0  deg)',
               boxShadow: number >= 75 ? `${boxShadow}` : '',
             }}
           ></div>
@@ -114,7 +122,7 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
               bottom: '50%',
               left: '50%',
               transformOrigin: 'bottom left',
-              transform: `rotate(${angle}deg)`,
+              transform: `rotate(${180 + angle}deg)`,
               boxShadow: number == 100 ? `${boxShadow}` : '',
             }}
           ></div>
@@ -123,3 +131,4 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
     </div>
   );
 }
+

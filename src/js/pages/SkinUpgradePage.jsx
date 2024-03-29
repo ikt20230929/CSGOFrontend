@@ -24,7 +24,7 @@ const MultiplierWheel = () => {
     const triggerSpin = useCallback(async () => {
         handleUpgrade(winSelection, selectedItems);
 
-        setSpinTrigger(true);
+        
     }, [winSelection, selectedItems]);
 
     const resetSpinTrigger = useCallback(() => {
@@ -103,7 +103,8 @@ const MultiplierWheel = () => {
                 }
             });
             setIsSuccess(response.data.success);
-            console.log(response.data.success);
+            console.log("Ez a beckend" + response.data.success);
+            setSpinTrigger(true);
         } catch (error) {
             
         }
