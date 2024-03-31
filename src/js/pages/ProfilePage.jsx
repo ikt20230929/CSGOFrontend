@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Center, NumberFormatter, Notification } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
 import axios from "axios";
 import { API_URL } from "../settings";
 import store from "../store";
+import { fetchProfile } from "../Globals";
 
 export default function ProfilePage() {
     const { profile, inventory } = useSelector(state => state.data);
@@ -16,6 +17,7 @@ export default function ProfilePage() {
     const [confirmSellModal, { open: openConfirmSellModal, close: closeConfirmSellModal }] = useDisclosure(false);
     const [sellConfirmationModal, { open: openSellConfirmationModal, close: closeSellConfirmationModal }] = useDisclosure(false);
     const [isInventoryUpdated, setIsInventoryUpdated] = useState(false);
+    const dispatch = useDispatch();
 
     const handlebtnclick = () => {
         setShowNotification(true);
@@ -53,14 +55,22 @@ export default function ProfilePage() {
         }
     };
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (isInventoryUpdated) {
             setIsInventoryUpdated(false);
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         }
-    }, [isInventoryUpdated]);
+    }, [isInventoryUpdated]); */
+    useEffect(() => {
+        fetchProfile()
+            .then(success => {
+                if (success) {
+                    const { profile, inventory } = useSelector(state => state.data);
+                    dispatch(actions.setProfile(profile));
+                    dispatch(actions.setInventory(inventory));
+                } else {
+                }
+            });
+    }, [dispatch, isInventoryUpdated]);
 
     return (
         <div>
