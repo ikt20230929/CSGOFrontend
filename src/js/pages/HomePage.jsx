@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Text, Badge, Grid, Group } from '@mantine/core';
 import CenteredContainer from "../components/CenteredContainer";
 import { useSelector } from "react-redux";
 
 export default function MainPage() {
   const { cases } = useSelector(state => state.data);
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   const handleCaseClick = (caseId) => {
     window.location.href = `/casepage/${caseId}`;
+  };
+
+  const handleMouseEnter = (caseId) => {
+    setHoveredCard(caseId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredCard(null);
   };
 
   return (
@@ -20,7 +29,11 @@ export default function MainPage() {
         <Grid gutter="lg">
           {cases.map(_case => (
             <Grid.Col span={3} key={_case.caseId} onClick={() => handleCaseClick(_case.caseId)}>
-              <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
+              <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder onMouseEnter={() => handleMouseEnter(_case.caseId)}
+              onMouseLeave={handleMouseLeave} style={{ 
+                cursor: 'pointer', 
+                border: hoveredCard === _case.caseId ? '1px solid aqua' : '1px solid #cbd5e0' 
+              }}>
                 <Text>{_case.caseName}</Text>
                 <Text size="sm" color="dimmed">({_case.items.length} db)</Text>
                 {/*{_case.items.map(_caseItem => (

@@ -9,6 +9,7 @@ import store from "../store";
 import { fetchProfile } from "../Globals";
 
 export default function ProfilePage() {
+    const dispatch = useDispatch();
     const { profile, inventory } = useSelector(state => state.data);
     const [opened, { open, close }] = useDisclosure(false);
     const [ searchTerm, setSearchTerm ] = useState('');
@@ -17,7 +18,19 @@ export default function ProfilePage() {
     const [confirmSellModal, { open: openConfirmSellModal, close: closeConfirmSellModal }] = useDisclosure(false);
     const [sellConfirmationModal, { open: openSellConfirmationModal, close: closeSellConfirmationModal }] = useDisclosure(false);
     const [isInventoryUpdated, setIsInventoryUpdated] = useState(false);
-    const dispatch = useDispatch();
+
+    useEffect(() => {
+        fetchProfile()
+            .then(success => {
+                if (success) {
+                    const { profile, inventory } = store.getState().data;
+                    dispatch(setProfile(profile));
+                    dispatch(setInventory(inventory));
+                }
+            });
+            setIsInventoryUpdated(false);
+            setSelectedItems([]);
+    }, [dispatch, isInventoryUpdated]);
 
     const handlebtnclick = () => {
         setShowNotification(true);
@@ -44,6 +57,7 @@ export default function ProfilePage() {
             openSellConfirmationModal();
         } catch (error) {
             alert("Hiba az eladás során!")
+            console.log(error);
         }
     };
 
@@ -54,23 +68,6 @@ export default function ProfilePage() {
             setSelectedItems([...selectedItems, itemId]);
         }
     };
-
-    /* useEffect(() => {
-        if (isInventoryUpdated) {
-            setIsInventoryUpdated(false);
-        }
-    }, [isInventoryUpdated]); */
-    useEffect(() => {
-        fetchProfile()
-            .then(success => {
-                if (success) {
-                    const { profile, inventory } = useSelector(state => state.data);
-                    dispatch(actions.setProfile(profile));
-                    dispatch(actions.setInventory(inventory));
-                } else {
-                }
-            });
-    }, [dispatch, isInventoryUpdated]);
 
     return (
         <div>

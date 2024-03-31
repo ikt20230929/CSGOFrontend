@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import store from '../store';
 import { API_URL } from '../settings';
-import { isDayjs } from 'dayjs';
+import { fetchProfile } from '../Globals';
 
 const MultiplierWheel = () => {
     const { profile, inventory } = useSelector(state => state.data); 
@@ -20,6 +20,19 @@ const MultiplierWheel = () => {
     const [winSelection, setWinSelection] = useState(0);
     const [isSuccess, setIsSuccess] = useState(true);
     let upgradeChanceArray = [];  
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        fetchProfile()
+            .then(success => {
+                if (success) {
+                    const { profile, inventory } = useSelector(state => state.data);
+                    dispatch(actions.setProfile(profile));
+                    dispatch(actions.setInventory(inventory));
+                } else {
+                }
+            });
+    }, [dispatch, spinTrigger]);
 
     const triggerSpin = useCallback(async () => {
         handleUpgrade(winSelection, selectedItems);
@@ -103,8 +116,9 @@ const MultiplierWheel = () => {
                 }
             });
             setIsSuccess(response.data.success);
-            console.log("Ez a beckend" + response.data.success);
             setSpinTrigger(true);
+
+            // Minden visszaállítása
         } catch (error) {
             
         }
