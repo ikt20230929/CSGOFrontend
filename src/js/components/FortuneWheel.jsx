@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, success }) {
+export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, success, setOpenModal }) {
   const [value, setValue] = useState(1800);
   const [isSpinning, setIsSpinning] = useState(false);
   const angle = Math.min(number, 100) / 100 * 360; 
@@ -18,17 +18,13 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
     let won = false;
     greenElements.forEach((greenElement) => {
       
-      if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
-        won = true;
-      }
+    if (document.elementFromPoint(winPoint.x, winPoint.y).classList.contains("green")) {
+      won = true;
+    }
+    setOpenModal(true);
       
     });
     setTimeout(() => {
-      if (won) {
-        alert('NYERTÉL!');
-      } else {
-        alert('Nem nyertél.');
-      }
       setIsSpinning(false);
       wheelRef.current.removeEventListener('transitionend', checkWin);
     }, 200); 

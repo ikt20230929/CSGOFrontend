@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Text, Slider, Card, Input, Space, Group, TextInput, Grid, Center } from '@mantine/core';
+import { Button, Text, Card, Space, Group, TextInput, Grid, Center, Modal } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector, useDispatch } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
@@ -10,40 +10,31 @@ import { API_URL } from '../settings';
 import { fetchProfile } from '../Globals';
 
 const MultiplierWheel = () => {
-    const { profile, inventory } = useSelector(state => state.data); 
+    const { profile, inventory } = useSelector(state => state.data);
     const [ searchTerm, setSearchTerm ] = useState('');
-    const [ allItems, setAllItems ] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
-    const [upgradeChance, setUpgradeChance] = useState([]);
-    const [spinTrigger, setSpinTrigger] = useState(false);
-    const [chance, setChance] = useState(66);
-    const [winSelection, setWinSelection] = useState(0);
-    const [isSuccess, setIsSuccess] = useState(true);
-    let upgradeChanceArray = [];  
+    const [ allItems, setAllItems ] = useState([]); // A lehetséges nyeremények
+    const [selectedItems, setSelectedItems] = useState([]); // A fejlesztésre kiválasztott tárgyak listája
+    const [upgradeChance, setUpgradeChance] = useState([]); // A lehetséges nyeremények, és azok esélyét tartalmazó objektum tömb
+    const [spinTrigger, setSpinTrigger] = useState(false); // Pörgetés indítaása
+    const [chance, setChance] = useState(66); // A sikeres fejlesztés esélye
+    const [winSelection, setWinSelection] = useState(0); // A nyereményként kiválasztott tárgy
+    const [isSuccess, setIsSuccess] = useState(true); // A fejlesztés kimenetele (true, false)
+    const [openModel, setOpenModal] = useState(false); // Párbeszéd ablak megnyitása
+    const [itemAccepted, setItemAccepted] = useState(false) // A párbeszédablak bezárása
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        fetchProfile()
-            .then(success => {
-                if (success) {
-                    const { profile, inventory } = useSelector(state => state.data);
-                    dispatch(actions.setProfile(profile));
-                    dispatch(actions.setInventory(inventory));
-                } else {
-                }
-            });
-    }, [dispatch, spinTrigger]);
-
+    // Pörgetés elindítása
     const triggerSpin = useCallback(async () => {
         handleUpgrade(winSelection, selectedItems);
-
-        
     }, [winSelection, selectedItems]);
 
+    // Pörgetés leállítása
     const resetSpinTrigger = useCallback(() => {
         setSpinTrigger(false);
     }, []);
 
+    // A kiválasztott itemek tömbbe rendezése, 
+    // amennyiben a tárgy szerepeli a tömbben onnan való eltávolítása
     const toggleItemSelection = (itemId) => {
         let newSelectedItems;
         if (selectedItems.includes(itemId)) {
@@ -57,49 +48,51 @@ const MultiplierWheel = () => {
         }
     };
 
+    // Lehetséges nyeremények listázása
+    const fetchUpgradeItems = async (itemsToUpgrade) => {
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `${API_URL}/items/upgrades`,
+                headers: {
+                    'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    Items: itemsToUpgrade,
+                    Multiplier: 1
+                    
+                }
+            });
+            const items = response.data.items.map(obj => obj.item);
+            setAllItems(items);
+    
+            const upgradeChanceArray = response.data.items.map(obj => {
+              return {
+                  itemId: obj.item.itemId, 
+                  chance: obj.chance
+              };
+          });
+          setUpgradeChance(upgradeChanceArray);
+          
+        } catch (error) {
+    
+        }
+      };
+
+    // A fejlesztés céljának kiválasztása
     const winSelectedItems = (itemId) => {
         setWinSelection(itemId);
         upgradeChance.forEach(element => {
             if (element.itemId === itemId) {
-                 setChance(element.chance * 100); 
-                 
+                 setChance(element.chance * 100);     
             } 
         });
-        
     }
 
-    const fetchUpgradeItems = async (itemsToUpgrade) => {
-      try {
-          const response = await axios({
-              method: 'post',
-              url: `${API_URL}/items/upgrades`,
-              headers: {
-                  'Authorization': `Bearer ${store.getState().auth.accessToken}`,
-                  'Content-Type': 'application/json'
-              },
-              data: {
-                  Items: itemsToUpgrade,
-                  Multiplier: 1
-                  
-              }
-          });
-          const items = response.data.items.map(obj => obj.item);
-          setAllItems(items);
-  
-          upgradeChanceArray = response.data.items.map(obj => {
-            return {
-                itemId: obj.item.itemId, 
-                chance: obj.chance
-            };
-        });
-        setUpgradeChance(upgradeChanceArray);
-        
-      } catch (error) {
-  
-      }
-    };
-
+    // Az 'UPGRADE' gomb lenyomásának figyelés, a fejlesztés elindítása
     const handleUpgrade = async () => {
+        setWinSelection(false);
         try {
             
             const response = await axios({
@@ -117,19 +110,31 @@ const MultiplierWheel = () => {
             });
             setIsSuccess(response.data.success);
             setSpinTrigger(true);
-
-            // Minden visszaállítása
         } catch (error) {
             
         }
     }
+
+    // Minden visszaállítása default-ra
+    useEffect (() => {
+        fetchProfile()
+            .then(success => {
+                if (success) {
+                    const { profile, inventory } = store.getState().data;
+                    dispatch(setProfile(profile));
+                    dispatch(setInventory(inventory));
+                }
+            });
+            setItemAccepted(false);
+            setSelectedItems([]);
+    }, [dispatch, itemAccepted == true])
 
     return (
         <div style={{width:"100%"}}>
             <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                 Skin Upgrader
             </Text>
-            <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess}/>
+            <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess} setOpenModal={setOpenModal}/>
             <Center>
                 <Grid align='center' justify="center">
                     <Grid.Col span={5}>
@@ -197,6 +202,27 @@ const MultiplierWheel = () => {
                     </Grid.Col>
                 </Grid>
             </Center>
+            <Modal
+                title = {isSuccess ? "Sikeres fejlesztés!" : "A fejlesztés sikertelen!"}
+                opened = {openModel}
+                onClose={() => setOpenModal(false)}
+            >
+                {isSuccess ? (
+                <>
+                    <Text>Nyereményed: {winSelection}</Text>
+                    <Button onClick={() => {
+                        setItemAccepted(true);
+                        setOpenModal(false);
+                }}>OK</Button>
+                </>) : (
+                <>
+                    <Text>Sok szerencsét legközelebb!</Text>
+                    <Button onClick={() => {
+                        setItemAccepted(true);
+                        setOpenModal(false);
+                    }}>OK</Button>
+                </>)}
+            </Modal>
         </div>
     );
 };
