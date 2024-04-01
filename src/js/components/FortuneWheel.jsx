@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, success, setOpenModal }) {
   const [value, setValue] = useState(1800);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [transitionEnabled, setTransitionEnabled] = useState(false)
   const angle = Math.min(number, 100) / 100 * 360; 
   const wheelRef = useRef(null);
   const winRef = useRef(null);
@@ -27,11 +28,13 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
     setTimeout(() => {
       setIsSpinning(false);
       wheelRef.current.removeEventListener('transitionend', checkWin);
-    }, 200); 
+      setTransitionEnabled(false);
+      setValue(1800);
+    }, 400); 
   };  
 
   const spin = () => {
-    setValue(1800);
+    setTransitionEnabled(true);
 
     setIsSpinning(true);
     let newValue = value;
@@ -66,7 +69,7 @@ export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, su
     <div className="wheelContainer">
       <div className="wheelCenter"/>
       <div className="win" ref={winRef}></div>
-      <div className="wheel" style={{ transform: `rotate(${value}deg)`, transition: 'transform 5s' }} ref={wheelRef}>
+      <div className="wheel" style={{ transform: `rotate(${value}deg)`, transition: transitionEnabled ? 'transform 5s' : 'none' }} ref={wheelRef}>
         <div
           className="number quarter green default"
           style={{
