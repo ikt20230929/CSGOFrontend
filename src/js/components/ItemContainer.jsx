@@ -1,4 +1,4 @@
-import { Card, Grid, Text, Checkbox, Radio } from '@mantine/core';
+import { Card, Grid, Text, Checkbox } from '@mantine/core';
 import React from 'react';
 
 const rarityColors = ['#ffffff', '#98c0f5', '#1b7cfa', '#781bfa', '#e71bfa', '#fc3f3f', '#fcb13f', '#fcb13f']

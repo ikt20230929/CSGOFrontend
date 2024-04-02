@@ -21,75 +21,95 @@ const menuLinks = [
 ];
 
 export default function Navbar() {
-  const authenticated = useSelector(state => state.auth.accessToken != null);
-  const { profile } = useSelector(state => state.data);
+	const authenticated = useSelector(state => state.auth.accessToken != null);
+	const { profile } = useSelector(state => state.data);
+	const isAdmin = profile && profile.userIsAdmin;
   
-  const items = links.map((link) => {
-	const shouldRender = !link.needsLogin || (authenticated && link.needsLogin);
-    if (!shouldRender || (authenticated && link.hideWhenLoggedIn)) {
-      return null;
-    }
-
-    return (
-      <NavLink
-        key={link.label}
-        to={link.link}
-        className="link">
-        {link.label}
-      </NavLink>
-    );
-  });
-
-  const menuItems = menuLinks.map((link) => {
-	const shouldRender = !link.needsLogin || (authenticated && link.needsLogin);
-    if (!shouldRender || (authenticated && link.hideWhenLoggedIn)) {
-      return null;
-    }
-
-    return (
-		<Fragment key={link.label}>
+	const items = links.map((link) => {
+	  const shouldRender = !link.needsLogin || (authenticated && link.needsLogin);
+	  if (!shouldRender || (authenticated && link.hideWhenLoggedIn)) {
+		return null;
+	  }
+  
+	  return (
+		<NavLink
+		  key={link.label}
+		  to={link.link}
+		  className="link">
+		  {link.label}
+		</NavLink>
+	  );
+	});
+  
+	const menuItems = menuLinks.map((link) => {
+	  const shouldRender = !link.needsLogin || (authenticated && link.needsLogin);
+	  if (!shouldRender || (authenticated && link.hideWhenLoggedIn)) {
+		return null;
+	  }
+  
+	  if (isAdmin && link.link === '/adminpage') {
+		return (
+		  <Fragment key={link.label}>
 			<Menu.Item
-				component={NavLink}
-				to={link.link}
-				className="link">
-				{link.label}
+			  component={NavLink}
+			  to={link.link}
+			  className="link">
+			  {link.label}
 			</Menu.Item>
 			{link.divider && <Menu.Divider />}
-		</Fragment>
-    );
-  });
-
-  return (
-	<>
+		  </Fragment>
+		);
+	  }
+  
+	  if (link.link !== '/adminpage') {
+		return (
+		  <Fragment key={link.label}>
+			<Menu.Item
+			  component={NavLink}
+			  to={link.link}
+			  className="link">
+			  {link.label}
+			</Menu.Item>
+			{link.divider && <Menu.Divider />}
+		  </Fragment>
+		);
+	  }
+  
+	  return null; 
+	});
+  
+	return (
+	  <>
 		<header className="header">
 		  <Container fluid={true} size="xl" className="inner">
-		  	<img width="75px" src="/assets/aim4gain_logo.png"></img>
+			<img width="75px" src="/assets/aim4gain_logo.png"></img>
 			<Group gap={5} visibleFrom="xs" justify='center'>
-				{items}
+			  {items}
 			</Group>
 			{authenticated &&
-				<Group gap={5} visibleFrom="xs" justify='flex-end'>
-					<Menu shadow='md' keepMounted={true} position='bottom-end' offset={15} styles={{
-						dropdown: {
-							backgroundColor: 'rgba(0, 0, 0, 0.8)'
-						}
-					}}>
-						<Menu.Target>
-							<Avatar radius="xl" style={{ cursor: 'pointer' }} src={null} alt="Profil">{(profile && profile.userName !== undefined) && profile.userName.toUpperCase()[0]}</Avatar>
-						</Menu.Target>
-						<Menu.Dropdown>
-							{(profile && profile.userName !== undefined) && <a style={{fontWeight: "bolder"}}>Üdvözlünk {profile.userName}!</a>}
-							<br />
-							{(profile && profile.userBalance !== undefined) && <a style={{fontWeight: "bolder"}}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></a>}
-							<Menu.Divider  />
-							{menuItems}
-						</Menu.Dropdown>
-					</Menu>
-				</Group>
+			  <Group gap={5} visibleFrom="xs" justify='flex-end'>
+				<Menu shadow='md' keepMounted={true} position='bottom-end' offset={15} styles={{
+				  dropdown: {
+					backgroundColor: 'rgba(0, 0, 0, 0.8)'
+				  }
+				}}>
+				  <Menu.Target>
+					<Avatar radius="xl" style={{ cursor: 'pointer' }} src={null} alt="Profil">{(profile && profile.userName !== undefined) && profile.userName.toUpperCase()[0]}</Avatar>
+				  </Menu.Target>
+				  <Menu.Dropdown>
+					{(profile && profile.userName !== undefined) && <a style={{ fontWeight: "bolder" }}>Üdvözlünk {profile.userName}!</a>}
+					<br />
+					{(profile && profile.userBalance !== undefined) && <a style={{ fontWeight: "bolder" }}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></a>}
+					<Menu.Divider />
+					{menuItems}
+				  </Menu.Dropdown>
+				</Menu>
+			  </Group>
 			}
 		  </Container>
 		</header>
-		<Outlet/>
-	</>
-  );
-}
+		<Outlet />
+	  </>
+	);
+  }
+  

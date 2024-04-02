@@ -13,6 +13,7 @@ const CardList = ({caseId}) => {
     const [transitionEnabled, setTransitionEnabled] = useState(true);
     const cases = useSelector(state => state.data.cases);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [onError, setOnError] = useState(false);
     const [winnerItem, setWinnerItem] = useState("");   
 
     const fetchCases = async () => {
@@ -66,7 +67,6 @@ const CardList = ({caseId}) => {
     }, [spin]);
 
     const spinHandler = async () => {
-        setSpin(true);
         
         try {
             const response = await axios({
@@ -84,11 +84,11 @@ const CardList = ({caseId}) => {
                 const winnerItemName = response.data.itemSkinName; 
 
                 setWinnerItem(winnerItemName);
-                items[26] = winnerItemName;
+                items[26] = winnerItemName; 
             }
-        } catch (error) {
-            alert('Hiba a nyitás során!');
-            console.log(error);
+            setSpin(true);
+        } catch (error) {  
+            setOnError(true);
         }
     };
 
@@ -116,12 +116,19 @@ const CardList = ({caseId}) => {
             <Center>
       <Button type="submit" size='md' variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg"  onClick={spinHandler} disabled={spin} >Láda kinyitása</Button>
       </Center>
-      <Modal
+        <Modal
           opened={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           title="Gratulálunk!"
         >
             <div>Nyereményed: {winnerItem}</div>
+        </Modal>
+        <Modal
+          opened={onError}
+          onClose={() => setOnError(false)}
+          title="Hiba a nyitás során!"
+        >
+            <div>Nem rendelkezel elegendő egyenleggel!</div>
         </Modal>
         </div>
     );

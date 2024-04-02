@@ -3,6 +3,9 @@ import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Ba
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector } from "react-redux";
 import ItemContainer from "../components/ItemContainer";
+import axios from "axios";
+import { API_URL } from "../settings";
+import store from "../store";
 
 export default function ProfilePage() {
   
@@ -12,6 +15,11 @@ export default function ProfilePage() {
   const editCaseModal = useDisclosure(false);
   const showCaseModal = useDisclosure(false);
 
+  // Új láda létrehozásánál felhasznált adatok
+  const [newCaseName, setNewCaseName] = useState(null);
+  const [newCasePrice, setNewCasePrice] = useState(null);
+  const [newCaseImage, setNewCaseImage] = useState(false);
+
   const { cases } = useSelector(state => state.data);
   const [selectedCaseId, setSelectedCaseId] = useState(null);
   const [selectedCase, setSelectedCase] = useState({
@@ -20,6 +28,27 @@ export default function ProfilePage() {
     items: []
   });
   
+  // Láda létrehozása
+  const createCase = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${API_URL}/admin/cases`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        data: {
+          Name: newCaseName,
+          Value: newCasePrice,
+          //Image: newCaseImage - Egyelőre nem létezik
+        }
+      })
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   useEffect(() => {
     let item = cases.find((item) => item.caseId == selectedCaseId);
 
@@ -38,11 +67,11 @@ export default function ProfilePage() {
         </Group>
 
         <Modal opened={newCaseModal[0]} onClose={newCaseModal[1].close} title="Új láda adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <TextInput label="Név" placeholder="Your Case" />
-          <TextInput label="Ár" placeholder="20$" />
+          <TextInput label="Név" placeholder="Your Case" value={newCaseName} onChange={(e) => setNewCaseName(e.target.value)}/>
+          <TextInput label="Ár" placeholder="20$" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)}/>
           <FileInput variant="filled" label="Láda képe" description="Válassz az új ládának egy képet!" placeholder="Katt!" />
           <Space h="md" />
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={newCaseModal[1].close}>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {newCaseModal[1].close; createCase()}}>
             Mentés
           </Button>
         </Modal>
