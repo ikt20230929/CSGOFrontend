@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Badge, NumberFormatter } from "@mantine/core";
+import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Badge } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector } from "react-redux";
 import ItemContainer from "../components/ItemContainer";
@@ -44,8 +44,34 @@ export default function ProfilePage() {
           //Image: newCaseImage - Egyelőre nem létezik
         }
       })
+      setNewCaseName(null)
+      setNewCasePrice(null);
+    } catch (error) {
+
+    }
+  }
+
+  // Láda létrehozása
+  const editCase = async (caseId) => {
+    try {
+      const response = await axios({
+        method: 'put',
+        url: `${API_URL}/admin/cases/${caseId}`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        data: {
+          Name: newCaseName,
+          Value: newCasePrice,
+          //Image: newCaseImage - Egyelőre nem létezik
+        }
+      })
+      setNewCaseName(null)
+      setNewCasePrice(null);
     } catch (error) {
       alert(error);
+      console.log(error)
     }
   }
 
@@ -71,7 +97,8 @@ export default function ProfilePage() {
           <TextInput label="Ár" placeholder="20$" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)}/>
           <FileInput variant="filled" label="Láda képe" description="Válassz az új ládának egy képet!" placeholder="Katt!" />
           <Space h="md" />
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {newCaseModal[1].close; createCase()}}>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {newCaseModal[1].close; createCase()}}
+          disabled={newCaseName == null && newCasePrice == null}>
             Mentés
           </Button>
         </Modal>
@@ -81,26 +108,12 @@ export default function ProfilePage() {
         </Button>
         <Space h="sm"></Space>
 
-        <Modal opened={banPlayerModal[0]} onClose={banPlayerModal[1].close} title="Felhasználó kitiltása" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <TextInput label="Név" placeholder="Username" />
-          <TextInput label="Ban ideje(óra)" placeholder="24" />
-          <TextInput label="Indok" placeholder="..." />
-          <Space h="md" />
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={banPlayerModal[1].close}>
-            Tiltás!
-          </Button>
-        </Modal>
-
-        <Button onClick={() => banPlayerModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-          Felhasználó kitiltása
-        </Button>
-
         <Modal opened={editCaseModal[0]} onClose={editCaseModal[1].close} title="Láda szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <TextInput label="Név" defaultValue={selectedCase.caseName} />
-          <TextInput label="Ár" defaultValue={selectedCase.itemValue} />
+          <TextInput label="Név" value={newCaseName} onChange={(e) => {setNewCaseName(e.target.value)}}/>
+          <TextInput label="Ár" value={newCasePrice} onChange={(e) => {setNewCasePrice(e.target.value)}}/>
           <FileInput variant="filled" label="Láda képe" description="Válassz az új ládának egy képet!" placeholder="Katt!" />
           <Space h="md" />
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={editCaseModal[1].close}>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {editCaseModal[1].close; editCase(selectedCase.caseId)}}>
             Mentés
           </Button>
         </Modal>
@@ -116,6 +129,7 @@ export default function ProfilePage() {
             {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} />)}
           </Grid>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
+          <Button>Kiválasztott tárgyak törlése</Button>
         </Modal>
 
         <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
@@ -138,6 +152,8 @@ export default function ProfilePage() {
                   <Button onClick={() => {
                     setSelectedCaseId(_case.caseId);
                     editCaseModal[1].open();
+                    setNewCaseName(_case.caseName);
+                    setNewCasePrice(_case.itemValue);
                   }} variant="outline" color="yellow">Szerkesztés</Button>
                   <Space h="xs"></Space>
                   <Button variant="outline" color="red">Törlés</Button>
