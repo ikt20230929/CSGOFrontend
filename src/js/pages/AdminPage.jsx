@@ -217,19 +217,19 @@ export default function ProfilePage() {
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} style={{margin:"5px"}} onClose={showCaseModal[1].close} onClick={() => newCaseItemModal[1].open()}>Tárgy hozzáadása ládához</Button>
         </Modal>
 
-        <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal}>
+        <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal} transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={handleCloseModal}>Bezárás</Button>  
         </Modal>
 
-        <Modal opened={showDeleteCaseModal[0]} onClose={showDeleteCaseModal[1].close} title="Biztosan törölni szeretnéd a ládát?">
+        <Modal opened={showDeleteCaseModal[0]} onClose={showDeleteCaseModal[1].close} title="Biztosan törölni szeretnéd a ládát?" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
           <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={() =>deleteCase(selectedCase.caseId)}>Törlés</Button>
           <Button variant="gradient" gradient={{ from: 'cyan', to: 'indigo', deg: 90 }} onClick={showDeleteCaseModal[1].close}>Mégsem</Button>
         </Modal>
 
        {/*  Zsombor */}
-        <Modal opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához">
+        <Modal opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
           <TextInput label="ID" value={newCasePrice} onChange={(e) => {setNewCasePrice(e.target.value)}}/>
           <Space h="xs"></Space>
