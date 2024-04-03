@@ -14,6 +14,7 @@ export default function ProfilePage() {
   const banPlayerModal = useDisclosure(false);
   const editCaseModal = useDisclosure(false);
   const showCaseModal = useDisclosure(false);
+  const showDeleteCaseModal = useDisclosure(false);
 
   // Láda szerkesztésnél felhasznált adatok
   const [newCaseName, setNewCaseName] = useState(null);
@@ -90,6 +91,7 @@ export default function ProfilePage() {
       // Sikeres törlés megerősítés ide
     } catch (error) {
       setOnError(true);
+      console.log(error);
     }
   }
 
@@ -155,8 +157,14 @@ export default function ProfilePage() {
         </Modal>
 
         <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal}>
-          <Space h="md" />
-          <Button onClick={handleCloseModal}>Bezárás</Button>  
+          <Space h="xs" />
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={handleCloseModal}>Bezárás</Button>  
+        </Modal>
+
+        <Modal opened={showDeleteCaseModal[0]} onClose={showDeleteCaseModal[1].close} title="Biztosan törölni szeretnéd a ládát?">
+          <Space h="xs" />
+          <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={() =>deleteCase(selectedCase.caseId)}>Törlés</Button>
+          <Button variant="gradient" gradient={{ from: 'cyan', to: 'indigo', deg: 90 }} onClick={showDeleteCaseModal[1].close}>Mégsem</Button>
         </Modal>
 
         <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
@@ -183,7 +191,7 @@ export default function ProfilePage() {
                     setNewCasePrice(_case.itemValue);
                   }} variant="outline" color="yellow">Szerkesztés</Button>
                   <Space h="xs"></Space>
-                  <Button variant="outline" color="red" onClick={() => deleteCase(_case.caseId)}>Törlés</Button>
+                  <Button variant="outline" color="red" onClick={() => {showDeleteCaseModal[1].open();setSelectedCaseId(_case.caseId);}}>Törlés</Button>
                 </Card>
               </Grid.Col>
             ))}
