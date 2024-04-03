@@ -15,10 +15,12 @@ export default function ProfilePage() {
   const editCaseModal = useDisclosure(false);
   const showCaseModal = useDisclosure(false);
 
-  // Új láda létrehozásánál felhasznált adatok
+  // Láda szerkesztésnél felhasznált adatok
   const [newCaseName, setNewCaseName] = useState(null);
   const [newCasePrice, setNewCasePrice] = useState(null);
   const [newCaseImage, setNewCaseImage] = useState(false);
+
+  const [onError, setOnError] = useState(false);
 
   const { cases } = useSelector(state => state.data);
   const [selectedCaseId, setSelectedCaseId] = useState(null);
@@ -47,11 +49,11 @@ export default function ProfilePage() {
       setNewCaseName(null)
       setNewCasePrice(null);
     } catch (error) {
-
+      setOnError(true);
     }
   }
 
-  // Láda létrehozása
+  // Láda szerkesztése
   const editCase = async (caseId) => {
     try {
       const response = await axios({
@@ -70,8 +72,24 @@ export default function ProfilePage() {
       setNewCaseName(null)
       setNewCasePrice(null);
     } catch (error) {
-      alert(error);
-      console.log(error)
+      setOnError(true);
+    }
+  }
+
+  // Láda törlése 
+  const deleteCase = async (caseId) => {
+    try {
+      const response = await axios({
+        method: 'delete',
+        url: `${API_URL}/admin/cases/${caseId}`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      // Sikeres törlés megerősítés ide
+    } catch (error) {
+      setOnError(true);
     }
   }
 
@@ -82,6 +100,10 @@ export default function ProfilePage() {
       setSelectedCase(item);
     }
   }, [selectedCaseId]);
+
+  const handleCloseModal = () => {
+    setOnError(false);
+  };
 
   return (
     <div>
@@ -132,6 +154,11 @@ export default function ProfilePage() {
           <Button>Kiválasztott tárgyak törlése</Button>
         </Modal>
 
+        <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal}>
+          <Space h="md" />
+          <Button onClick={handleCloseModal}>Bezárás</Button>  
+        </Modal>
+
         <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
           <Group justify="space-between" mt="md" mb="xs">
             <Text fw={500}>LÁDÁK SZERKESZTÉSE</Text>
@@ -156,7 +183,7 @@ export default function ProfilePage() {
                     setNewCasePrice(_case.itemValue);
                   }} variant="outline" color="yellow">Szerkesztés</Button>
                   <Space h="xs"></Space>
-                  <Button variant="outline" color="red">Törlés</Button>
+                  <Button variant="outline" color="red" onClick={() => deleteCase(_case.caseId)}>Törlés</Button>
                 </Card>
               </Grid.Col>
             ))}
