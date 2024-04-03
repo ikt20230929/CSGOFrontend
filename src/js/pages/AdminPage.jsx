@@ -17,6 +17,7 @@ export default function ProfilePage() {
   const editCaseModal = useDisclosure(false);
   const showCaseModal = useDisclosure(false);
   const showDeleteCaseModal = useDisclosure(false);
+  const newCaseItemModal = useDisclosure(false);
 
   // combobox
   const [selectedItem, setSelectedItem] = useState(false);
@@ -211,8 +212,9 @@ export default function ProfilePage() {
           <Grid>
             {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} />)}
           </Grid>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
-          <Button>Kiválasztott tárgyak törlése</Button>
+          <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>Kiválasztott tárgyak törlése</Button>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} style={{margin:"5px"}} onClose={showCaseModal[1].close} onClick={() => newCaseItemModal[1].open()}>Tárgy hozzáadása ládához</Button>
         </Modal>
 
         <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal}>
@@ -224,6 +226,14 @@ export default function ProfilePage() {
           <Space h="xs" />
           <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={() =>deleteCase(selectedCase.caseId)}>Törlés</Button>
           <Button variant="gradient" gradient={{ from: 'cyan', to: 'indigo', deg: 90 }} onClick={showDeleteCaseModal[1].close}>Mégsem</Button>
+        </Modal>
+
+       {/*  Zsombor */}
+        <Modal opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához">
+          <Space h="xs" />
+          <TextInput label="ID" value={newCasePrice} onChange={(e) => {setNewCasePrice(e.target.value)}}/>
+          <Space h="xs"></Space>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={newCaseItemModal[1].close}>Mégsem</Button>
         </Modal>
 
         <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
