@@ -19,6 +19,8 @@ export default function ProfilePage() {
   const showDeleteCaseModal = useDisclosure(false);
   const newCaseItemModal = useDisclosure(false);
 
+  const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal];
+
   // combobox
   const [selectedItem, setSelectedItem] = useState(false);
   const combobox = useCombobox({
@@ -28,6 +30,11 @@ export default function ProfilePage() {
   const [newCaseName, setNewCaseName] = useState(null);
   const [newCasePrice, setNewCasePrice] = useState(null);
   const [newCaseImage, setNewCaseImage] = useState(false);
+
+  const [onSuccess, setOnSuccess] = useState({
+    method: '',
+    success: false
+  })
 
   const [onError, setOnError] = useState(false);
 
@@ -55,6 +62,11 @@ export default function ProfilePage() {
           //Image: newCaseImage - Egyelőre nem létezik
         }
       })
+      setOnSuccess({
+        method: 'create',
+        success: true
+      });
+
       setNewCaseName(null)
       setNewCasePrice(null);
     } catch (error) {
@@ -78,6 +90,11 @@ export default function ProfilePage() {
           //Image: newCaseImage - Egyelőre nem létezik
         }
       })
+      setOnSuccess({
+        method: 'edit',
+        success: true
+      });
+
       setNewCaseName(null)
       setNewCasePrice(null);
     } catch (error) {
@@ -96,10 +113,37 @@ export default function ProfilePage() {
           'Content-Type': 'application/json'
         }
       })
-      // Sikeres törlés megerősítés ide
+      setOnSuccess({
+        method: 'delete',
+        success: true
+      });
+
     } catch (error) {
       setOnError(true);
       console.log(error);
+    }
+  }
+
+  // Új tárgy létrehozása
+  const createItem = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${API_URL}/admin/items`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        data: {
+          Name: newItem.itemName,
+          Description: newItem.description,
+          Rarity: newItem.rarity,
+          SkinName: newItem.skinName,
+          Value: newItem.value
+        }
+      })
+    } catch (error) {
+      
     }
   }
 
@@ -112,7 +156,20 @@ export default function ProfilePage() {
   }, [selectedCaseId]);
 
   const handleCloseModal = () => {
-    setOnError(false);
+    if (onSuccess.success == true) {
+      setOnSuccess({ 
+        success: false, 
+        method: null 
+      });
+    } else {
+      setOnError(false);
+    }
+  };
+
+  const closeAllModals = () => {
+    allModals.forEach(modal => {
+      modal[1].close(); 
+    });
   };
 
   //combobox
@@ -137,11 +194,11 @@ export default function ProfilePage() {
           <FileInput variant="filled" label="Láda képe" description="Válassz az új ládának egy képet!" placeholder="Katt!" />
           <Space h="md" />
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {newCaseModal[1].close; createCase()}}
-          disabled={newCaseName == null && newCasePrice == null}>
+          disabled={!newCaseName || !newCasePrice}>
             Mentés
           </Button>
         </Modal>
-{/* Zsombor, innentől kell mókolni */}
+
         <Modal opened={newItemModal[0]} onClose={newItemModal[1].close} title="Új tárgy adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <TextInput label="Név" placeholder="Karambit" value={newCaseName} onChange={(e) => setNewCaseName(e.target.value)}/>
           <TextInput label="Skin" placeholder="Fade"/>
@@ -182,7 +239,7 @@ export default function ProfilePage() {
             Mentés
           </Button>
         </Modal>
-{/* IDÁIG */}
+
         <Button onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
           Új láda hozzáadása
         </Button>
@@ -219,7 +276,7 @@ export default function ProfilePage() {
 
         <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal} transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={handleCloseModal}>Bezárás</Button>  
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={() => {closeAllModals(); handleCloseModal();}}>Bezárás</Button>  
         </Modal>
 
         <Modal opened={showDeleteCaseModal[0]} onClose={showDeleteCaseModal[1].close} title="Biztosan törölni szeretnéd a ládát?" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
@@ -228,12 +285,23 @@ export default function ProfilePage() {
           <Button variant="gradient" gradient={{ from: 'cyan', to: 'indigo', deg: 90 }} onClick={showDeleteCaseModal[1].close}>Mégsem</Button>
         </Modal>
 
-       {/*  Zsombor */}
         <Modal opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
           <TextInput label="ID" value={newCasePrice} onChange={(e) => {setNewCasePrice(e.target.value)}}/>
           <Space h="xs"></Space>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={newCaseItemModal[1].close}>Mégsem</Button>
+        </Modal>
+
+        <Modal opened={onSuccess.success} title={onSuccess.method == 'create' ? 'Sikeres létrehozás!' : onSuccess.method == 'edit' ? 'Sikeres módosítás!' : 'Sikeres törlés!'}
+          transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}
+          onClose={() => {
+            handleCloseModal();
+            closeAllModals();
+          }}>
+          <Button onClick={() => {
+              handleCloseModal();
+              closeAllModals();
+            }}>OK</Button>
         </Modal>
 
         <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
