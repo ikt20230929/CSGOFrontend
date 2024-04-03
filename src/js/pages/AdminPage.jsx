@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Badge } from "@mantine/core";
+import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Badge, Combobox, useCombobox, Box } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector } from "react-redux";
 import ItemContainer from "../components/ItemContainer";
@@ -7,14 +7,21 @@ import axios from "axios";
 import { API_URL } from "../settings";
 import store from "../store";
 
+const rarity = ['Fehér', 'Vilégos Kék', 'Kék', 'Lila', 'Pink', 'Piros', 'Arany', 'Arany2'];
+
 export default function ProfilePage() {
   
   // modals
   const newCaseModal = useDisclosure(false);
-  const banPlayerModal = useDisclosure(false);
+  const newItemModal = useDisclosure(false);
   const editCaseModal = useDisclosure(false);
   const showCaseModal = useDisclosure(false);
   const showDeleteCaseModal = useDisclosure(false);
+
+  // combobox
+  const [selectedItem, setSelectedItem] = useState(false);
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),});
 
   // Láda szerkesztésnél felhasznált adatok
   const [newCaseName, setNewCaseName] = useState(null);
@@ -107,6 +114,13 @@ export default function ProfilePage() {
     setOnError(false);
   };
 
+  //combobox
+  const options = rarity.map((item) => (
+    <Combobox.Option value={item} key={item}>
+      {item}
+    </Combobox.Option>
+  ));
+
   return (
     <div>
       <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ minHeight: "calc(100vh - 3.5rem)" }}>
@@ -126,9 +140,54 @@ export default function ProfilePage() {
             Mentés
           </Button>
         </Modal>
+{/* Zsombor, innentől kell mókolni */}
+        <Modal opened={newItemModal[0]} onClose={newItemModal[1].close} title="Új tárgy adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <TextInput label="Név" placeholder="Karambit" value={newCaseName} onChange={(e) => setNewCaseName(e.target.value)}/>
+          <TextInput label="Skin" placeholder="Fade"/>
+          <Box mb="xs">
+        <Text span size="sm" c="dimmed">
+          Ritkaság:{' '}
+        </Text>
 
+        <Text span size="sm">
+          {selectedItem || 'Nincs kiválasztva'}
+        </Text>
+      </Box>
+
+      <Combobox
+        store={combobox}
+        width={250}
+        position="bottom-start"
+        withArrow
+        onOptionSubmit={(val) => {
+          setSelectedItem(val);
+          combobox.closeDropdown();
+        }}
+      >
+        <Combobox.Target>
+          <Button onClick={() => combobox.toggleDropdown()}>Ritkaság kiválasztása</Button>
+        </Combobox.Target>
+
+        <Combobox.Dropdown>
+          <Combobox.Options>{options}</Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+          <TextInput label="Ár" placeholder="20$" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)}/>
+          <TextInput label="Leírás" placeholder="Knife" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)}/>
+          <FileInput variant="filled" label="Tárgy képe" description="Válassz az új tárgynak egy képet!" placeholder="Katt!" />
+          <Space h="md" />
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {newCaseModal[1].close; createCase()}}
+          disabled={newCaseName == null && newCasePrice == null}>
+            Mentés
+          </Button>
+        </Modal>
+{/* IDÁIG */}
         <Button onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
           Új láda hozzáadása
+        </Button>
+        <Space h="sm"></Space>
+        <Button onClick={() => newItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          Új tárgy létrehozása
         </Button>
         <Space h="sm"></Space>
 
