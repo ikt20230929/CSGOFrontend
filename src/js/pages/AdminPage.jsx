@@ -43,7 +43,7 @@ export default function ProfilePage() {
     success: false
   })
   const [itemList, setItemList] = useState([]);
-
+  const [itemCreated, setItemCreated] = useState(false);
   const [onError, setOnError] = useState(false);
 
   const { cases } = useSelector(state => state.data);
@@ -53,6 +53,16 @@ export default function ProfilePage() {
     itemValue: 0,
     items: []
   });
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleToggleItem = (itemId) => {
+    if (selectedItems.includes(itemId)) {
+        setSelectedItems(selectedItems.filter((id) => id !== itemId));
+    } else {
+        setSelectedItems([...selectedItems, itemId]);
+    }
+    console.log(itemId)
+};
   
   // Láda létrehozása
   const createCase = async () => {
@@ -150,7 +160,7 @@ export default function ProfilePage() {
           Value: newItem.value
         }
       })
-      console.log(newItem);
+      setItemCreated(true);
     } catch (error) {
       setOnError(true);
     }
@@ -275,6 +285,18 @@ export default function ProfilePage() {
           </Button>
         </Modal>
 
+          <Modal opened={itemCreated} onClose={() => {
+            closeAllModals;
+            setItemCreated(false);
+          }} title="Sikeres létrehozás!">
+            <Text>{newItem.itemName}</Text>
+            {newItem.skinName} - {newItem.value} $
+            <Button onClick={() => {
+              closeAllModals;
+              setItemCreated(false);
+            }}>OK</Button>
+          </Modal>
+
         <Button onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
           Új láda hozzáadása
         </Button>
@@ -302,7 +324,7 @@ export default function ProfilePage() {
           <Text size="xl">Tárgyak ({selectedCase.items.length} db):</Text>
           <Space h="md" />
           <Grid>
-            {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} />)}
+            {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem}/>)}
           </Grid>
           <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>Kiválasztott tárgyak törlése</Button>
