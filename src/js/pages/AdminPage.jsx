@@ -304,36 +304,37 @@ export default function ProfilePage() {
             }}>OK</Button>
         </Modal>
 
-        <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100vw" }}>
-          <Group justify="space-between" mt="md" mb="xs">
-            <Text fw={500}>LÁDÁK SZERKESZTÉSE</Text>
-            <Badge color="pink">Összes láda: ({cases.length} db)</Badge>
-          </Group>
-          <Grid gutter="lg">
-            {cases.map(_case => (
-              <Grid.Col span={3} key={_case.caseId}>
-                <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder>
-                  <Text>{_case.caseName}</Text>
-                  <Text size="sm" c="dimmed">({_case.items.length} db)</Text>
-                  <Space h="xs"></Space>
-                  <Button onClick={() => {
-                    setSelectedCaseId(_case.caseId);
-                    showCaseModal[1].open();
-                  }} variant="outline" color="blue">Megtekintés</Button>
-                  <Space h="xs"></Space>
-                  <Button onClick={() => {
-                    setSelectedCaseId(_case.caseId);
-                    editCaseModal[1].open();
-                    setNewCaseName(_case.caseName);
-                    setNewCasePrice(_case.itemValue);
-                  }} variant="outline" color="yellow">Szerkesztés</Button>
-                  <Space h="xs"></Space>
-                  <Button variant="outline" color="red" onClick={() => {showDeleteCaseModal[1].open();setSelectedCaseId(_case.caseId);}}>Törlés</Button>
-                </Card>
-              </Grid.Col>
-            ))}
-          </Grid>
+        <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100%", maxWidth: "100%" }}>
+  <Group justify="space-between" mt="md" mb="xs">
+    <Text fw={500}>LÁDÁK SZERKESZTÉSE</Text>
+    <Badge color="pink">Összes láda: ({cases.length} db)</Badge>
+  </Group>
+  <Grid gutter="lg">
+    {cases.map(_case => (
+      <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={_case.caseId}>
+        <Card className="admincase" shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100%", maxWidth: "100%" }}>
+          <Text>{_case.caseName}</Text>
+          <Text size="sm" c="dimmed">({_case.items.length} db)</Text>
+          <Space h="xs"></Space>
+          <Button onClick={() => {
+            setSelectedCaseId(_case.caseId);
+            showCaseModal[1].open();
+          }} variant="outline" color="blue">Megtekintés</Button>
+          <Space h="xs"></Space>
+          <Button onClick={() => {
+            setSelectedCaseId(_case.caseId);
+            editCaseModal[1].open();
+            setNewCaseName(_case.caseName);
+            setNewCasePrice(_case.itemValue);
+          }} variant="outline" color="yellow">Szerkesztés</Button>
+          <Space h="xs"></Space>
+          <Button variant="outline" color="red" onClick={() => {showDeleteCaseModal[1].open();setSelectedCaseId(_case.caseId);}}>Törlés</Button>
         </Card>
+      </Grid.Col>
+    ))}
+  </Grid>
+</Card>
+
       </Card>
     </div>
   );

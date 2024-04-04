@@ -52,7 +52,10 @@ function CasePage() {
           <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
             <Text size="xl">Megszerezhető tárgyak:</Text>
             <Space h="md" />
-            <Grid>
+            <Grid
+              cols={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+              gap={{ xs: 'xs', sm: 'sm', md: 'md', lg: 'lg' }}
+            >
               {caseData.items.map((item) => (
                 <ItemContainerCase key={item.inventoryId} item={item} />
               ))}
