@@ -7,7 +7,7 @@ import axios from "axios";
 import { API_URL } from "../settings";
 import store from "../store";
 
-const rarity = ['Fehér', 'Vilégos Kék', 'Kék', 'Lila', 'Pink', 'Piros', 'Arany', 'Arany2'];
+const rarity = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function ProfilePage() {
   
@@ -20,6 +20,13 @@ export default function ProfilePage() {
   const newCaseItemModal = useDisclosure(false);
 
   const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal];
+  const [newItem, setNewItem] = useState({
+    itemName: '',
+    description: '',
+    rarity: '',
+    skinName: '',
+    value: null
+  });
 
   // combobox
   const [selectedItem, setSelectedItem] = useState(false);
@@ -35,7 +42,8 @@ export default function ProfilePage() {
     method: '',
     success: false
   })
-
+  const [itemList, setItemList] = useState([]);
+  const [itemCreated, setItemCreated] = useState(false);
   const [onError, setOnError] = useState(false);
 
   const { cases } = useSelector(state => state.data);
@@ -45,6 +53,16 @@ export default function ProfilePage() {
     itemValue: 0,
     items: []
   });
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleToggleItem = (itemId) => {
+    if (selectedItems.includes(itemId)) {
+        setSelectedItems(selectedItems.filter((id) => id !== itemId));
+    } else {
+        setSelectedItems([...selectedItems, itemId]);
+    }
+    console.log(itemId)
+};
   
   // Láda létrehozása
   const createCase = async () => {
@@ -142,8 +160,28 @@ export default function ProfilePage() {
           Value: newItem.value
         }
       })
+      setItemCreated(true);
     } catch (error) {
-      
+      setOnError(true);
+    }
+  }
+
+  // Összes tárgy betöltése, kivéve amit a láda eleve tartalmaz
+  const getItems = async () => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `${API_URL}/items`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      setItemList(response.data.filter(item => !selectedCase.items.some(selectedItem => selectedItem.itemId === item.itemId))); 
+      console.log(itemList);
+    } catch (error) {
+      setOnError(true);
     }
   }
 
@@ -199,9 +237,10 @@ export default function ProfilePage() {
           </Button>
         </Modal>
 
+        {/* Tárgy készítés */}
         <Modal opened={newItemModal[0]} onClose={newItemModal[1].close} title="Új tárgy adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <TextInput label="Név" placeholder="Karambit" value={newCaseName} onChange={(e) => setNewCaseName(e.target.value)}/>
-          <TextInput label="Skin" placeholder="Fade"/>
+          <TextInput label="Név" placeholder="Karambit" value={newItem.itemName} onChange={(e) => setNewItem({...newItem, itemName: e.target.value})}/>
+          <TextInput label="Skin" placeholder="Fade" value={newItem.skinName} onChange={(e) => setNewItem({...newItem, skinName: e.target.value})}/>
           <Box mb="xs">
         <Text span size="sm" c="dimmed">
           Ritkaság:{' '}
@@ -219,6 +258,7 @@ export default function ProfilePage() {
         withArrow
         onOptionSubmit={(val) => {
           setSelectedItem(val);
+          setNewItem({...newItem, rarity: val});
           combobox.closeDropdown();
         }}
       >
@@ -228,17 +268,34 @@ export default function ProfilePage() {
 
         <Combobox.Dropdown>
           <Combobox.Options>{options}</Combobox.Options>
+
         </Combobox.Dropdown>
       </Combobox>
-          <TextInput label="Ár" placeholder="20$" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)}/>
-          <TextInput label="Leírás" placeholder="Knife" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)}/>
+          <TextInput label="Ár" placeholder="20$" value={newItem.value} onChange={(e) => setNewItem({...newItem, value: e.target.value})}/>
+          <TextInput label="Leírás" placeholder="Knife" value={newItem.description} onChange={(e) => setNewItem({...newItem, description: e.target.value})}/>
           <FileInput variant="filled" label="Tárgy képe" description="Válassz az új tárgynak egy képet!" placeholder="Katt!" />
           <Space h="md" />
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {newCaseModal[1].close; createCase()}}
-          disabled={newCaseName == null && newCasePrice == null}>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {
+            newCaseModal[1].close; 
+            createItem();
+            console.log(newItem)
+          }}
+          disabled={!newItem.itemName || !newItem.value || !newItem.description || !newItem.skinName}>
             Mentés
           </Button>
         </Modal>
+
+          <Modal opened={itemCreated} onClose={() => {
+            closeAllModals;
+            setItemCreated(false);
+          }} title="Sikeres létrehozás!">
+            <Text>{newItem.itemName}</Text>
+            {newItem.skinName} - {newItem.value} $
+            <Button onClick={() => {
+              closeAllModals;
+              setItemCreated(false);
+            }}>OK</Button>
+          </Modal>
 
         <Button onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
           Új láda hozzáadása
@@ -267,11 +324,11 @@ export default function ProfilePage() {
           <Text size="xl">Tárgyak ({selectedCase.items.length} db):</Text>
           <Space h="md" />
           <Grid>
-            {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} />)}
+            {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem}/>)}
           </Grid>
           <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>Kiválasztott tárgyak törlése</Button>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} style={{margin:"5px"}} onClose={showCaseModal[1].close} onClick={() => newCaseItemModal[1].open()}>Tárgy hozzáadása ládához</Button>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} style={{margin:"5px"}} onClose={showCaseModal[1].close} onClick={() => {newCaseItemModal[1].open(); getItems(selectedCase);}}>Tárgy hozzáadása ládához</Button>
         </Modal>
 
         <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal} transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
@@ -285,11 +342,15 @@ export default function ProfilePage() {
           <Button variant="gradient" gradient={{ from: 'cyan', to: 'indigo', deg: 90 }} onClick={showDeleteCaseModal[1].close}>Mégsem</Button>
         </Modal>
 
-        <Modal opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+        <Modal size="lg" opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
-          <TextInput label="ID" value={newCasePrice} onChange={(e) => {setNewCasePrice(e.target.value)}}/>
+          {/*Tárgyak megjelenítése az itemList-ből */}
+          <Grid>
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} />)}
+          </Grid>
           <Space h="xs"></Space>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={newCaseItemModal[1].close}>Mégsem</Button>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={newCaseItemModal[1].close}>Hozzáadás</Button>
         </Modal>
 
         <Modal opened={onSuccess.success} title={onSuccess.method == 'create' ? 'Sikeres létrehozás!' : onSuccess.method == 'edit' ? 'Sikeres módosítás!' : 'Sikeres törlés!'}
