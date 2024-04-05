@@ -61,8 +61,7 @@ export default function ProfilePage() {
     } else {
         setSelectedItems([...selectedItems, itemId]);
     }
-    console.log(itemId)
-};
+  };
   
   // Láda létrehozása
   const createCase = async () => {
@@ -180,6 +179,24 @@ export default function ProfilePage() {
 
       setItemList(response.data.filter(item => !selectedCase.items.some(selectedItem => selectedItem.itemId === item.itemId))); 
       console.log(itemList);
+    } catch (error) {
+      setOnError(true);
+    }
+  }
+
+  // Tárgyak törlése ládából
+  const deleteSelectedItems = async (caseId) => {
+    try {
+      for (const itemId of selectedItems) {
+      const response = await axios({
+        method: 'delete',
+        url: `${API_URL}/admin/cases/${caseId}/items/${itemId}`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    }
     } catch (error) {
       setOnError(true);
     }
@@ -327,7 +344,7 @@ export default function ProfilePage() {
             {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem}/>)}
           </Grid>
           <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>Kiválasztott tárgyak törlése</Button>
+          <Button onClick={() => {deleteSelectedItems(selectedCaseId)}}variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>Kiválasztott tárgyak törlése</Button>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} style={{margin:"5px"}} onClose={showCaseModal[1].close} onClick={() => {newCaseItemModal[1].open(); getItems(selectedCase);}}>Tárgy hozzáadása ládához</Button>
         </Modal>
 
