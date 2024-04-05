@@ -197,8 +197,29 @@ export default function ProfilePage() {
         }
       })
     }
+    setSelectedItems([]);
     } catch (error) {
       setOnError(true);
+    }
+  }
+
+  // Tárgyak hozzáadása ládához
+  const addSelectedItems = async (caseId) => {
+    try {
+      for (const itemId of selectedItems) {
+      const response = await axios({
+        method: 'post',
+        url: `${API_URL}/admin/cases/${caseId}/items/${itemId}`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+    }
+    setSelectedItems([]);
+    } catch (error) {
+      setOnError(true);
+      console.log(error)
     }
   }
 
@@ -345,7 +366,7 @@ export default function ProfilePage() {
           </Grid>
           <Button style={{margin:"5px"}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
           <Button onClick={() => {deleteSelectedItems(selectedCaseId)}}variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>Kiválasztott tárgyak törlése</Button>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} style={{margin:"5px"}} onClose={showCaseModal[1].close} onClick={() => {newCaseItemModal[1].open(); getItems(selectedCase);}}>Tárgy hozzáadása ládához</Button>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} style={{margin:"5px"}} onClose={showCaseModal[1].close} onClick={() => {newCaseItemModal[1].open(); getItems(selectedCase); setSelectedItems([])}}>Tárgy hozzáadása ládához</Button>
         </Modal>
 
         <Modal opened={onError} title="Hiba a művelet során!" onClose={handleCloseModal} transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
@@ -363,11 +384,11 @@ export default function ProfilePage() {
           <Space h="xs" />
           {/*Tárgyak megjelenítése az itemList-ből */}
           <Grid>
-            {itemList.map(item => <ItemContainer key={item.itemId} item={item} />)}
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem}/>)}
           </Grid>
           <Space h="xs"></Space>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={newCaseItemModal[1].close}>Mégsem</Button>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={newCaseItemModal[1].close}>Hozzáadás</Button>
+          <Button onClick={() => {addSelectedItems(selectedCaseId); newCaseItemModal[1].close;}}variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} >Hozzáadás</Button>
         </Modal>
 
         <Modal opened={onSuccess.success} title={onSuccess.method == 'create' ? 'Sikeres létrehozás!' : onSuccess.method == 'edit' ? 'Sikeres módosítás!' : 'Sikeres törlés!'}
