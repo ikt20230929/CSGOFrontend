@@ -5,14 +5,15 @@ import { useSelector, useDispatch } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
 import axios from "axios";
 import { API_URL } from "../settings";
-import store from "../store";
 import { fetchProfile } from "../Globals";
+import store, { actions } from "../store";
+const { setProfile, setInventory } = actions;
 
 export default function ProfilePage() {
     const dispatch = useDispatch();
     const { profile, inventory } = useSelector(state => state.data);
     const [opened, { open, close }] = useDisclosure(false);
-    const [ searchTerm, setSearchTerm ] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedItems, setSelectedItems] = useState([]);
     const [showNotification, setShowNotification] = useState(false);
     const [confirmSellModal, { open: openConfirmSellModal, close: closeConfirmSellModal }] = useDisclosure(false);
@@ -28,8 +29,8 @@ export default function ProfilePage() {
                     dispatch(setInventory(inventory));
                 }
             });
-            setIsInventoryUpdated(false);
-            setSelectedItems([]);
+        setIsInventoryUpdated(false);
+        setSelectedItems([]);
     }, [dispatch, isInventoryUpdated]);
 
     const handlebtnclick = () => {
@@ -71,13 +72,13 @@ export default function ProfilePage() {
 
     return (
         <div>
-            <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{minHeight: "calc(100vh - 3.5rem)"}}>
+            <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ minHeight: "calc(100vh - 3.5rem)" }}>
                 <Group justify="space-between" mt="lg" mb="xs">
                     <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90 }}>
                         {profile.userName} profilja
                     </Text>
                 </Group>
-                <Space h="sm"/>
+                <Space h="sm" />
                 <Text size="xl">Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></Text>
                 <Space h="xl" />
                 <Modal opened={opened} onClose={close} title="Adataid szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>

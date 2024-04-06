@@ -5,9 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import store from '../store';
 import { API_URL } from '../settings';
 import { fetchProfile } from '../Globals';
+import store, { actions } from '../store';
+const { setProfile, setInventory } = actions;
 
 const MultiplierWheel = () => {
     const { profile, inventory } = useSelector(state => state.data);

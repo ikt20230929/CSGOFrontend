@@ -19,7 +19,7 @@ const InventorySearchWrapper = ({ searchTerm, items, onToggleItem, showChance, c
                         chance = chanceObj ? chanceObj.chance : null;
                     }
                     return (
-                        <ItemContainer key={item.inventoryId} item={item} 
+                        <ItemContainer key={item.inventoryId || item.itemId} item={item} 
                         onToggleItem={!showChance ? onToggleItem : (id) => {setSelectedId(id); onToggleItem(id);}} 
                         chance = {showChance ? chance : null} selected={selectedId === item.itemId}/>
                     );

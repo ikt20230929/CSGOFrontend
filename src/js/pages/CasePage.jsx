@@ -57,7 +57,7 @@ function CasePage() {
               gap={{ xs: 'xs', sm: 'sm', md: 'md', lg: 'lg' }}
             >
               {caseData.items.map((item) => (
-                <ItemContainerCase key={item.inventoryId} item={item} />
+                <ItemContainerCase key={item.itemId} item={item} />
               ))}
             </Grid>
           </Card>
