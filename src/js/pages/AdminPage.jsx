@@ -49,10 +49,12 @@ export default function ProfilePage() {
   const [successfulAdd, setSuccessfulAdd] = useState(false);
   const [casesUpdated, setCasesUpdated] = useState(false);
 
-  const [newGiveAwayName, setNewGiveAwayName] = useState('');
-  const [newGiveAwayDesc, setNewGiveAwayDesc] = useState('');
-  const [newGiveAwayDate, setNewGiveAwayDate] = useState('');
-  const [newGiveAwayItem, setNewGiveAwayItem] = useState([]);
+  const [newGiveAway, setNewGiveAway] = useState({
+    name: '',
+    desc: '',
+    date: '',
+    item: ''
+  })
 
   const [onSuccess, setOnSuccess] = useState({
     method: '',
@@ -255,9 +257,34 @@ export default function ProfilePage() {
         console.log(error)
       }
     } else {
-      setNewGiveAwayItem(selectedItems[0]);
+      setNewGiveAway({...newGiveAway, item: selectedItems[0]});
       setSuccessfulAdd(true);
       setSelectedItems([]);
+    }
+  }
+
+  // Nyereményjáték létrehozása
+  const createGiveAway = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${API_URL}/admin/giveaways`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        data: {
+          Name: newGiveAway.name,
+          Description: newGiveAway.desc,
+          Date: newGiveAway.date,
+          ItemId: newGiveAway.item
+        }
+      })
+      alert('Nyereményjáték hozzaadva')
+      console.log(newGiveAway)
+    } catch (error) {
+      console.log(error);
+      console.log(newGiveAway);
     }
   }
 
@@ -316,14 +343,14 @@ export default function ProfilePage() {
         </Modal>
         
         <Modal opened={newGiveAwayModal[0]} onClose={newGiveAwayModal[1].close} title="Nyereményjáték adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <TextInput label="Név" placeholder="Tavaszi kés nyereményjáték" value={newGiveAwayName} onChange={(e) => setNewGiveAwayName(e.target.value)} />
-          <TextInput label="Leírás" placeholder="Csatlakozz és nyerj egy Karambit Fade-et!" value={newGiveAwayDesc} onChange={(e) => setNewGiveAwayDesc(e.target.value)} />
-          <DateTimePicker label="Sorsolás időpontja" placeholder="Válassz időpontot!" dropdownType="modal" onChange={(e) => setNewGiveAwayDate(e.target.value)} clearable/>
+          <TextInput label="Név" placeholder="Tavaszi kés nyereményjáték" value={newGiveAway.name} onChange={(e) => setNewGiveAway({...newGiveAway, name: e.target.value})} />
+          <TextInput label="Leírás" placeholder="Csatlakozz és nyerj egy Karambit Fade-et!" value={newGiveAway.desc} onChange={(e) => setNewGiveAway({...newGiveAway, desc: e.target.value})} />
+          <DateTimePicker label="Sorsolás időpontja" placeholder="Válassz időpontot!" dropdownType="modal" onChange={(e) => setNewGiveAway({...newGiveAway, date: e})} clearable/>
           <Space h="md" />
-          <TextInput label="Nyeremény" value = {newGiveAwayItem != '' ? "Kiválasztva" : "Nincs kiválasztva"} disabled/>
+          <TextInput label="Nyeremény" value = {newGiveAway.item != '' ? "Kiválasztva" : "Nincs kiválasztva"} disabled/>
           <Button onClick={() => { newCaseItemModal[1].open(); getItems(0); setSelectedItems([]); }}>Skin kiválasztása</Button>
           <Space h="md" />
-          <Button>Létrehozás</Button>
+          <Button onClick={() => { newGiveAwayModal[1].close; createGiveAway() }}>Létrehozás</Button>
         </Modal>
 
         {/* Tárgy készítés */}
