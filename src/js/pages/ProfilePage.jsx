@@ -57,10 +57,13 @@ export default function ProfilePage() {
             setIsInventoryUpdated(true);
             openSellConfirmationModal();
         } catch (error) {
-            alert("Hiba az eladás során!")
-            console.log(error);
+            // Hibakezelés ide - ha meglesz a checkout úgy megírni
         }
     };
+
+    const checkoutItems = async () => {
+        // Item checkout ide
+    }
 
     const toggleItemSelection = (itemId) => {
         if (selectedItems.includes(itemId)) {
@@ -98,12 +101,12 @@ export default function ProfilePage() {
                     Kiválasztott tárgyak eladása
                 </Button>
                 <Space h="xs"></Space>
-                <Button onClick={handlebtnclick} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+                <Button onClick={() => {handlebtnclick; checkoutItems()}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
                     Kiválasztott tárgyak kikérése
                 </Button>
                 <Center>
                     {showNotification && (
-                        <Notification withCloseButton={true} className='openalert' withBorder color="cyan" radius="lg" title="A kiválaszott tárgyak hamarosan a Steam csere kérelmeid között lesznek!" />
+                        <Notification withCloseButton={true} className='openalert' withBorder color="cyan" radius="lg" title="A kiválaszott tárgyak hamarosan a Steam csere kérelmeid között lesznek!" onClose={() => setShowNotification(false)}/>
                     )}
                 </Center>
                 <Group justify="space-between">

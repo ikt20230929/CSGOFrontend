@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Card, Group, Text, Space, Modal, Button, TextInput, FileInput, Grid, Badge, Combobox, useCombobox, Box } from "@mantine/core";
+import { DateTimePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ItemContainer from "../components/ItemContainer";
 import axios from "axios";
 import { API_URL } from "../settings";
-import store from "../store";
+import { fetchProfile } from "../Globals";
+import store, { actions } from "../store";
+//const { setCases } = actions; - If I enable this, the store will not update the cases.
+// But when it commented, the browser console spammed by errors :skull:
 
 const rarity = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function ProfilePage() {
+
+  const dispatch = useDispatch();
 
   // modals
   const newCaseModal = useDisclosure(false);
@@ -18,6 +24,7 @@ export default function ProfilePage() {
   const showCaseModal = useDisclosure(false);
   const showDeleteCaseModal = useDisclosure(false);
   const newCaseItemModal = useDisclosure(false);
+  const newGiveAwayModal = useDisclosure(false);
 
   const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal];
   const [newItem, setNewItem] = useState({
@@ -35,11 +42,17 @@ export default function ProfilePage() {
   });
 
   // Láda szerkesztésnél felhasznált adatok
-  const [newCaseName, setNewCaseName] = useState(null);
-  const [newCasePrice, setNewCasePrice] = useState(null);
+  const [newCaseName, setNewCaseName] = useState('');
+  const [newCasePrice, setNewCasePrice] = useState('');
 
   const [successfulDelete, setSuccessfulDelete] = useState(false);
   const [successfulAdd, setSuccessfulAdd] = useState(false);
+  const [casesUpdated, setCasesUpdated] = useState(false);
+
+  const [newGiveAwayName, setNewGiveAwayName] = useState('');
+  const [newGiveAwayDesc, setNewGiveAwayDesc] = useState('');
+  const [newGiveAwayDate, setNewGiveAwayDate] = useState('');
+  const [newGiveAwayItem, setNewGiveAwayItem] = useState([]);
 
   const [onSuccess, setOnSuccess] = useState({
     method: '',
@@ -57,6 +70,20 @@ export default function ProfilePage() {
     items: []
   });
   const [selectedItems, setSelectedItems] = useState([]);
+
+  useEffect(() => {
+    setCasesUpdated(true);
+  }, [successfulAdd, successfulDelete, onSuccess.success, itemCreated,])
+
+  useEffect(() => {
+    fetchProfile()
+    .then(success => {
+      if (success) {
+        dispatch(setCases(cases));
+      }
+    })
+    setCasesUpdated(false);
+  }, [dispatch, casesUpdated])
 
   const handleToggleItem = (itemId) => {
     if (selectedItems.includes(itemId)) {
@@ -209,22 +236,28 @@ export default function ProfilePage() {
 
   // Tárgyak hozzáadása ládához
   const addSelectedItems = async (caseId) => {
-    try {
-      for (const itemId of selectedItems) {
-        const response = await axios({
-          method: 'post',
-          url: `${API_URL}/admin/cases/${caseId}/items/${itemId}`,
-          headers: {
-            'Authorization': `Bearer ${store.getState().auth.accessToken}`,
-            'Content-Type': 'application/json'
-          }
-        })
+    if (caseId != null) {
+      try {
+        for (const itemId of selectedItems) {
+          const response = await axios({
+            method: 'post',
+            url: `${API_URL}/admin/cases/${caseId}/items/${itemId}`,
+            headers: {
+              'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+              'Content-Type': 'application/json'
+            }
+          })
+        }
+        setSelectedItems([]);
+        setSuccessfulAdd(true);
+      } catch (error) {
+        setOnError(true);
+        console.log(error)
       }
-      setSelectedItems([]);
+    } else {
+      setNewGiveAwayItem(selectedItems[0]);
       setSuccessfulAdd(true);
-    } catch (error) {
-      setOnError(true);
-      console.log(error)
+      setSelectedItems([]);
     }
   }
 
@@ -280,6 +313,17 @@ export default function ProfilePage() {
             disabled={!newCaseName || !newCasePrice}>
             Mentés
           </Button>
+        </Modal>
+        
+        <Modal opened={newGiveAwayModal[0]} onClose={newGiveAwayModal[1].close} title="Nyereményjáték adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <TextInput label="Név" placeholder="Tavaszi kés nyereményjáték" value={newGiveAwayName} onChange={(e) => setNewGiveAwayName(e.target.value)} />
+          <TextInput label="Leírás" placeholder="Csatlakozz és nyerj egy Karambit Fade-et!" value={newGiveAwayDesc} onChange={(e) => setNewGiveAwayDesc(e.target.value)} />
+          <DateTimePicker label="Sorsolás időpontja" placeholder="Válassz időpontot!" dropdownType="modal" onChange={(e) => setNewGiveAwayDate(e.target.value)} clearable/>
+          <Space h="md" />
+          <TextInput label="Nyeremény" value = {newGiveAwayItem != '' ? "Kiválasztva" : "Nincs kiválasztva"} disabled/>
+          <Button onClick={() => { newCaseItemModal[1].open(); getItems(0); setSelectedItems([]); }}>Skin kiválasztása</Button>
+          <Space h="md" />
+          <Button>Létrehozás</Button>
         </Modal>
 
         {/* Tárgy készítés */}
@@ -348,6 +392,10 @@ export default function ProfilePage() {
         <Space h="sm"></Space>
         <Button onClick={() => newItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
           Új tárgy létrehozása
+        </Button>
+        <Space h="sm"></Space>
+        <Button onClick={() => newGiveAwayModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          Nyereményjáték indítása
         </Button>
         <Space h="sm"></Space>
 

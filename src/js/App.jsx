@@ -10,6 +10,7 @@ import GiveawayPage from "./pages/GiveawayPage";
 import HomePage from "./pages/HomePage";
 import CasePage from "./pages/CasePage";
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import '../css/styles.css';
 import '../css/anim.css';
 import { Loader, MantineProvider } from "@mantine/core";
