@@ -81,7 +81,7 @@ export default function Navbar() {
 	return (
 	  <>
 		<header className="header">
-		  <Container fluid={true} size="xl" className="inner" withBorder style={{ textAlign: 'center', width: "100%", maxWidth: "100%" }}>
+		  <Container fluid={true} size="xl" className="inner" style={{ textAlign: 'center', width: "100%", maxWidth: "100%" }}>
 			<img width="75px" src="/assets/aim4gain_logo.png"></img>
 			<Group span={{ xs: 12, sm: 6, md: 4, lg: 3 }} visibleFrom="xs" justify='center'>
 			  {items}

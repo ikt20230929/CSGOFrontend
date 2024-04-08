@@ -7,6 +7,7 @@ import { API_URL } from "../settings";
 import { useDispatch } from 'react-redux';
 import { actions } from '../store';
 import { fetchProfile } from '../Globals';
+import axios from 'axios';
 
 export default function TwoFactorPage() {
     const data = useContext(loginContext);
@@ -17,14 +18,33 @@ export default function TwoFactorPage() {
         if(data.mfa.mfaType !== "TOTP") return navigate("/login");
     }, []);
 
-    return <TwoFactorForm submitURL={`${API_URL}/login`} onSuccess={async ({ response }) => {
-        var token = (await response.json()).message;
-        dispatch(actions.setAccessToken(token));
-        if(await fetchProfile()) {
-            return navigate("/profile");
-        }else{
-            // how did we get here?
-            return navigate("/login");
+    return <TwoFactorForm onSubmit={async (values) => {
+        try {
+            const response = await axios.post(`${API_URL}/login`, {
+                username: data.username,
+                password: data.password,
+                mfa: {
+                    mfaType: 1,
+                    totpToken: values.totpToken
+                }
+            }, {
+                validateStatus: () => true
+            });
+
+            if(response.status === 200) {
+                dispatch(actions.setAccessToken(response.data.message));
+                if(await fetchProfile()) {
+                    navigate("/profile");
+                } else {
+                    navigate("/login");
+                }
+            } else {
+                console.error("Login error:", response.data.message);
+                alert(response.data.message);
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            alert(error);
         }
-    }} userData={data} />
+    }} />;
 }

@@ -11,13 +11,13 @@ import {
   Group,
   Button,
 } from '@mantine/core';
-import { Controller, Form, useForm } from "react-hook-form";
+import { useForm } from "@mantine/form";
 import CenteredContainer from "./CenteredContainer";
 import { Link } from 'react-router-dom';
 
-export function LoginForm({ submitURL, onSubmit, onSuccess, onError, isInvalid }) {
-  const { handleSubmit, control } = useForm({
-    defaultValues: {
+export function LoginForm({ onSubmit, isInvalid }) {
+  const form = useForm({
+    initialValues: {
       username: '',
       password: ''
     }
@@ -25,7 +25,7 @@ export function LoginForm({ submitURL, onSubmit, onSuccess, onError, isInvalid }
 
   return (
     <CenteredContainer>
-      <Paper className="logpage" withBorder shadow="md" p={40} mt={20} radius="md">
+      <Paper className="logpage" withBorder={true} shadow="md" p={40} mt={20} radius="md">
         <Container
           size={420} my={40}>
           <Title ta="center">
@@ -37,13 +37,9 @@ export function LoginForm({ submitURL, onSubmit, onSuccess, onError, isInvalid }
               Regisztrálj!
             </Link>
           </Text>
-          <Form action={submitURL} onSubmit={handleSubmit(onSubmit)} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
-            <Controller control={control} name="username" render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput classNames={{ input: 'logpage' }} onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="username" label="Felhasználónév" required />
-            )} />
-            <Controller control={control} name="password" render={({ field: { onChange, onBlur, value } }) => (
-              <PasswordInput classNames={{ input: 'logpage' }} onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="password" label="Jelszó" required mt="md" />
-            )} />
+          <form onSubmit={form.onSubmit(onSubmit)} encType="application/json">
+            <TextInput classNames={{ input: 'logpage' }} onChange={(event) => form.setFieldValue('username', event.currentTarget.value)} value={form.values.username} error={isInvalid} name="username" label="Felhasználónév" required />
+            <PasswordInput classNames={{ input: 'logpage' }} onChange={(event) => form.setFieldValue('password', event.currentTarget.value)} value={form.values.password} error={isInvalid} name="password" label="Jelszó" required mt="md" />
             {isInvalid && <Text id="error" c="red">
               Helytelen felhasználónév vagy jelszó.
             </Text>}
@@ -65,7 +61,7 @@ export function LoginForm({ submitURL, onSubmit, onSuccess, onError, isInvalid }
               gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 123 }} type="submit" fullWidth={true} mt="xl" >
               Bejelentkezés
             </Button>
-          </Form>
+          </form>
         </Container>
       </Paper>
     </CenteredContainer>
