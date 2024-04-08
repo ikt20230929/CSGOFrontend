@@ -24,7 +24,7 @@ export default function TopUpPage() {
           <Badge color="pink">Adataid biztonságban vannak</Badge>
         </Group>
         <Space h="lg"></Space>
-        <form onSubmit={form.onSubmit((values) => console.log(values))}>
+        <form style={{maxWidth: "100%"}} onSubmit={form.onSubmit((values) => console.log(values))}>
           <Radio
             classNames={{ radio: 'regpage' }}
             label="Bankkártyás fizetés"

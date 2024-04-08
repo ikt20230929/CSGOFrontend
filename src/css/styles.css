@@ -107,7 +107,7 @@
 
 .topup{
   margin: auto;
-  width: 90vh;
+  max-width: 100%;
   padding-top: 150px;
 }
 
