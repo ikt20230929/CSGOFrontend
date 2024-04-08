@@ -18,15 +18,15 @@ export default function TopUpPage() {
 
   return (
     <div className="topup">
-      <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
+      <Card className="logpage" shadow="sm" padding="lg" radius="md" withBorder>
         <Group justify="space-between" mt="lg" mb="xs">
           <Text fw={900} size="25px" tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)' }}>Válassz az alábbi fizetési módok közül!</Text>
           <Badge color="pink">Adataid biztonságban vannak</Badge>
         </Group>
         <Space h="lg"></Space>
-        <form style={{maxWidth: "100%"}} onSubmit={form.onSubmit((values) => console.log(values))}>
+        <form onSubmit={form.onSubmit((values) => console.log(values))}>
           <Radio
-            classNames={{ radio: 'regpage' }}
+            classNames={{ radio: 'logpage' }}
             label="Bankkártyás fizetés"
             value="Bankkártyás fizetés"
             name="paymentMethod"
@@ -37,7 +37,7 @@ export default function TopUpPage() {
           />
           <Space h="sm"></Space>
           <Radio
-            classNames={{ radio: 'regpage' }}
+            classNames={{ radio: 'logpage' }}
             label="PaySafeCard"
             value="PaySafeCard"
             name="paymentMethod"
@@ -48,7 +48,7 @@ export default function TopUpPage() {
           />
           <Space h="sm"></Space>
           <Radio
-            classNames={{ radio: 'regpage' }}
+            classNames={{ radio: 'logpage' }}
             label="Paypal"
             value="Paypal"
             name="paymentMethod"
@@ -59,7 +59,7 @@ export default function TopUpPage() {
           />
           <Space h="sm"></Space>
           <Radio
-            classNames={{ radio: 'regpage' }}
+            classNames={{ radio: 'logpage' }}
             label="Fizess skinekkel"
             value="Fizess skinekkel"
             name="paymentMethod"
@@ -70,7 +70,7 @@ export default function TopUpPage() {
           />
           <Space h="md"></Space>
           <NumberInput withAsterisk
-            classNames={{ input: 'regpage' }}
+            classNames={{ input: 'logpage' }}
             label="Befizetni kívánt összeg"
             placeholder="$100"
             prefix="$"
@@ -80,7 +80,7 @@ export default function TopUpPage() {
           <Text size="md" fw={500}>Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.balance} /></Text>
           <Space h="md"></Space>
           <Checkbox
-            classNames={{ input: 'regpage' }}
+            classNames={{ input: 'logpage' }}
             mt="md"
             color="cyan"
             label="Elfogadom az Adatvédelmi és Általános Szerződési Feltételeket, beleértve, hogy adataim nem kerülnek publikálásra, és biztonságban lesznek."
