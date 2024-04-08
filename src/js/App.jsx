@@ -73,7 +73,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/upgrader",
-				element: <AuthenticatedRoute><UpgradePage /></AuthenticatedRoute>
+				element: <AuthenticatedRoute><SkinUpgradePage /></AuthenticatedRoute>
 			},
 			{
 				path: "/loginstreak",
