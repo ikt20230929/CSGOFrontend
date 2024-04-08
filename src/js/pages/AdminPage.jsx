@@ -86,6 +86,7 @@ export default function ProfilePage() {
       }
     })
     setCasesUpdated(false);
+    getItems(selectedCase);
   }, [dispatch, casesUpdated])
 
   const handleToggleItem = (itemId) => {
@@ -228,6 +229,7 @@ export default function ProfilePage() {
           }
         })
       }
+      getItems(selectedCase);
       setSelectedItems([]);
       setSuccessfulDelete(true);
     } catch (error) {
@@ -249,6 +251,7 @@ export default function ProfilePage() {
             }
           })
         }
+        getItems(selectedCase);
         setSelectedItems([]);
         setSuccessfulAdd(true);
       } catch (error) {
@@ -291,7 +294,7 @@ export default function ProfilePage() {
     if (item) {
       setSelectedCase(item);
     }
-  }, [selectedCaseId]);
+  }, [selectedCaseId, getItems]);
 
   const handleCloseModal = () => {
     if (onSuccess.success == true) {
