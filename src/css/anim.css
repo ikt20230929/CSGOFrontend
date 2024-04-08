@@ -81,7 +81,8 @@ top: -2px;
 
 .spinContainer {
   height: 100px;
-  width: 800px;
+  width: 100%;
+  max-width: 100%;
   position: relative;
   border: 1px solid rgba(99, 234, 255, 0.8);
   border-radius: 9px; 
