@@ -6,7 +6,7 @@ import CenteredContainer from "../components/CenteredContainer";
 export default function MainPage() {
   return (
     <CenteredContainer size={"xl"}>
-      <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder={true}>
+      <Card className="logpage" shadow="sm" padding="lg" radius="md" withBorder={true}>
         <Group justify="space-between" mt="md" mb="xs">
           <Text fw={500}>Válassz az alábbi lehetőségek közül!</Text>
           <Badge color="pink">Adataid biztonságban vannak</Badge>

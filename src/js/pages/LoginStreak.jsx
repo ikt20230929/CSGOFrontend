@@ -40,7 +40,7 @@ export default function LoginStreak() {
                 </Notification>
             )}
             <div className='loginstreak'>
-                <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
+                <Card className="logpage" shadow="sm" padding="lg" radius="md" withBorder>
                     <Group justify="space-between" mt="lg" mb="xs">
                         <Text fw={900} size="50px" tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                             Napi bejelentkezési bónuszod

@@ -17,7 +17,6 @@ import { Loader, MantineProvider } from "@mantine/core";
 import TwoFactorPage from "./pages/TwoFactorPage";
 import Navbar from "./components/Navbar";
 import LoginStreak from "./pages/LoginStreak";
-import UpgradePage from "./pages/UpgradePage";
 import { Provider, useSelector } from 'react-redux';
 import store from './store';
 import { AuthenticatedRoute } from "./components/AuthenticatedRoute";

@@ -13,7 +13,7 @@ export function RegisterForm({ submitURL, onSuccess, onError }) {
 
     return (
         <CenteredContainer>
-                <Paper className='regpage' withBorder shadow="md" p={40} mt={20} radius="md" style={{ width: '500px' }}>
+                <Paper className='logpage' withBorder shadow="md" p={40} mt={20} radius="md" style={{ width: '500px' }}>
                     <Title ta="center">
                         Hozz létre egy fiókot!
                     </Title>
@@ -22,21 +22,21 @@ export function RegisterForm({ submitURL, onSuccess, onError }) {
                             control={control}
                             name="username"
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Felhasználónév" required />
+                                <TextInput classNames={{ input: 'logpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Felhasználónév" required />
                             )}
                         />
                         <Controller
                             control={control}
                             name="email"
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Email" type="email" required />
+                                <TextInput classNames={{ input: 'logpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Email" type="email" required />
                             )}
                         />
                         <Controller
                             control={control}
                             name="password"
                             render={({ field: { onChange, onBlur, value } }) => (
-                                <PasswordInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} label="Jelszó" required />
+                                <PasswordInput classNames={{ input: 'logpage,' }} onChange={onChange} onBlur={onBlur} value={value} label="Jelszó" required />
                             )}
                         />
                         <Button variant="gradient"

@@ -25,7 +25,7 @@ export function LoginForm({ submitURL, onSubmit, onSuccess, onError, isInvalid }
 
   return (
     <CenteredContainer>
-      <Paper className="regpage" withBorder shadow="md" p={40} mt={20} radius="md">
+      <Paper className="logpage" withBorder shadow="md" p={40} mt={20} radius="md">
         <Container
           size={420} my={40}>
           <Title ta="center">
@@ -39,17 +39,17 @@ export function LoginForm({ submitURL, onSubmit, onSuccess, onError, isInvalid }
           </Text>
           <Form action={submitURL} onSubmit={handleSubmit(onSubmit)} encType="application/json" control={control} onSuccess={onSuccess} onError={onError}>
             <Controller control={control} name="username" render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="username" label="Felhasználónév" required />
+              <TextInput classNames={{ input: 'logpage' }} onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="username" label="Felhasználónév" required />
             )} />
             <Controller control={control} name="password" render={({ field: { onChange, onBlur, value } }) => (
-              <PasswordInput classNames={{ input: 'regpage' }} onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="password" label="Jelszó" required mt="md" />
+              <PasswordInput classNames={{ input: 'logpage' }} onChange={onChange} onBlur={onBlur} value={value} error={isInvalid} name="password" label="Jelszó" required mt="md" />
             )} />
             {isInvalid && <Text id="error" c="red">
               Helytelen felhasználónév vagy jelszó.
             </Text>}
             <Group justify="space-between" mt="lg">
               <Checkbox
-                classNames={{ input: 'regpage' }}
+                classNames={{ input: 'logpage' }}
                 defaultChecked
                 label="Emlékezz rám"
                 description="Ezzel megjegyezteted adataid"

@@ -131,16 +131,14 @@ const MultiplierWheel = () => {
     }, [dispatch, itemAccepted == true])
 
     return (
-        <div style={{ width: "100%" }}>
-            <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
+        <div style={{width: "100%", maxWidth: "100%"  }}>
+            <Text size='90px' style={{ width: "100%", maxWidth: "100%" }} fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                 Skin Upgrader
             </Text>
             <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess} setOpenModal={setOpenModal} />
-            <Center>
                 <Grid align='center' justify="center">
-                    <Grid.Col span={5}>
-                        <Center>
-                            <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
+                    <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', width: "100%", maxWidth: "100%" }}>
                                 <Text size='20px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                                     A te tárgyaid, {profile.userName} ({inventory.length} db)
                                 </Text>
@@ -153,10 +151,8 @@ const MultiplierWheel = () => {
                                     <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
                                 </Grid>
                             </Card>
-                        </Center>
                     </Grid.Col>
-                    <Grid.Col span={2}>
-                        <Center>
+                    <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                             <Space h="xl"></Space>
                             <Button fullWidth
                                 variant="gradient"
@@ -166,12 +162,10 @@ const MultiplierWheel = () => {
                             >
                                 UPGRADE
                             </Button>
-                        </Center>
                         <Space h="xs"></Space>
                     </Grid.Col>
-                    <Grid.Col span={5}>
-                        <Center>
-                            <Card className="upgrdcard2" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', minHeight: "calc(380px - 1.5rem)" }}>
+                    <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                            <Card className="upgrdcard2" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', width: "100%", maxWidth: "100%" }}>
                                 <Text size='20px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                                     Lehetséges nyeremények
                                 </Text>
@@ -186,10 +180,8 @@ const MultiplierWheel = () => {
                                     </Grid>
                                 )}
                             </Card>
-                        </Center>
                     </Grid.Col>
                 </Grid>
-            </Center>
             <Modal
                 title={isSuccess ? "Sikeres fejlesztés!" : "A fejlesztés sikertelen!"}
                 opened={openModel}

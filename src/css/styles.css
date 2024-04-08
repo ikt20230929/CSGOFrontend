@@ -43,10 +43,13 @@
   pointer-events: none;
 }
 
+.logpage{
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
 .regpage{
   background-color: rgba(0, 0, 0, 0.7);
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   position: relative;
   margin-top: 30px;
@@ -78,7 +81,7 @@
   height: 60vh;
   margin: auto;
   margin-top: 30px;
-  display: flex;
+  display: block;
   position: relative;
 }
 
@@ -89,7 +92,7 @@
   height: 60vh;
   margin: auto;
   margin-top: 30px;
-  display: flex;
+  display: block;
   position: relative;
 }
 
