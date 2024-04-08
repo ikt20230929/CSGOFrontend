@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Card, Text, Badge, Button, Group, Space } from '@mantine/core';
+import { Card, Text, Button, Space, Divider } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import { fetchEndpoint } from '../Globals';
 import axios from 'axios';
@@ -90,14 +90,17 @@ export default function GiveawayPage() {
       <Space h="lg" />
       <Text size='30px' fw={700} tt="uppercase" variant="gradient"
       gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90  }}>Korábbi nyertesek</Text>
+      <Space h="xl" />
       {pastGiveaways.length == 0 ? <h2>Még senki sem nyert, légy te az első!</h2> : pastGiveaways.map(giveaway => {
             return (
               <div key={giveaway.giveawayId}>
+                    <Space h="sm" />
                     <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                     <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
-                    <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
+                    {console.log(giveaway)}
                     <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
                     <Space h="md" />
+                    <Divider size="sm" style={{ width: "20%" }} />
               </div>
             );
           })}

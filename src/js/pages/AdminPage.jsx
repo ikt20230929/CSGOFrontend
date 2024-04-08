@@ -25,6 +25,7 @@ export default function ProfilePage() {
   const showDeleteCaseModal = useDisclosure(false);
   const newCaseItemModal = useDisclosure(false);
   const newGiveAwayModal = useDisclosure(false);
+  const newGiveAwaySuccessModal = useDisclosure(false);
 
   const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal];
   const [newItem, setNewItem] = useState({
@@ -107,8 +108,7 @@ export default function ProfilePage() {
         },
         data: {
           Name: newCaseName,
-          Value: newCasePrice,
-          //Image: newCaseImage - Egyelőre nem létezik
+          Value: newCasePrice
         }
       })
       setOnSuccess({
@@ -135,8 +135,7 @@ export default function ProfilePage() {
         },
         data: {
           Name: newCaseName,
-          Value: newCasePrice,
-          //Image: newCaseImage - Egyelőre nem létezik
+          Value: newCasePrice
         }
       })
       setOnSuccess({
@@ -280,11 +279,9 @@ export default function ProfilePage() {
           ItemId: newGiveAway.item
         }
       })
-      alert('Nyereményjáték hozzaadva')
-      console.log(newGiveAway)
+      newGiveAwaySuccessModal[1].open();
     } catch (error) {
-      console.log(error);
-      console.log(newGiveAway);
+      setOnError(true);
     }
   }
 
@@ -482,6 +479,10 @@ export default function ProfilePage() {
             handleCloseModal();
             closeAllModals();
           }}>OK</Button>
+        </Modal>
+
+        <Modal opened={newGiveAwaySuccessModal[0]} title="Sikeres hozzáadás!" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }} onClose={() => { handleCloseModal(); closeAllModals(); }}>
+          <Button onClick={() => { handleCloseModal(); closeAllModals(); }}></Button>
         </Modal>
 
         {/* Láda tartalmi szerkesztésének visszacsatolása */}
