@@ -26,8 +26,9 @@ export default function ProfilePage() {
   const newCaseItemModal = useDisclosure(false);
   const newGiveAwayModal = useDisclosure(false);
   const newGiveAwaySuccessModal = useDisclosure(false);
+  const actionsModal = useDisclosure(false);
 
-  const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal];
+  const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal, actionsModal];
   const [newItem, setNewItem] = useState({
     itemName: '',
     description: '',
@@ -331,6 +332,21 @@ export default function ProfilePage() {
           </Text>
         </Group>
 
+        <Modal opened={actionsModal[0]} onClose={actionsModal[1].close} title="Admin műveletek" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+        <Button fullWidth onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          Új láda hozzáadása
+        </Button>
+        <Space h="sm"></Space>
+        <Button fullWidth onClick={() => newItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          Új tárgy létrehozása
+        </Button>
+        <Space h="sm"></Space>
+        <Button fullWidth onClick={() => newGiveAwayModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          Nyereményjáték indítása
+        </Button>
+        <Space h="sm"></Space>
+        </Modal>
+
         <Modal opened={newCaseModal[0]} onClose={newCaseModal[1].close} title="Új láda adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <TextInput label="Név" placeholder="Your Case" value={newCaseName} onChange={(e) => setNewCaseName(e.target.value)} />
           <TextInput label="Ár" placeholder="20$" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)} />
@@ -413,18 +429,10 @@ export default function ProfilePage() {
           }}>OK</Button>
         </Modal>
 
-        <Button onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-          Új láda hozzáadása
-        </Button>
         <Space h="sm"></Space>
-        <Button onClick={() => newItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-          Új tárgy létrehozása
+        <Button onClick={() => actionsModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+          Műveletek
         </Button>
-        <Space h="sm"></Space>
-        <Button onClick={() => newGiveAwayModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-          Nyereményjáték indítása
-        </Button>
-        <Space h="sm"></Space>
 
         <Modal opened={editCaseModal[0]} onClose={editCaseModal[1].close} title="Láda szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <TextInput label="Név" value={newCaseName} onChange={(e) => { setNewCaseName(e.target.value) }} />
