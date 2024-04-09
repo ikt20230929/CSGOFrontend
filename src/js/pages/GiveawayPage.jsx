@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Card, Text, Button, Space, Divider } from '@mantine/core';
+import { Card, Text, Button, Space, Divider, Paper } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import { fetchEndpoint } from '../Globals';
 import axios from 'axios';
@@ -63,6 +63,7 @@ export default function GiveawayPage() {
       <div>
         {currentGiveaways.length == 0 ? <h2>Jelenleg nem fut egy nyereményjáték sem...</h2> : currentGiveaways.map(giveaway => {
             return (
+              <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
               <div key={giveaway.giveawayId}>
                     <Text size='lvw' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                     <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
@@ -71,7 +72,7 @@ export default function GiveawayPage() {
                     {giveaway.giveawayJoined ? (
                           <Button disabled
                         >
-                          Már csatlakoztál ehhez a nyereményjátékhoz!
+                          Már csatlakoztál!
                         </Button>
                         ) : (
                                 <Button onClick={() => handleButtonClick(giveaway.giveawayId)}
@@ -84,24 +85,28 @@ export default function GiveawayPage() {
                     )}
                           <Space h="md" />
               </div>
+              </Card>
             );
           })}
       </div>
       <Space h="lg" />
-      <Text size='2.5vw' fw={700} tt="uppercase" variant="gradient"
+      <Text size='3.5vw' fw={700} tt="uppercase" variant="gradient"
       gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90  }}>Korábbi nyertesek</Text>
       <Space h="xl" />
       {pastGiveaways.length == 0 ? <h2>Még senki sem nyert, légy te az első!</h2> : pastGiveaways.map(giveaway => {
             return (
+              <Paper className='logpage' shadow="xs" radius="md" withBorder p="xl" style={{width: "60%", margin: "10px"}}>
+                <Space h="sm"></Space>
               <div key={giveaway.giveawayId}>
                     <Space h="sm" />
-                    <Text size='1vw' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                    <Text size='2.5vw' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                     <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
                     {console.log(giveaway)}
                     <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
                     <Space h="md" />
                     <Divider size="sm" style={{ width: "20%" }} />
               </div>
+              </Paper>
             );
           })}
       </Card>
