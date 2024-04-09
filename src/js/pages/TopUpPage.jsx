@@ -20,7 +20,7 @@ export default function TopUpPage() {
     <div className="topup">
       <Card className="logpage" shadow="sm" padding="lg" radius="md" withBorder>
         <Group justify="space-between" mt="lg" mb="xs">
-          <Text fw={900} size="25px" tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)' }}>Válassz az alábbi fizetési módok közül!</Text>
+          <Text fw={900} size="1.3vw" tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)' }}>Válassz az alábbi fizetési módok közül!</Text>
           <Badge color="pink">Adataid biztonságban vannak</Badge>
         </Group>
         <Space h="lg"></Space>

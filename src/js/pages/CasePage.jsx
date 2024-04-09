@@ -39,7 +39,7 @@ function CasePage() {
   return (
     <div>
       <Space h="sm" />
-      <Text size="90px" fw={700} tt="uppercase" variant="gradient">
+      <Text size="5vw" fw={700} tt="uppercase" variant="gradient">
         {caseData.caseName}
       </Text>
       {navigateAway ? (

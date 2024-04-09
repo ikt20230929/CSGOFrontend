@@ -77,7 +77,7 @@ export default function ProfilePage() {
         <div>
             <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ minHeight: "calc(100vh - 3.5rem)" }}>
                 <Group justify="space-between" mt="lg" mb="xs">
-                    <Text size='90px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90 }}>
+                    <Text size='5vw' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90 }}>
                         {profile.userName} profilja
                     </Text>
                 </Group>

@@ -132,7 +132,7 @@ const MultiplierWheel = () => {
 
     return (
         <div style={{width: "100%", maxWidth: "100%"  }}>
-            <Text size='90px' style={{ width: "100%", maxWidth: "100%" }} fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
+            <Text size='5vw' style={{ width: "100%", maxWidth: "100%" }} fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                 Skin Upgrader
             </Text>
             <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess} setOpenModal={setOpenModal} />

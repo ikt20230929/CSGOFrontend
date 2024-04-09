@@ -57,14 +57,14 @@ export default function GiveawayPage() {
   return (
     <div>
         <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{minHeight: "calc(100vh - 3.5rem)"}}>
-        <Text size='90px' fw={700} tt="uppercase" variant="gradient"
+        <Text size='5vw' fw={700} tt="uppercase" variant="gradient"
       gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90  }}>Futó nyereményjátékok</Text>
         <Space h="xl" />
       <div>
         {currentGiveaways.length == 0 ? <h2>Jelenleg nem fut egy nyereményjáték sem...</h2> : currentGiveaways.map(giveaway => {
             return (
               <div key={giveaway.giveawayId}>
-                    <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                    <Text size='lvw' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                     <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
                     <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
                     <Space h="sm" />
@@ -88,14 +88,14 @@ export default function GiveawayPage() {
           })}
       </div>
       <Space h="lg" />
-      <Text size='30px' fw={700} tt="uppercase" variant="gradient"
+      <Text size='2.5vw' fw={700} tt="uppercase" variant="gradient"
       gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90  }}>Korábbi nyertesek</Text>
       <Space h="xl" />
       {pastGiveaways.length == 0 ? <h2>Még senki sem nyert, légy te az első!</h2> : pastGiveaways.map(giveaway => {
             return (
               <div key={giveaway.giveawayId}>
                     <Space h="sm" />
-                    <Text size='l' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                    <Text size='1vw' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                     <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
                     {console.log(giveaway)}
                     <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
