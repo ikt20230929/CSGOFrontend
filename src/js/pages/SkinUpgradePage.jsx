@@ -147,7 +147,7 @@ const MultiplierWheel = () => {
                                     <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
                                 </Group>
                                 <Space h="xs"></Space>
-                                <Grid gutter="lg" direction="row" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
+                                <Grid gutter="md" direction="row" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
                                     <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
                                 </Grid>
                             </Card>
@@ -175,7 +175,7 @@ const MultiplierWheel = () => {
                                 </Group>
                                 <Space h="xs"></Space>
                                 {selectedItems.length > 0 && (
-                                    <Grid gutter="lg" direction="row" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
+                                    <Grid gutter="md" direction="row" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
                                         <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} />
                                     </Grid>
                                 )}
