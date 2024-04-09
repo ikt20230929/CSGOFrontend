@@ -65,7 +65,7 @@ export default function GiveawayPage() {
             return (
               <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
               <div key={giveaway.giveawayId}>
-                    <Text size='lvw' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                    <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                     <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
                     <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
                     <Space h="sm" />
@@ -99,7 +99,7 @@ export default function GiveawayPage() {
                 <Space h="sm"></Space>
               <div key={giveaway.giveawayId}>
                     <Space h="sm" />
-                    <Text size='2.5vw' fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                    <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                     <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
                     {console.log(giveaway)}
                     <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
