@@ -20,6 +20,9 @@ export default function ProfilePage() {
   // modals
   const newCaseModal = useDisclosure(false);
   const newItemModal = useDisclosure(false);
+  const editItemModal = useDisclosure(false);
+  const modifyItemModal = useDisclosure(false);
+  const deleteItemModal = useDisclosure(false);
   const editCaseModal = useDisclosure(false);
   const showCaseModal = useDisclosure(false);
   const showDeleteCaseModal = useDisclosure(false);
@@ -51,6 +54,8 @@ export default function ProfilePage() {
   const [successfulAdd, setSuccessfulAdd] = useState(false);
   const [casesUpdated, setCasesUpdated] = useState(false);
 
+  const [itemToModify, setItemToModify] = useState(false);
+
   const [newGiveAway, setNewGiveAway] = useState({
     name: '',
     desc: '',
@@ -81,11 +86,11 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetchProfile()
-    .then(success => {
-      if (success) {
-        dispatch(setCases(cases));
-      }
-    })
+      .then(success => {
+        if (success) {
+          dispatch(setCases(cases));
+        }
+      })
     setCasesUpdated(false);
     getItems(selectedCase);
   }, [dispatch, casesUpdated])
@@ -97,6 +102,15 @@ export default function ProfilePage() {
       setSelectedItems([...selectedItems, itemId]);
     }
   };
+
+  const handleSelect = (item) => {
+    setItemToModify(item);
+    editItemModal[1].close();
+    closeAllModals();
+
+    modifyItemModal[1].open();
+    console.log(item);
+  }
 
   // Láda létrehozása
   const createCase = async () => {
@@ -198,6 +212,31 @@ export default function ProfilePage() {
     }
   }
 
+  // Meglévő tárgy szerkesztése
+  const modifyItem = async () => {
+    try {
+      const response = await axios({
+        method: 'put',
+        url: `${API_URL}/admin/items/${itemToModify.itemId}`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        data: {
+          Name: itemToModify.itemName,
+          Description: itemToModify.itemDescription,
+          Rarity: itemToModify.itemRarity,
+          SkinName: itemToModify.itemSkinName,
+          Value: itemToModify.itemValue,
+          AssetUrl: itemToModify.itemAssetUrl
+        }
+      })
+    } catch (error) {
+      console.log(error)
+      setOnError(true);
+    }
+  }
+
   // Összes tárgy betöltése, kivéve amit a láda eleve tartalmaz
   const getItems = async () => {
     try {
@@ -260,7 +299,7 @@ export default function ProfilePage() {
         console.log(error)
       }
     } else {
-      setNewGiveAway({...newGiveAway, item: selectedItems[0]});
+      setNewGiveAway({ ...newGiveAway, item: selectedItems[0] });
       setSuccessfulAdd(true);
       setSelectedItems([]);
     }
@@ -333,18 +372,26 @@ export default function ProfilePage() {
         </Group>
 
         <Modal opened={actionsModal[0]} onClose={actionsModal[1].close} title="Admin műveletek" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-        <Button fullWidth onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-          Új láda hozzáadása
-        </Button>
-        <Space h="sm"></Space>
-        <Button fullWidth onClick={() => newItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-          Új tárgy létrehozása
-        </Button>
-        <Space h="sm"></Space>
-        <Button fullWidth onClick={() => newGiveAwayModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-          Nyereményjáték indítása
-        </Button>
-        <Space h="sm"></Space>
+          <Button fullWidth onClick={() => newCaseModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Új láda hozzáadása
+          </Button>
+          <Space h="sm"></Space>
+          <Button fullWidth onClick={() => newItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Új tárgy létrehozása
+          </Button>
+          <Space h="sm"></Space>
+          <Button fullWidth onClick={() => editItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Tárgy szerkesztése
+          </Button>
+          <Space h="sm"></Space>
+          <Button fullWidth onClick={() => deleteItemModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Tárgy törlése
+          </Button>
+          <Space h="sm"></Space>
+          <Button fullWidth onClick={() => newGiveAwayModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Nyereményjáték indítása
+          </Button>
+          <Space h="sm"></Space>
         </Modal>
 
         <Modal opened={newCaseModal[0]} onClose={newCaseModal[1].close} title="Új láda adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
@@ -357,13 +404,13 @@ export default function ProfilePage() {
             Mentés
           </Button>
         </Modal>
-        
+
         <Modal opened={newGiveAwayModal[0]} onClose={newGiveAwayModal[1].close} title="Nyereményjáték adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <TextInput label="Név" placeholder="Tavaszi kés nyereményjáték" value={newGiveAway.name} onChange={(e) => setNewGiveAway({...newGiveAway, name: e.target.value})} />
-          <TextInput label="Leírás" placeholder="Csatlakozz és nyerj egy Karambit Fade-et!" value={newGiveAway.desc} onChange={(e) => setNewGiveAway({...newGiveAway, desc: e.target.value})} />
-          <DateTimePicker label="Sorsolás időpontja" placeholder="Válassz időpontot!" dropdownType="modal" onChange={(e) => setNewGiveAway({...newGiveAway, date: e})} clearable/>
+          <TextInput label="Név" placeholder="Tavaszi kés nyereményjáték" value={newGiveAway.name} onChange={(e) => setNewGiveAway({ ...newGiveAway, name: e.target.value })} />
+          <TextInput label="Leírás" placeholder="Csatlakozz és nyerj egy Karambit Fade-et!" value={newGiveAway.desc} onChange={(e) => setNewGiveAway({ ...newGiveAway, desc: e.target.value })} />
+          <DateTimePicker label="Sorsolás időpontja" placeholder="Válassz időpontot!" dropdownType="modal" onChange={(e) => setNewGiveAway({ ...newGiveAway, date: e })} clearable />
           <Space h="md" />
-          <TextInput label="Nyeremény" value = {newGiveAway.item != '' ? "Kiválasztva" : "Nincs kiválasztva"} disabled/>
+          <TextInput label="Nyeremény" value={newGiveAway.item != '' ? "Kiválasztva" : "Nincs kiválasztva"} disabled />
           <Button onClick={() => { newCaseItemModal[1].open(); getItems(0); setSelectedItems([]); }}>Skin kiválasztása</Button>
           <Space h="md" />
           <Button onClick={() => { newGiveAwayModal[1].close; createGiveAway() }}>Létrehozás</Button>
@@ -415,6 +462,66 @@ export default function ProfilePage() {
             disabled={!newItem.itemName || !newItem.value || !newItem.description || !newItem.skinName}>
             Mentés
           </Button>
+        </Modal>
+
+        {/* newCaseItemModal[1].open(); getItems(selectedCase); */}
+
+        {/* Tárgy szerkesztése selection*/}
+        <Modal opened={editItemModal[0]} onClose={editItemModal[1].close} title="Tárgy szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <Grid>
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleSelect}/>)}
+          </Grid>
+        </Modal>
+
+        {/* Tárgy szerkesztése*/}
+        <Modal opened={modifyItemModal[0]} onClose={modifyItemModal[1].close} title="Tárgy szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <TextInput label="Név" value={itemToModify.itemName} onChange={(e) => setItemToModify({ ...itemToModify, itemName: e.target.value })} />
+          <TextInput label="Skin" value={itemToModify.itemSkinName} onChange={(e) => setItemToModify({ ...itemToModify, itemSkinName: e.target.value })} />
+          <Box mb="xs">
+            <Text span size="sm" c="dimmed">
+              Ritkaság:{' '}
+            </Text>
+
+            <Text span size="sm">
+              {selectedItem || itemToModify.itemRarity}
+            </Text>
+          </Box>
+
+          <Combobox
+            store={combobox}
+            width={250}
+            position="bottom-start"
+            withArrow
+            onOptionSubmit={(val) => {
+              setSelectedItem(val);
+              setNewItem({ ...newItem, rarity: val });
+              combobox.closeDropdown();
+            }}
+          >
+            <Combobox.Target>
+              <Button onClick={() => combobox.toggleDropdown()}>Ritkaság kiválasztása</Button>
+            </Combobox.Target>
+
+            <Combobox.Dropdown>
+              <Combobox.Options>{options}</Combobox.Options>
+
+            </Combobox.Dropdown>
+          </Combobox>
+          <TextInput label="Ár" value={itemToModify.itemValue} onChange={(e) => setItemToModify({ ...itemToModify, itemValue: e.target.value })} />
+          <TextInput label="Leírás" value={itemToModify.itemDescription} onChange={(e) => setItemToModify({ ...itemToModify, itemDescription: e.target.value })} />
+          <TextInput label="Leírás" value={itemToModify.itemAssetUrl} onChange={(e) => setItemToModify({ ...itemToModify, itemAssetUrl: e.target.value })} />
+          <Space h="md" />
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {
+            modifyItemModal[1].close();
+            modifyItem();
+          }}>
+            Mentés
+          </Button>
+        </Modal>
+
+        {/* Tárgy törlése */}
+        <Modal opened={deleteItemModal[0]} onClose={deleteItemModal[1].close} title="Tárgy törlése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}> 
+
         </Modal>
 
         <Modal opened={itemCreated} onClose={() => {
@@ -498,7 +605,7 @@ export default function ProfilePage() {
 
         {/* Láda tartalmi szerkesztésének visszacsatolása */}
         <Modal opened={successfulDelete || successfulAdd} title={successfulAdd == true ? 'Sikeres hozzáadás!' : successfulDelete == true ? 'Sikeres törlés!' : 'Sikeres módosítás!'}
-        onClose={() => { handleCloseModal(); closeAllModals(); }}>
+          onClose={() => { handleCloseModal(); closeAllModals(); }}>
           <Button onClick={() => { handleCloseModal(); closeAllModals(); }}>OK</Button>
         </Modal>
 
