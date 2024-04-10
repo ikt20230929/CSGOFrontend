@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Text, Card, Space, Group, TextInput, Grid, Center, Modal } from '@mantine/core';
+import { Button, Text, Card, Space, Group, TextInput, Grid, ScrollArea, Modal } from '@mantine/core';
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector, useDispatch } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
@@ -131,7 +131,7 @@ const MultiplierWheel = () => {
     }, [dispatch, itemAccepted == true])
 
     return (
-        <div style={{width: "100%", maxWidth: "100%"  }}>
+        <Card style={{width: "100%", maxWidth: "100%", backgroundColor: "transparent"  }}>
             <Text size='5vw' style={{ width: "100%", maxWidth: "100%" }} fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                 Skin Upgrader
             </Text>
@@ -147,9 +147,11 @@ const MultiplierWheel = () => {
                                     <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
                                 </Group>
                                 <Space h="xs"></Space>
-                                <Grid gutter="md" direction="row" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
+                                <ScrollArea scrollbars="y" h={450} scrollbarSize={2}>
+                                <Grid gutter="md">
                                     <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
                                 </Grid>
+                                </ScrollArea>
                             </Card>
                     </Grid.Col>
                     <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -175,9 +177,11 @@ const MultiplierWheel = () => {
                                 </Group>
                                 <Space h="xs"></Space>
                                 {selectedItems.length > 0 && (
-                                    <Grid gutter="md" direction="row" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
+                                    <ScrollArea scrollbars="y" h={450} scrollbarSize={2}>
+                                    <Grid gutter="md">
                                         <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} />
                                     </Grid>
+                                    </ScrollArea>
                                 )}
                             </Card>
                     </Grid.Col>
@@ -203,7 +207,7 @@ const MultiplierWheel = () => {
                         }}>OK</Button>
                     </>)}
             </Modal>
-        </div>
+        </Card>
     );
 };
 
