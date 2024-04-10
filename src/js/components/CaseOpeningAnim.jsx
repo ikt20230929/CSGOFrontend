@@ -26,7 +26,7 @@ const CardList = ({caseId}) => {
             caseItems.forEach(item => {
                 const weight = 9 - item.itemRarity;
                 for (let i = 0; i < weight; i++) {
-                    weightedItems.push(item.itemSkinName);
+                    weightedItems.push(item.itemAssetUrl);
                 }
             });
     
@@ -107,7 +107,7 @@ const CardList = ({caseId}) => {
               }}>
                   {items.map((item, index) => (
                       <div key={index} className="spinItem">
-                          {item}
+                          <img src={item} style={{width:"95px"}}></img>
                       </div>
                   ))}
               </div>

@@ -7,6 +7,7 @@ export default function ItemContainer({ item }) {
     return (
         <Grid.Col span={3} data-cy="inventory-item">
             <Card className="regpage" padding="lg" radius={0} style={{borderLeftColor: rarityColors[item.itemRarity - 1], borderLeftWidth: "5px"}} withBorder>
+                <img src={item.itemAssetUrl} style={{size: "3vw"}}></img>
                 <Text>{item.itemName}</Text>
                 <Text size="sm" c="dimmed">{item.itemSkinName} - {item.itemValue} $</Text>
             </Card>
