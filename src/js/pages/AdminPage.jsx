@@ -23,6 +23,7 @@ export default function ProfilePage() {
   const editItemModal = useDisclosure(false);
   const modifyItemModal = useDisclosure(false);
   const deleteItemModal = useDisclosure(false);
+  const confirmDeleteItemModal = useDisclosure(false);
   const editCaseModal = useDisclosure(false);
   const showCaseModal = useDisclosure(false);
   const showDeleteCaseModal = useDisclosure(false);
@@ -109,7 +110,14 @@ export default function ProfilePage() {
     closeAllModals();
 
     modifyItemModal[1].open();
-    console.log(item);
+  }
+
+  const handleDelete = (item) => {
+    setItemToModify(item);
+    deleteItemModal[1].open();
+    closeAllModals();
+
+    confirmDeleteItemModal[1].open();
   }
 
   // Láda létrehozása
@@ -234,6 +242,27 @@ export default function ProfilePage() {
     } catch (error) {
       console.log(error)
       setOnError(true);
+      console.log(itemToModify);
+    }
+  }
+
+  // Tárgy törlése
+  const deleteItem = async () => {
+    try {
+      const response = await axios({
+        method: 'delete',
+        url: `${API_URL}/admin/items/${itemToModify.itemId}`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      closeAllModals(); 
+      confirmDeleteItemModal[1].close();
+      console.log(response);
+    } catch (error) {
+      setOnError(true);
+      console.log(error);
     }
   }
 
@@ -469,7 +498,7 @@ export default function ProfilePage() {
         {/* Tárgy szerkesztése selection*/}
         <Modal opened={editItemModal[0]} onClose={editItemModal[1].close} title="Tárgy szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Grid>
-            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleSelect}/>)}
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleSelect} />)}
           </Grid>
         </Modal>
 
@@ -520,8 +549,16 @@ export default function ProfilePage() {
         </Modal>
 
         {/* Tárgy törlése */}
-        <Modal opened={deleteItemModal[0]} onClose={deleteItemModal[1].close} title="Tárgy törlése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}> 
+        <Modal opened={deleteItemModal[0]} onClose={deleteItemModal[1].close} title="Tárgy törlése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <Grid>
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleDelete} />)}
+          </Grid>
+        </Modal>
 
+        {/* Törlés megerősítése */}
+        <Modal opened={confirmDeleteItemModal[0]} onClose={confirmDeleteItemModal[1].close} title="Törlés megerősítése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <Button onClick={() => {deleteItem();}}>Megerősítés</Button>
+          <Button onClick={() => {closeAllModals(); confirmDeleteItemModal[1].close(); }}>Mégse</Button>
         </Modal>
 
         <Modal opened={itemCreated} onClose={() => {
