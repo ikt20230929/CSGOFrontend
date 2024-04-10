@@ -137,7 +137,7 @@ const MultiplierWheel = () => {
             </Text>
             <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess} setOpenModal={setOpenModal} />
                 <Grid align='center' justify="center">
-                    <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                    <Grid.Col span={{ xs: 14, sm: 10, md: 5, lg: 4 }}>
                             <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', width: "100%", maxWidth: "100%" }}>
                                 <Text size='20px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                                     A te tárgyaid, {profile.userName} ({inventory.length} db)
@@ -147,14 +147,14 @@ const MultiplierWheel = () => {
                                     <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
                                 </Group>
                                 <Space h="xs"></Space>
-                                <ScrollArea scrollbars="y" h={450} scrollbarSize={2}>
+                                <ScrollArea h={450} scrollbarSize={2}>
                                 <Grid gutter="md">
                                     <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
                                 </Grid>
                                 </ScrollArea>
                             </Card>
                     </Grid.Col>
-                    <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                    <Grid.Col span={{ xs: 14, sm: 10, md: 5, lg: 4 }}>
                             <Space h="xl"></Space>
                             <Button fullWidth
                                 variant="gradient"
@@ -166,7 +166,7 @@ const MultiplierWheel = () => {
                             </Button>
                         <Space h="xs"></Space>
                     </Grid.Col>
-                    <Grid.Col span={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                    <Grid.Col span={{ xs: 14, sm: 10, md: 5, lg: 4 }}>
                             <Card className="upgrdcard2" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', width: "100%", maxWidth: "100%" }}>
                                 <Text size='20px' fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                                     Lehetséges nyeremények
@@ -177,7 +177,7 @@ const MultiplierWheel = () => {
                                 </Group>
                                 <Space h="xs"></Space>
                                 {selectedItems.length > 0 && (
-                                    <ScrollArea scrollbars="y" h={450} scrollbarSize={2}>
+                                    <ScrollArea h={450} scrollbarSize={2}>
                                     <Grid gutter="md">
                                         <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} />
                                     </Grid>

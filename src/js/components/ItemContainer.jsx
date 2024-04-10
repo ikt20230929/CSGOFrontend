@@ -15,6 +15,7 @@ export default function ItemContainer({ item, onToggleItem, chance, selected, sh
             <Card className="regpage" padding="lg" radius={0} style={{borderColor: selected ? 'lightblue' : '', borderLeftWidth: "5px", borderLeftColor: !selected ? rarityColors[item.itemRarity - 1] : '',}} withBorder
             onClick={handleClick} >
                 {!showChance && <Checkbox labelPosition="right" color="cyan" radius="xl" onChange={() => onToggleItem(item.inventoryId ? item.inventoryId : item.itemId)}/>}
+                <img src={item.itemAssetUrl} style={{size: "3vw"}}></img>
                 <Text>{item.itemName}</Text>
                 <Text size="sm" c="dimmed">{item.itemSkinName} - {item.itemValue} $</Text>
                 {chance && <Text size="sm" c="dimmed">Fejlesztési esély: {chance*100}%</Text>}
