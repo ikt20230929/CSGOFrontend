@@ -5,7 +5,9 @@ const rarityColors = ['#ffffff', '#98c0f5', '#1b7cfa', '#781bfa', '#e71bfa', '#f
 
 export default function ItemContainer({ item, onToggleItem, chance, selected, showChance }) {
     const handleClick = () => {
-        if (showChance) {
+        if (showChance && chance != null) {
+            onToggleItem(item.itemId);
+        } else if (showChance) {
             onToggleItem(item);
         }
     }
@@ -14,7 +16,11 @@ export default function ItemContainer({ item, onToggleItem, chance, selected, sh
         <Grid.Col span={3} data-cy="inventory-item">
             <Card className="regpage" padding="lg" radius={0} style={{borderColor: selected ? 'lightblue' : '', borderLeftWidth: "5px", borderLeftColor: !selected ? rarityColors[item.itemRarity - 1] : '',}} withBorder
             onClick={handleClick} >
-                {!showChance && <Checkbox labelPosition="right" color="cyan" radius="xl" onChange={() => onToggleItem(item.inventoryId ? item.inventoryId : item.itemId)}/>}
+                {showChance != true ? (
+                    <Checkbox labelPosition="right" color="cyan" radius="xl" onChange={() => onToggleItem(item.inventoryId ? item.inventoryId : item.itemId)}/>
+                ) : (
+                    null
+                )}
                 <img src={item.itemAssetUrl} style={{size: "3vw"}}></img>
                 <Text>{item.itemName}</Text>
                 <Text size="sm" c="dimmed">{item.itemSkinName} - {item.itemValue} $</Text>

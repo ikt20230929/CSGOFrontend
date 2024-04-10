@@ -82,10 +82,10 @@ const MultiplierWheel = () => {
     };
 
     // A fejlesztés céljának kiválasztása
-    const winSelectedItems = (item) => {
-        setWinSelection(item.itemId);
+    const winSelectedItems = (itemId) => {
+        setWinSelection(itemId);
         upgradeChance.forEach(element => {
-            if (element.itemId === item.itemId) {
+            if (element.itemId === itemId) {
                 setChance(element.chance * 100);
             }
         });
