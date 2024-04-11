@@ -5,7 +5,7 @@ import { API_URL } from "../settings";
 import { useSelector } from 'react-redux';
 import store from "../store";
 
-const CardList = ({caseId}) => {
+const CardList = ({ caseId }) => {
 
     const [margin, setMargin] = useState(0);
     const [spin, setSpin] = useState(false);
@@ -14,13 +14,14 @@ const CardList = ({caseId}) => {
     const cases = useSelector(state => state.data.cases);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [onError, setOnError] = useState(false);
-    const [winnerItem, setWinnerItem] = useState("");   
+    const [winnerItem, setWinnerItem] = useState("");
 
     const fetchCases = async () => {
         try {
             const caseItems = cases.filter(caseItem => caseItem.caseId == caseId)[0].items;
             console.log(caseItems);
-    
+
+
             // A tárgyakat ritkaság szerint súlyozzuk
             const weightedItems = [];
             caseItems.forEach(item => {
@@ -29,15 +30,15 @@ const CardList = ({caseId}) => {
                     weightedItems.push(item.itemAssetUrl);
                 }
             });
-    
+
             // Frissítjük az items állapotot
-            setItems(Array.from({length: 32}, () => weightedItems[Math.floor(Math.random() * weightedItems.length)]));
-    
+            setItems(Array.from({ length: 32 }, () => weightedItems[Math.floor(Math.random() * weightedItems.length)]));
+
         } catch (error) {
             console.error('Hiba a láda betöltése közben!', error);
         }
     };
-    
+
 
     useEffect(() => {
         fetchCases();
@@ -53,22 +54,23 @@ const CardList = ({caseId}) => {
                 setTransitionEnabled(true);
                 const newDistance = 228 + Math.random() * (220 - 228);
                 setMargin(-newDistance * 10);
-                
+
                 setTimeout(() => {
                     setSpin(false);
                     if (!spin) {
                         fetchCases();
                     }
                     setIsModalOpen(true);
-                }, 7700); 
-            }, 50);  
+                }, 7700);
+            }, 50);
         }
 
     }, [spin]);
 
     const spinHandler = async () => {
-        
+
         try {
+            fetchCases();
             const response = await axios({
                 method: 'post',
                 url: `${API_URL}/open_case/${caseId}`,
@@ -81,55 +83,56 @@ const CardList = ({caseId}) => {
             if (response.status === 200) {
 
                 // Ha a nyitás sikeres, a győztes slot-ra kerül a nyeremény
-                const winnerItemName = response.data.message.itemSkinName; 
+                const winnerItemName = response.data.message;
 
                 setWinnerItem(winnerItemName);
-                items[26] = winnerItemName; 
+                items[26] = winnerItemName.itemAssetUrl;
             }
             setSpin(true);
-        } catch (error) {  
+        } catch (error) {
             setOnError(true);
         }
     };
 
     return (
         <div>
-            {spin==true && (
-        <Center>
+            {spin == true && (
+                <Center>
                     <Notification withCloseButton={false} className='openalert' withBorder color="cyan" radius="lg" title="Láda nyitása folyamatban...">
-      </Notification>
-      </Center>
+                    </Notification>
+                </Center>
             )}
             <div className='spinContainer'>
-              <div className="itemContainer" style={{
-                  marginLeft: `${margin}px`, 
-                  transition: transitionEnabled ? 'margin-left 7.5s' : 'none'
-              }}>
-                  {items.map((item, index) => (
-                      <div key={index} className="spinItem">
-                          <img src={item} style={{width:"95px"}}></img>
-                      </div>
-                  ))}
-              </div>
+                <div className="itemContainer" style={{
+                    marginLeft: `${margin}px`,
+                    transition: transitionEnabled ? 'margin-left 7.5s' : 'none'
+                }}>
+                    {items.map((item, index) => (
+                        <div key={index} className="spinItem">
+                            <img src={item} style={{ width: "95px" }}></img>
+                        </div>
+                    ))}
+                </div>
             </div>
             <Space h="md"></Space>
             <Center>
-      <Button type="submit" size='md' variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg"  onClick={spinHandler} disabled={spin} >Láda kinyitása</Button>
-      </Center>
-        <Modal
-          opened={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title="Gratulálunk!"
-        >
-            <div>Nyereményed: {winnerItem}</div>
-        </Modal>
-        <Modal
-          opened={onError}
-          onClose={() => setOnError(false)}
-          title="Hiba a nyitás során!"
-        >
-            <div>Nem rendelkezel elegendő egyenleggel!</div>
-        </Modal>
+                <Button type="submit" size='md' variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg" onClick={spinHandler} disabled={spin} >Láda kinyitása</Button>
+            </Center>
+            <Modal
+                opened={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Gratulálunk!"
+            >
+                <div>Nyereményed: {winnerItem.itemSkinName}</div>
+                <img src={winnerItem.itemAssetUrl} style={{ width: "200px" }}></img>
+            </Modal>
+            <Modal
+                opened={onError}
+                onClose={() => setOnError(false)}
+                title="Hiba a nyitás során!"
+            >
+                <div>Nem rendelkezel elegendő egyenleggel!</div>
+            </Modal>
         </div>
     );
 };
