@@ -70,7 +70,6 @@ const CardList = ({ caseId }) => {
     const spinHandler = async () => {
 
         try {
-            fetchCases();
             const response = await axios({
                 method: 'post',
                 url: `${API_URL}/open_case/${caseId}`,
