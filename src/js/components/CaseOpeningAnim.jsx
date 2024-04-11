@@ -81,7 +81,7 @@ const CardList = ({caseId}) => {
             if (response.status === 200) {
 
                 // Ha a nyitás sikeres, a győztes slot-ra kerül a nyeremény
-                const winnerItemName = response.data.itemSkinName; 
+                const winnerItemName = response.data.message.itemSkinName; 
 
                 setWinnerItem(winnerItemName);
                 items[26] = winnerItemName; 

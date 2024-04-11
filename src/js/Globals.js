@@ -35,9 +35,9 @@ export async function fetchProfile() {
         return false;
     }
     
-    store.dispatch(actions.setProfile(profileResponse));
-    store.dispatch(actions.setInventory(inventoryResponse));
-    store.dispatch(actions.setCases(casesResponse));
+    store.dispatch(actions.setProfile(profileResponse.message));
+    store.dispatch(actions.setInventory(inventoryResponse.message));
+    store.dispatch(actions.setCases(casesResponse.message));
 
     return true;
 }

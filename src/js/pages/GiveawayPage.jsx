@@ -19,13 +19,13 @@ export default function GiveawayPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const currentGiveawaysResponse = (await fetchEndpoint("giveaways/current")).data;
+      const currentGiveawaysResponse = (await fetchEndpoint("giveaways/current")).data.message;
       if (currentGiveawaysResponse == null) {
         navigate("/login");
         return;
       }
       
-      const pastGiveawaysResponse = (await fetchEndpoint("giveaways/past")).data;
+      const pastGiveawaysResponse = (await fetchEndpoint("giveaways/past")).data.message;
       if (pastGiveawaysResponse == null) {
         navigate("/login");
         return;
@@ -45,7 +45,7 @@ export default function GiveawayPage() {
 
       }
     })
-    if (response.status == 204) {
+    if (response.status == 200) {
       setCurrentGiveaways(currentGiveaways.map(giveaway => {
         if (giveaway.giveawayId == index) {
           giveaway.giveawayJoined = true;

@@ -25,7 +25,7 @@ export default function LoginStreak() {
 
         if (result.success) {
             setClaimSuccess(true);
-            setAmount(result.data.amount);
+            setAmount(result.data.message);
             setAlreadyClaimedToday(true);
         }
 

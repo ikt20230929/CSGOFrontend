@@ -52,11 +52,11 @@ export default function UserOptionsPage() {
             validateStatus: () => true
         });
 
-        if (result.status == 204) {
+        if (result.status == 200) {
             await fetchProfile();
             modal1[1].close();
         } else {
-            setErrorMessage("Érveletlen kód");
+            setErrorMessage(result.data.message);
         }
     }
 
@@ -75,16 +75,23 @@ export default function UserOptionsPage() {
             validateStatus: () => true
         })
 
-        if (result.status == 204) {
+        if (result.status == 200) {
             await fetchProfile();
             modal2[1].close();
         }else{
-            setErrorMessage("Érvénytlen kód vagy jelszó");
+            setErrorMessage(result.data.message);
         }
     }
 
     async function enableWebauthn() {
-        var credentialOptions = (await fetchEndpoint(`webauthn`)).data;
+        var response = await axios.post(`${API_URL}/webauthn`, { mode: 1 }, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        var credentialOptions = JSON.parse(response.data.message);
         credentialOptions.challenge = coerceToArrayBuffer(credentialOptions.challenge);
         credentialOptions.user.id = coerceToArrayBuffer(credentialOptions.user.id);
     
@@ -108,13 +115,16 @@ export default function UserOptionsPage() {
         let rawId = new Uint8Array(newCredential.rawId);
 
         const data = {
-            id: newCredential.id,
-            rawId: coerceToBase64Url(rawId),
-            type: newCredential.type,
-            extensions: newCredential.getClientExtensionResults(),
-            response: {
-            AttestationObject: coerceToBase64Url(attestationObject),
-            clientDataJson: coerceToBase64Url(clientDataJSON)
+            mode: 2,
+            data: {
+                id: newCredential.id,
+                rawId: coerceToBase64Url(rawId),
+                type: newCredential.type,
+                clientExtensionResults: newCredential.getClientExtensionResults(),
+                response: {
+                    AttestationObject: coerceToBase64Url(attestationObject),
+                    clientDataJSON: coerceToBase64Url(clientDataJSON)
+                }
             }
         };
 
@@ -125,7 +135,10 @@ export default function UserOptionsPage() {
             }
         });
 
-        console.log(response);
+        if(response.status == 200)
+        {
+            await fetchProfile();
+        }
     }
 
     return (

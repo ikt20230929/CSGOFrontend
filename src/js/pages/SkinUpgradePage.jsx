@@ -65,10 +65,10 @@ const MultiplierWheel = () => {
 
                 }
             });
-            const items = response.data.items.map(obj => obj.item);
+            const items = response.data.message.map(obj => obj.item);
             setAllItems(items);
 
-            const upgradeChanceArray = response.data.items.map(obj => {
+            const upgradeChanceArray = response.data.message.map(obj => {
                 return {
                     itemId: obj.item.itemId,
                     chance: obj.chance
@@ -109,7 +109,7 @@ const MultiplierWheel = () => {
                     Target: winSelection
                 }
             });
-            setIsSuccess(response.data.success);
+            setIsSuccess(response.data.message.success);
             setSpinTrigger(true);
         } catch (error) {
 

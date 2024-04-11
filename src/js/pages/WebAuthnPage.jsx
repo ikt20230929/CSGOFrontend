@@ -54,10 +54,10 @@ export default function WebAuthnPage() {
                     id: credential.id,
                     rawId: coerceToBase64Url(rawId),
                     type: credential.type,
-                    extensions: credential.getClientExtensionResults(),
+                    clientExtensionResults: credential.getClientExtensionResults(),
                     response: {
                         authenticatorData: coerceToBase64Url(authData),
-                        clientDataJson: coerceToBase64Url(clientDataJSON),
+                        clientDataJSON: coerceToBase64Url(clientDataJSON),
                         signature: coerceToBase64Url(sig)
                     }
                 };

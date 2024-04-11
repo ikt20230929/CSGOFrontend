@@ -278,7 +278,7 @@ export default function ProfilePage() {
         }
       })
 
-      setItemList(response.data.filter(item => !selectedCase.items.some(selectedItem => selectedItem.itemId === item.itemId)));
+      setItemList(response.data.message.filter(item => !selectedCase.items.some(selectedItem => selectedItem.itemId === item.itemId)));
       console.log(itemList);
     } catch (error) {
       setOnError(true);
