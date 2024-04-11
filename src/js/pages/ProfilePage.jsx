@@ -10,6 +10,8 @@ import store, { actions } from "../store";
 const { setProfile, setInventory } = actions;
 
 export default function ProfilePage() {
+    const errorModal = useDisclosure(false);
+
     const dispatch = useDispatch();
     const { profile, inventory } = useSelector(state => state.data);
     const [opened, { open, close }] = useDisclosure(false);
@@ -57,12 +59,28 @@ export default function ProfilePage() {
             setIsInventoryUpdated(true);
             openSellConfirmationModal();
         } catch (error) {
-            // Hibakezelés ide - ha meglesz a checkout úgy megírni
+            errorModal[1].open();
         }
     };
 
     const checkoutItems = async () => {
-        // Item checkout ide
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `${API_URL}/items/withdraw`,
+                headers: {
+                    'Authorization': `Bearer ${store.getState().auth.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    items: selectedItems
+                }
+            })
+            setIsInventoryUpdated(true);
+            setShowNotification(true)
+        } catch (error) {
+            errorModal[1].open();
+        }
     }
 
     const toggleItemSelection = (itemId) => {
@@ -101,12 +119,12 @@ export default function ProfilePage() {
                     Kiválasztott tárgyak eladása
                 </Button>
                 <Space h="xs"></Space>
-                <Button onClick={() => {handlebtnclick; checkoutItems()}} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+                <Button onClick={() => { handlebtnclick; checkoutItems() }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
                     Kiválasztott tárgyak kikérése
                 </Button>
                 <Center>
                     {showNotification && (
-                        <Notification withCloseButton={true} className='openalert' withBorder color="cyan" radius="lg" title="A kiválaszott tárgyak hamarosan a Steam csere kérelmeid között lesznek!" onClose={() => setShowNotification(false)}/>
+                        <Notification withCloseButton={true} className='openalert' withBorder color="cyan" radius="lg" title="A kiválaszott tárgyak hamarosan a Steam csere kérelmeid között lesznek!" onClose={() => setShowNotification(false)} />
                     )}
                 </Center>
                 <Group justify="space-between">
@@ -132,6 +150,10 @@ export default function ProfilePage() {
                     <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={closeSellConfirmationModal}>
                         Ok
                     </Button>
+                </Modal>
+                <Modal opened={errorModal[0]} onClose={errorModal[1].close} title="Hiba a művelet során!" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+                    <Text>Valamilyen hiba lépett fel! Elnézésedet kérjük!</Text>
+                    <Button onClick={errorModal[1].close}>OK</Button>
                 </Modal>
             </Card>
         </div>

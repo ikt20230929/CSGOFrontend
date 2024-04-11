@@ -17,11 +17,12 @@ export default function TopUpPage() {
   });
 
   const { profile } = useSelector(state => state.data);
-  let modifier = 1; 
 
   const handleDeposit = async () => {
-    modifier = form.values.paymentMethod === 'Bankkártyás fizetés' ? 1.1 :
-      form.values.paymentMethod === 'PayPal' ? 1.15 : 1;
+    const modifier = form.values.paymentMethod == 'Bankkártyás fizetés' ? 1.1 :
+                     form.values.paymentMethod == 'PayPal' ? 1.15 : 1;
+    const amount = (form.values.amount * modifier);
+
     try {
       const response = await axios({
         method: 'post',
@@ -31,13 +32,12 @@ export default function TopUpPage() {
           'Content-Type': 'application/json'
         },
         data: {
-          Amount: (form.values.amount * modifier)
+          amount: amount
         }
       });
-      console.log(response);
     } catch (error) {
       console.log(error);
-      console.log(form.values.amount, modifier);
+      console.log(amount);
     }
   }
 
