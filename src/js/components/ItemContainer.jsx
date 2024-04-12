@@ -21,7 +21,7 @@ export default function ItemContainer({ item, onToggleItem, chance, selected, sh
                 ) : (
                     null
                 )}
-                <img src={item.itemAssetUrl} style={{size: "3vw"}}></img>
+                <img src={item.itemAssetUrl} alt={"Hiba a betöltés közben!"} style={{size: "3vw"}}></img>
                 <Text>{item.itemName}</Text>
                 <Text size="sm" c="dimmed">{item.itemSkinName} - {item.itemValue} $</Text>
                 {chance && <Text size="sm" c="dimmed">Fejlesztési esély: {chance*100}%</Text>}

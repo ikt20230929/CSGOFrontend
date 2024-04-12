@@ -38,7 +38,8 @@ export default function ProfilePage() {
     description: '',
     rarity: '',
     skinName: '',
-    value: null
+    value: null,
+    image: ''
   });
 
   // combobox
@@ -50,6 +51,7 @@ export default function ProfilePage() {
   // Láda szerkesztésnél felhasznált adatok
   const [newCaseName, setNewCaseName] = useState('');
   const [newCasePrice, setNewCasePrice] = useState('');
+  const [newCaseImg, setNewCaseImg] = useState('');
 
   const [successfulDelete, setSuccessfulDelete] = useState(false);
   const [successfulAdd, setSuccessfulAdd] = useState(false);
@@ -132,7 +134,8 @@ export default function ProfilePage() {
         },
         data: {
           Name: newCaseName,
-          Value: newCasePrice
+          Value: newCasePrice,
+          AssetUrl: newCaseImg
         }
       })
       setOnSuccess({
@@ -159,7 +162,8 @@ export default function ProfilePage() {
         },
         data: {
           Name: newCaseName,
-          Value: newCasePrice
+          Value: newCasePrice,
+          AssetUrl: newCaseImg
         }
       })
       setOnSuccess({
@@ -211,7 +215,8 @@ export default function ProfilePage() {
           Description: newItem.description,
           Rarity: newItem.rarity,
           SkinName: newItem.skinName,
-          Value: newItem.value
+          Value: newItem.value,
+          AssetUrl: newItem.image
         }
       })
       setItemCreated(true);
@@ -426,7 +431,7 @@ export default function ProfilePage() {
         <Modal opened={newCaseModal[0]} onClose={newCaseModal[1].close} title="Új láda adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <TextInput label="Név" placeholder="Your Case" value={newCaseName} onChange={(e) => setNewCaseName(e.target.value)} />
           <TextInput label="Ár" placeholder="20$" value={newCasePrice} onChange={(e) => setNewCasePrice(e.target.value)} />
-          <FileInput variant="filled" label="Láda képe" description="Válassz az új ládának egy képet!" placeholder="Katt!" />
+          <TextInput label="Láda képe" placeholder="Illeszd ide a kép URL-ét..." description="Válassz az új ládának egy képet!" onChange={(e) => setNewCaseImg(e.target.value)}/>
           <Space h="md" />
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => { newCaseModal[1].close; createCase() }}
             disabled={!newCaseName || !newCasePrice}>
@@ -481,7 +486,7 @@ export default function ProfilePage() {
           </Combobox>
           <TextInput label="Ár" placeholder="20$" value={newItem.value} onChange={(e) => setNewItem({ ...newItem, value: e.target.value })} />
           <TextInput label="Leírás" placeholder="Knife" value={newItem.description} onChange={(e) => setNewItem({ ...newItem, description: e.target.value })} />
-          <FileInput variant="filled" label="Tárgy képe" description="Válassz az új tárgynak egy képet!" placeholder="Katt!" />
+          <TextInput label="Tárgy képe" description="Válassz az új tárgynak egy képet!" placeholder="Illeszd ide a kép URL-ét..." onChange={(e) => setNewItem({ ...newItem, image: e.target.value })}/>
           <Space h="md" />
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => {
             newCaseModal[1].close;
@@ -492,8 +497,6 @@ export default function ProfilePage() {
             Mentés
           </Button>
         </Modal>
-
-        {/* newCaseItemModal[1].open(); getItems(selectedCase); */}
 
         {/* Tárgy szerkesztése selection*/}
         <Modal opened={editItemModal[0]} onClose={editItemModal[1].close} title="Tárgy szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
@@ -581,7 +584,7 @@ export default function ProfilePage() {
         <Modal opened={editCaseModal[0]} onClose={editCaseModal[1].close} title="Láda szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <TextInput label="Név" value={newCaseName} onChange={(e) => { setNewCaseName(e.target.value) }} />
           <TextInput label="Ár" value={newCasePrice} onChange={(e) => { setNewCasePrice(e.target.value) }} />
-          <FileInput variant="filled" label="Láda képe" description="Válassz az új ládának egy képet!" placeholder="Katt!" />
+          <TextInput label="Láda képe" placeholder="Illeszd ide a kép URL-ét..." description="Válassz az új ládának egy képet!" onChange={(e) => setNewCaseImage(e.target.value)}/>
           <Space h="md" />
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => { editCaseModal[1].close; editCase(selectedCase.caseId) }}>
             Mentés
