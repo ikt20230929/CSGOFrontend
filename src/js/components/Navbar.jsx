@@ -3,15 +3,6 @@ import { Avatar, Container, Group, Menu, NumberFormatter } from '@mantine/core';
 import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import admin from '../public/assets/admin.png';
-import calendar from '../public/assets/calendar.png';
-import give from '../public/assets/give.png';
-import home from '../public/assets/home.png';
-import logout from '../public/assets/logout.png';
-import money from '../public/assets/money.png';
-import settings from '../public/assets/settings.png';
-import upgrade from '../public/assets/upgrade.png';
-import user from '../public/assets/user.png';
 
 
 const links = [

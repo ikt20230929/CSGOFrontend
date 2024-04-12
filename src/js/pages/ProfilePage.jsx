@@ -132,7 +132,7 @@ export default function ProfilePage() {
                     <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
                 </Group>
                 <Grid gutter="lg">
-                    <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
+                    <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} onProfile={true}/>
                 </Grid>
                 <Modal opened={confirmSellModal} onClose={closeConfirmSellModal} title="Eladás megerősítése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
                     <Text>Biztosan el akarod adni a kiválasztott tárgyakat?</Text>
