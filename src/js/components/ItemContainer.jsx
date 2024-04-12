@@ -14,7 +14,7 @@ export default function ItemContainer({ item, onToggleItem, chance, selected, sh
     
     return (
         <Grid.Col span={3} data-cy="inventory-item">
-            <Card className="regpage" padding="lg" radius={0} style={{borderColor: selected ? 'lightblue' : '', borderLeftWidth: "5px", borderLeftColor: !selected ? rarityColors[item.itemRarity - 1] : '',}} withBorder
+            <Card className="regpage" padding="lg" radius={0} style={{height:"220px", borderColor: selected ? 'lightblue' : '', borderLeftWidth: "5px", borderLeftColor: !selected ? rarityColors[item.itemRarity - 1] : '',}} withBorder
             onClick={handleClick} >
                 {showChance != true ? (
                     <Checkbox labelPosition="right" color="cyan" radius="xl" onChange={() => onToggleItem(item.inventoryId ? item.inventoryId : item.itemId)}/>

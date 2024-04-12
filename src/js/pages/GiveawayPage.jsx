@@ -66,7 +66,10 @@ export default function GiveawayPage() {
               <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
               <div key={giveaway.giveawayId}>
                     <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
-                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
+                    <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{float:"right", margin:"auto", display:"block"}}>
+                    <img src={giveaway.giveawayItemAssetUrl} style={{float:"right", width:"6vw"}}></img>
+                    </Card>
+                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
                     <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
                     <Space h="sm" />
                     {giveaway.giveawayJoined ? (
@@ -100,7 +103,10 @@ export default function GiveawayPage() {
               <div key={giveaway.giveawayId}>
                     <Space h="sm" />
                     <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
-                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem}</Text>
+                    <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{float:"right", margin:"auto"}}>
+                    <img src={giveaway.giveawayItemAssetUrl} style={{float:"right", width:"6vw"}}></img>
+                    </Card>
+                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
                     {console.log(giveaway)}
                     <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
                     <Space h="md" />
