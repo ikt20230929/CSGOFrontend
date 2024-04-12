@@ -1,24 +1,24 @@
 import React, { Fragment } from 'react';
-import { Avatar, Container, Group, Menu, NumberFormatter } from '@mantine/core';
+import { Avatar, Container, Group, Image, Menu, NumberFormatter } from '@mantine/core';
 import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 
 const links = [
-	{ link: '/home', label: 'Kezdőlap', needsLogin: false },
-	{ link: '/loginstreak', label: "Napi jutalom", needsLogin: true},
-	{ link: '/giveaway', label: 'Nyereményjátékok', needsLogin: true },
-	{ link: '/upgrader', label: 'Upgrader', needsLogin: true },
+	{ link: '/home', label: 'Kezdőlap', Image:'/assets/home.png', needsLogin: false },
+	{ link: '/loginstreak', label: "Napi jutalom", Image:'/assets/calendar.png', needsLogin: true},
+	{ link: '/giveaway', label: 'Nyereményjátékok', Image:'/assets/give.png', needsLogin: true },
+	{ link: '/upgrader', label: 'Upgrader', Image:'/assets/upgrade.png', needsLogin: true },
 	{ link: '/login', label: 'Bejelentkezés', needsLogin: false, hideWhenLoggedIn: true }
 ];
 
 const menuLinks = [
-	{ link: '/profile', label: 'Profil', needsLogin: true },
-	{ link: '/topup', label: 'Töltsd fel az egyenleged!', needsLogin: true },
-	{ link: '/options', label: 'Beállítások', needsLogin: true, divider: true },
+	{ link: '/profile', label: 'Profil', Image:'/assets/user.png', needsLogin: true },
+	{ link: '/topup', label: 'Töltsd fel az egyenleged!', Image:'/assets/money.png', needsLogin: true },
+	{ link: '/options', label: 'Beállítások',Image:'/assets/setting.png', needsLogin: true, divider: true },
 	{ link: '/adminpage', label: 'Admin felület', needsLogin: true},
-	{ link: '/logout', label: 'Kijelentkezés', needsLogin: true }
+	{ link: '/logout', label: 'Kijelentkezés',Image:'/assets/logout.png' ,needsLogin: true }
 ];
 
 export default function Navbar() {
@@ -37,6 +37,7 @@ export default function Navbar() {
 		  key={link.label}
 		  to={link.link}
 		  className="link">
+			<img src={link.Image} style={{width:"20px", float:"left", marginRight:"10px"}}></img>
 		  {link.label}
 		</NavLink>
 	  );
@@ -55,6 +56,7 @@ export default function Navbar() {
 			  component={NavLink}
 			  to={link.link}
 			  className="link">
+				<img src='/assets/admin.png' style={{width:"20px", float:"left", marginRight:"10px"}}></img>
 			  {link.label}
 			</Menu.Item>
 			{link.divider && <Menu.Divider />}
@@ -69,6 +71,7 @@ export default function Navbar() {
 			  component={NavLink}
 			  to={link.link}
 			  className="link">
+				<img src={link.Image} style={{width:"20px", float:"left", marginRight:"10px"}}></img>
 			  {link.label}
 			</Menu.Item>
 			{link.divider && <Menu.Divider />}

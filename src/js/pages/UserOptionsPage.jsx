@@ -142,18 +142,18 @@ export default function UserOptionsPage() {
     }
 
     return (
-        <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ minHeight: "calc(100vh - 3.5rem)" }}>
-            <Group mt="lg" mb="xs">
+        <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
+            <Group justify='space-between' mt="lg" mb="xs" grow>
                 <Text fw={500}>Két-faktoros authentikáció</Text>
                 <Text fw={500}>{profile.userTotpEnabled ? "Aktív" : "Inaktív"}</Text>
-                {!profile.userTotpEnabled ? <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={() => modal1[1].open()}>Aktiválás</Button> : <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={() => modal2[1].open()}>Kikapcsolás</Button>}
+                {!profile.userTotpEnabled ? <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={() => modal1[1].open()}>Aktiválás</Button> : <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg"  onClick={() => modal2[1].open()}>Kikapcsolás</Button>}
             </Group>
-            <Group mt="lg" mb="xs">
+            <Group justify='space-between' mt="lg" mb="xs" grow>
                 <Text fw={500}>Biztonsági kulcsos authentikáció</Text>
                 <Text fw={500}>{profile.userWebauthnEnabled ? "Aktív" : "Inaktív"}</Text>
                 {!profile.userWebauthnEnabled ? <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} radius="lg" onClick={enableWebauthn}>Aktiválás</Button> : null}
             </Group>
-            <Modal opened={modal1[0]} title="Két-faktoros authentikáció" centered classNames={{ header: 'regpage', content: 'regpage' }} size={"auto"} onClose={modal1[1].close} withCloseButton={false} styles={{
+            <Modal opened={modal1[0]} title="Két-faktoros authentikáció"  centered classNames={{ header: 'regpage', content: 'regpage' }} size={"auto"} withBorder onClose={modal1[1].close} withCloseButton={false} styles={{
                 title: { textAlign: 'center' },
             }}>
                 {confirm ? (
