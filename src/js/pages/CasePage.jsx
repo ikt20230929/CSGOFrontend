@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Card, Text, Button, Grid, Space } from '@mantine/core';
+import { Card, Text, Grid, Space } from '@mantine/core';
 import ItemContainerCase from '../components/ItemContainerCase';
 import CaseOpeningAnim from '../components/CaseOpeningAnim';
 
@@ -14,6 +14,7 @@ function CasePage() {
     items: [],
   });
   const [navigateAway, setNavigateAway] = useState(false);
+  const [span, setSpan] = useState(3);
 
   useEffect(() => {
     const item = cases.find((item) => item.caseId == caseId);
@@ -32,9 +33,27 @@ function CasePage() {
         }
         return priceB - priceA;
       })
-      setCaseData({...item, items: sortedItems});
+      setCaseData({ ...item, items: sortedItems });
     }
   }, [caseId, cases]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 700) {
+        setSpan(6);
+      } else if (width < 1200) {
+        setSpan(4);
+      } else {
+        setSpan(3);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div>
@@ -52,12 +71,9 @@ function CasePage() {
           <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
             <Text size="xl">Megszerezhető tárgyak:</Text>
             <Space h="md" />
-            <Grid
-              cols={{ xs: 1, sm: 2, md: 3, lg: 4 }}
-              gap={{ xs: 'xs', sm: 'sm', md: 'md', lg: 'lg' }}
-            >
+            <Grid>
               {caseData.items.map((item) => (
-                <ItemContainerCase key={item.itemId} item={item} />
+                <ItemContainerCase key={item.itemId} item={item} span={span} />
               ))}
             </Grid>
           </Card>
