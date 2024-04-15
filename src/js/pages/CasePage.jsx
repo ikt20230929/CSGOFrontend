@@ -40,13 +40,14 @@ function CasePage() {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 700) {
+      if (width < 820) {
         setSpan(6);
       } else if (width < 1200) {
         setSpan(4);
       } else {
         setSpan(3);
       }
+      console.log(width);
     };
 
     window.addEventListener('resize', handleResize);

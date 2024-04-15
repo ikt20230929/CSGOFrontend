@@ -21,7 +21,6 @@ const CardList = ({ caseId }) => {
             const caseItems = cases.filter(caseItem => caseItem.caseId == caseId)[0].items;
             console.log(caseItems);
 
-
             // A tárgyakat ritkaság szerint súlyozzuk
             const weightedItems = [];
             caseItems.forEach(item => {
@@ -32,7 +31,7 @@ const CardList = ({ caseId }) => {
             });
 
             // Frissítjük az items állapotot
-            setItems(Array.from({ length: 32 }, () => weightedItems[Math.floor(Math.random() * weightedItems.length)]));
+            setItems(Array.from({ length: 50 }, () => weightedItems[Math.floor(Math.random() * weightedItems.length)]));
 
         } catch (error) {
             console.error('Hiba a láda betöltése közben!', error);
@@ -108,7 +107,7 @@ const CardList = ({ caseId }) => {
                 }}>
                     {items.map((item, index) => (
                         <div key={index} className="spinItem">
-                            <img src={item} style={{ width: "95px" }}></img>
+                            <img src={item} style={{ width: "95px", paddingTop: "15px" }}></img>
                         </div>
                     ))}
                 </div>

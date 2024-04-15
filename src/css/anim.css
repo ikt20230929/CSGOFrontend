@@ -77,11 +77,11 @@ top: -2px;
 /*---------------------------------------*/
 
 
-/* A teljes pöregtés animációt tartalmazó keret */
+/* A teljes pörgetés animációt tartalmazó keret */
 
 .spinContainer {
   height: 100px;
-  width: 800px;
+  max-width: 800px;
   position: relative;
   border: 1px solid rgba(99, 234, 255, 0.8);
   border-radius: 9px; 
@@ -106,7 +106,7 @@ top: -2px;
 }
 
 /* A következő stíluselemek a nyílak megjelenítéséért felelősek */
-/* Az animáció az itemContainer div margin-jának eltolsásával érjük el
+/* Az animáció az itemContainer div margin-jának eltolásával érjük el
    a pörgetés látszatát */
 
 .itemContainer::before,
