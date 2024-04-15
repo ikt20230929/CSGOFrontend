@@ -51,7 +51,10 @@ const CardList = ({ caseId }) => {
 
             setTimeout(() => {
                 setTransitionEnabled(true);
-                const newDistance = 228 + Math.random() * (220 - 228);
+                let newDistance = 228 + Math.random() * (220 - 228);
+                if (window.innerWidth < 800) {
+                   newDistance+=25; 
+                }
                 setMargin(-newDistance * 10);
 
                 setTimeout(() => {
@@ -84,7 +87,8 @@ const CardList = ({ caseId }) => {
                 const winnerItemName = response.data.message;
 
                 setWinnerItem(winnerItemName);
-                items[26] = winnerItemName.itemAssetUrl;
+                items[26] = "fasz"//winnerItemName.itemAssetUrl;
+                
             }
             setSpin(true);
         } catch (error) {
@@ -100,7 +104,9 @@ const CardList = ({ caseId }) => {
                     </Notification>
                 </Center>
             )}
-            <div className='spinContainer'>
+            <div className='spinContainer' style={{
+                width: window.innerWidth > 800 ? '800px' : '300px',
+            }}>
                 <div className="itemContainer" style={{
                     marginLeft: `${margin}px`,
                     transition: transitionEnabled ? 'margin-left 7.5s' : 'none'
