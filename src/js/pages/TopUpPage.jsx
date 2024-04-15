@@ -18,10 +18,16 @@ export default function TopUpPage() {
 
   const { profile } = useSelector(state => state.data);
 
+  const round = (num) => {
+    var p = Math.pow(10, 2);
+    var n = (num * p) * (1 + Number.EPSILON);
+    return Math.round(n) / p;
+  };
+
   const handleDeposit = async () => {
     const modifier = form.values.paymentMethod == 'Bankkártyás fizetés' ? 1.1 :
                      form.values.paymentMethod == 'PayPal' ? 1.15 : 1;
-    const amount = (form.values.amount * modifier);
+    const amount = round(form.values.amount * modifier);
 
     try {
       const response = await axios({
