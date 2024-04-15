@@ -87,7 +87,7 @@ const CardList = ({ caseId }) => {
                 const winnerItemName = response.data.message;
 
                 setWinnerItem(winnerItemName);
-                items[26] = "fasz"//winnerItemName.itemAssetUrl;
+                items[26] = winnerItemName.itemAssetUrl;
                 
             }
             setSpin(true);
