@@ -56,6 +56,15 @@
   max-width: 120vh;
 }
 
+.streak{
+  background-color: rgba(0, 0, 0, 0.7);
+  margin: auto;
+  display: flex;
+  position: relative;
+  margin-top: 30px;
+  width: 60vw;
+}
+
 .upgradeinput{
   background-color: rgba(0, 0, 0, 0.7);
   max-width: 100px;

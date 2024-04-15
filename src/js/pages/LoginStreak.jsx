@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { Card, Group, Text, Space, Badge, Notification } from "@mantine/core";
+import { Card, Group, Text, Space, Badge, Notification, Button } from "@mantine/core";
 import { useSelector } from 'react-redux';
 import { fetchEndpoint, fetchProfile } from '../Globals';
 
@@ -19,6 +19,15 @@ export default function LoginStreak() {
     const [claimSuccess, setClaimSuccess] = useState(false);
     const [alreadyClaimedToday, setAlreadyClaimedToday] = useState(dayjs(profile.userLastClaimDate).isSame(dayjs(), 'day'));
     const [amount, setAmount] = useState(0);
+
+    // Responsivity
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleButtonClick = async () => {
         var result = await fetchEndpoint('daily');
@@ -40,7 +49,7 @@ export default function LoginStreak() {
                 </Notification>
             )}
             <div className='loginstreak'>
-                <Card className="logpage" shadow="sm" padding="lg" radius="md" withBorder>
+                <Card className="streak" shadow="sm" padding="lg" radius="md" withBorder>
                     <Group justify="space-between" mt="lg" mb="xs">
                         <Text fw={900} size="5vw" tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                             Napi bejelentkezési bónuszod
@@ -48,17 +57,26 @@ export default function LoginStreak() {
                         <Badge color="pink">Gyere vissza minden nap!</Badge>
                     </Group>
                     <Space h="lg"></Space>
-                    <div className="calendar-grid">
-                        {monthDays.map((day, index) => (
-                            <div
-                                key={index}
-                                className={`calendar-cell ${day !== null ? 'active' : 'hidden'} ${day !== todayDate || alreadyClaimedToday ? 'past' : 'today'}`}
-                                onClick={!alreadyClaimedToday && day === todayDate ? handleButtonClick : undefined}
-                            >
-                                {day !== null && day}
-                            </div>
-                        ))}
-                    </div>
+
+                    {windowWidth > 1300 ? (
+                        // Current View
+                        <div className="calendar-grid">
+                            {monthDays.map((day, index) => (
+                                <div
+                                    key={index}
+                                    className={`calendar-cell ${day !== null ? 'active' : 'hidden'} ${day !== todayDate || alreadyClaimedToday ? 'past' : 'today'}`}
+                                    onClick={!alreadyClaimedToday && day === todayDate ? handleButtonClick : undefined}
+                                >
+                                    {day !== null && day}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        // New View, containing only a button
+                        <div>
+                            <Button variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}><img width="20px" style={{marginRight: "5px"}} src='/assets/treasure.png'></img>Napi jutalom kiváltása</Button>
+                        </div>
+                    )}
                 </Card>
             </div>
         </>
