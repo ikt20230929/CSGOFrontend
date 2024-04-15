@@ -8,9 +8,9 @@ export default function LogoutPage() {
 
     useEffect(() => {
         dispatch(actions.setAccessToken(null));
-        dispatch(actions.setProfile(null));
-        dispatch(actions.setInventory(null));
-        dispatch(actions.setCases(null));
+        dispatch(actions.setProfile([]));
+        dispatch(actions.setInventory([]));
+        dispatch(actions.setCases([]));
     }, []);
 
     return <Navigate to="/login" />
