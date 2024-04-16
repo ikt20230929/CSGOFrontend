@@ -142,6 +142,7 @@ export default function UserOptionsPage() {
     }
 
     return (
+        <div style={{height: '100vh'}}>
         <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
             <Group justify='space-between' mt="lg" mb="xs" grow>
                 <Text fw={500}>Két-faktoros authentikáció</Text>
@@ -222,5 +223,6 @@ export default function UserOptionsPage() {
                 </Group>
             </Modal>
         </Card>
+        </div>
     );
 }

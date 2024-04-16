@@ -58,7 +58,7 @@ export default function LoginStreak() {
                     </Group>
                     <Space h="lg"></Space>
 
-                    {windowWidth > 1300 ? (
+                    {windowWidth > 768 ? (
                         // Current View
                         <div className="calendar-grid">
                             {monthDays.map((day, index) => (
@@ -74,8 +74,20 @@ export default function LoginStreak() {
                     ) : (
                         // New View, containing only a button
                         <div>
-                            <Button variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}><img width="20px" style={{marginRight: "5px"}} src='/assets/treasure.png'></img>Napi jutalom kiváltása</Button>
+                            {alreadyClaimedToday ? (
+                                <Button disabled variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}>
+                                    <img width="20px" style={{ marginRight: "5px" }} src='/assets/treasure.png' alt="treasure"></img>
+                                    Napi jutalom kiváltása
+                                </Button>
+                            ) : (
+                                <Button variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}>
+                                    <img width="20px" style={{ marginRight: "5px" }} src='/assets/treasure.png' alt="treasure"></img>
+                                    Napi jutalom kiváltása
+                                </Button>
+                            )}
                         </div>
+
+
                     )}
                 </Card>
             </div>
