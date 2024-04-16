@@ -382,7 +382,7 @@ export default function ProfilePage() {
       })
 
       let res = response.data.message;
-      setImageResponse(res.replace("/api", `${API_URL}`));
+      setImageResponse(res.replace("/api", ""));
       uploadSuccesModal[1].open();
     } catch (error) {
       setOnError(true);
