@@ -4,7 +4,7 @@ import { DateTimePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
 import { useSelector, useDispatch } from "react-redux";
 import ItemContainer from "../components/ItemContainer";
-import axios from "axios";
+import axios, { formToJSON } from "axios";
 import { API_URL } from "../settings";
 import { fetchProfile } from "../Globals";
 import store, { actions } from "../store";
@@ -31,8 +31,10 @@ export default function ProfilePage() {
   const newGiveAwayModal = useDisclosure(false);
   const newGiveAwaySuccessModal = useDisclosure(false);
   const actionsModal = useDisclosure(false);
+  const uploadImageModal = useDisclosure(false);
+  const uploadSuccesModal = useDisclosure(false);
 
-  const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal, actionsModal];
+  const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal, actionsModal, uploadImageModal, uploadSuccesModal];
   const [newItem, setNewItem] = useState({
     itemName: '',
     description: '',
@@ -82,6 +84,8 @@ export default function ProfilePage() {
     items: []
   });
   const [selectedItems, setSelectedItems] = useState([]);
+  const [image, setImage] = useState('');
+  const [imageResponse, setImageResponse] = useState('');
 
   useEffect(() => {
     setCasesUpdated(true);
@@ -362,6 +366,33 @@ export default function ProfilePage() {
     }
   }
 
+  // Képfeltöltés adatbázisba 
+  const uploadImage = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('image', image);
+
+      const response = await axios({
+        method: 'post',
+        url: `${API_URL}/admin/images`,
+        headers: {
+          'Authorization': `Bearer ${store.getState().auth.accessToken}`
+        },
+        data: formData
+      })
+
+      let res = response.data.message;
+      setImageResponse(res.replace("/api", `${API_URL}`));
+      uploadSuccesModal[1].open();
+    } catch (error) {
+      setOnError(true);
+    }
+  }
+
+  const handleFileChange = (event) => {
+    setImage(event);
+  };
+
   useEffect(() => {
     let item = cases.find((item) => item.caseId == selectedCaseId);
 
@@ -426,6 +457,9 @@ export default function ProfilePage() {
             Nyereményjáték indítása
           </Button>
           <Space h="sm"></Space>
+          <Button fullWidth onClick={() => uploadImageModal[1].open()} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
+            Képfeltöltés
+          </Button>
         </Modal>
 
         <Modal opened={newCaseModal[0]} onClose={newCaseModal[1].close} title="Új láda adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
@@ -437,6 +471,20 @@ export default function ProfilePage() {
             disabled={!newCaseName || !newCasePrice}>
             Mentés
           </Button>
+        </Modal>
+
+        <Modal opened={uploadImageModal[0]} onClose={() => {uploadImageModal[1].close; closeAllModals()}} title="Képfeltöltés" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <FileInput
+            label="Kép"
+            placeholder="Kép kiválasztása"  
+            accept="image/png,image/jpeg"
+            onChange={handleFileChange}/>
+          <Space h="md" />
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => { uploadImageModal[1].close; uploadImage(); }}>Feltöltés</Button>
+        </Modal>
+
+        <Modal opened={uploadSuccesModal[0]} onClose={() => {uploadSuccesModal[1].close; closeAllModals();}} title="Sikeres feltöltés" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
+          <TextInput value={imageResponse}></TextInput>  
         </Modal>
 
         <Modal opened={newGiveAwayModal[0]} onClose={newGiveAwayModal[1].close} title="Nyereményjáték adatai" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
