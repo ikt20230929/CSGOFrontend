@@ -113,7 +113,7 @@ const CardList = ({ caseId }) => {
                 }}>
                     {items.map((item, index) => (
                         <div key={index} className="spinItem">
-                            <img src={item} style={{ width: "95px", paddingTop: "15px" }}></img>
+                            <img src={`${API_URL}${item}`} style={{ width: "95px", paddingTop: "15px" }}></img>
                         </div>
                     ))}
                 </div>
