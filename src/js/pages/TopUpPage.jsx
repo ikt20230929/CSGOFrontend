@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space, NumberFormatter } from '@mantine/core';
+import { Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space, NumberFormatter, Modal } from '@mantine/core';
 import { Link } from "react-router-dom";
 import { useForm } from '@mantine/form';
 import { useSelector } from "react-redux";
 import { API_URL } from "../settings";
 import store from "../store";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function TopUpPage() {
   const form = useForm({
@@ -17,6 +18,7 @@ export default function TopUpPage() {
   });
 
   const { profile } = useSelector(state => state.data);
+  const successfulPaymentModal = useDisclosure(false);
 
   const round = (num) => {
     var p = Math.pow(10, 2);
@@ -41,6 +43,7 @@ export default function TopUpPage() {
           amount: amount
         }
       });
+      successfulPaymentModal[1].open();
     } catch (error) {
       console.log(error);
       console.log(amount);
@@ -133,10 +136,15 @@ export default function TopUpPage() {
                 console.log(form.values);
                 handleDeposit();
               }
-            }>Befizetés</Button>
+            }
+            disabled={!form.values.termsOfService || form.values.amount <= 0 || form.values.paymentMethod === ''}>Befizetés</Button>
           </Group>
         </form>
       </Card>
+
+      <Modal opened={successfulPaymentModal[0]} onClose={successfulPaymentModal[1].close} title={"Sikeres befizetés"}>
+            <Text>Köszönjük, hogy minket választottál!</Text>
+      </Modal>
     </div>
   )
 }
