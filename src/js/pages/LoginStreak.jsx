@@ -58,7 +58,7 @@ export default function LoginStreak() {
                     </Group>
                     <Space h="lg"></Space>
 
-                    {windowWidth > 1300 ? (
+                    {windowWidth > 768 ? (
                         // Current View
                         <div className="calendar-grid">
                             {monthDays.map((day, index) => (
