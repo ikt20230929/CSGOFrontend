@@ -185,6 +185,10 @@ body {
   color: var(--mantine-color-white);
 }
 
+.link:hover {
+  border-bottom: 4px solid var(--mantine-color-blue-filled);
+}
+
 .sliders {
   margin-top: 10;
   margin-bottom: 10;

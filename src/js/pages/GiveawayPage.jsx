@@ -24,7 +24,7 @@ export default function GiveawayPage() {
         navigate("/login");
         return;
       }
-      
+
       const pastGiveawaysResponse = (await fetchEndpoint("giveaways/past")).data.message;
       if (pastGiveawaysResponse == null) {
         navigate("/login");
@@ -56,65 +56,64 @@ export default function GiveawayPage() {
   };
   return (
     <div>
-        <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{minHeight: "calc(100vh - 3.5rem)"}}>
+      <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ minHeight: "calc(100vh - 3.5rem)" }}>
         <Text size='5vw' fw={700} tt="uppercase" variant="gradient"
-      gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90  }}>Futó nyereményjátékok</Text>
+          gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>Futó nyereményjátékok</Text>
         <Space h="xl" />
-      <div>
-        {currentGiveaways.length == 0 ? <h2>Jelenleg nem fut egy nyereményjáték sem...</h2> : currentGiveaways.map(giveaway => {
+        <div>
+          {currentGiveaways.length == 0 ? <h2>Jelenleg nem fut egy nyereményjáték sem...</h2> : currentGiveaways.map(giveaway => {
             return (
               <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder>
-              <div key={giveaway.giveawayId}>
-                    <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
-                    <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{float:"right", margin:"auto", display:"block"}}>
-                    <img src={giveaway.giveawayItemAssetUrl} style={{float:"right", width:"6vw"}}></img>
-                    </Card>
-                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
-                    <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
-                    <Space h="sm" />
-                    {giveaway.giveawayJoined ? (
-                          <Button disabled
-                        >
-                          Már csatlakoztál!
-                        </Button>
-                        ) : (
-                                <Button onClick={() => handleButtonClick(giveaway.giveawayId)}
-                                  variant="gradient"
-                                  gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }}
-                                >
-                                  Csatlakozás!
-                                </Button>
-                                
-                    )}
-                          <Space h="md" />
-              </div>
+                <div key={giveaway.giveawayId}>
+                  <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                  <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{ float: "right", margin: "auto", display: "block" }}>
+                    <img src={giveaway.giveawayItemAssetUrl} style={{ float: "right", width: "6vw" }}></img>
+                  </Card>
+                  <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
+                  <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
+                  <Space h="sm" />
+                  {giveaway.giveawayJoined ? (
+                    <Button disabled
+                    >
+                      Már csatlakoztál!
+                    </Button>
+                  ) : (
+                    <Button onClick={() => handleButtonClick(giveaway.giveawayId)}
+                      variant="gradient"
+                      gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }}
+                    >
+                      Csatlakozás!
+                    </Button>
+
+                  )}
+                  <Space h="md" />
+                </div>
               </Card>
             );
           })}
-      </div>
-      <Space h="lg" />
-      <Text size='3.5vw' fw={700} tt="uppercase" variant="gradient"
-      gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90  }}>Korábbi nyertesek</Text>
-      <Space h="xl" />
-      {pastGiveaways.length == 0 ? <h2>Még senki sem nyert, légy te az első!</h2> : pastGiveaways.map(giveaway => {
-            return (
-              <Paper className='logpage' shadow="xs" radius="md" withBorder p="xl" style={{width: "60%", margin: "10px"}}>
-                <Space h="sm"></Space>
+        </div>
+        <Space h="lg" />
+        <Text size='3.5vw' fw={700} tt="uppercase" variant="gradient"
+          gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(143, 143, 143, 1)', deg: 90 }}>Korábbi nyertesek</Text>
+        <Space h="xl" />
+        {pastGiveaways.length == 0 ? <h2>Még senki sem nyert, légy te az első!</h2> : pastGiveaways.map(giveaway => {
+          return (
+            <Paper className='logpage' shadow="xs" radius="md" withBorder p="xl" style={{ width: "60%", margin: "10px" }}>
+              <Space h="sm"></Space>
               <div key={giveaway.giveawayId}>
-                    <Space h="sm" />
-                    <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
-                    <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{float:"right", margin:"auto"}}>
-                    <img src={giveaway.giveawayItemAssetUrl} style={{float:"right", width:"6vw"}}></img>
-                    </Card>
-                    <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
-                    {console.log(giveaway)}
-                    <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
-                    <Space h="md" />
-                    <Divider size="sm" style={{ width: "20%" }} />
+                <Space h="sm" />
+                <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
+                <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{ float: "right", margin: "auto" }}>
+                  <img src={giveaway.giveawayItemAssetUrl} style={{ float: "right", width: "6vw" }}></img>
+                </Card>
+                <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
+                <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
+                <Space h="md" />
+                <Divider size="sm" style={{ width: "20%" }} />
               </div>
-              </Paper>
-            );
-          })}
+            </Paper>
+          );
+        })}
       </Card>
     </div>
   );

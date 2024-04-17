@@ -193,7 +193,6 @@ const MultiplierWheel = () => {
             >
                 {isSuccess ? (
                     <>
-                        <Text>Nyereményed: {winSelection}</Text>
                         <Button onClick={() => {
                             setItemAccepted(true);
                             setOpenModal(false);

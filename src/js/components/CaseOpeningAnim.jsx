@@ -19,7 +19,6 @@ const CardList = ({ caseId }) => {
     const fetchCases = async () => {
         try {
             const caseItems = cases.filter(caseItem => caseItem.caseId == caseId)[0].items;
-            console.log(caseItems);
 
             // A tárgyakat ritkaság szerint súlyozzuk
             const weightedItems = [];
@@ -98,7 +97,7 @@ const CardList = ({ caseId }) => {
 
     return (
         <div>
-            {spin == true && (
+            {spin == true && window.innerWidth > 800 && (
                 <Center>
                     <Notification withCloseButton={false} className='openalert' withBorder color="cyan" radius="lg" title="Láda nyitása folyamatban...">
                     </Notification>
@@ -128,7 +127,7 @@ const CardList = ({ caseId }) => {
                 title="Gratulálunk!"
             >
                 <div>Nyereményed: {winnerItem.itemSkinName}</div>
-                <img src={winnerItem.itemAssetUrl} style={{ width: "200px" }}></img>
+                <img src={`${API_URL}${winnerItem.itemAssetUrl}`} style={{ width: "200px" }}></img>
             </Modal>
             <Modal
                 opened={onError}

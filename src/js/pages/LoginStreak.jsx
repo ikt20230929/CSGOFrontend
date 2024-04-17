@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { Card, Group, Text, Space, Badge, Notification, Button } from "@mantine/core";
+import { Card, Group, Text, Space, Badge, Notification, Button, Center   } from "@mantine/core";
 import { useSelector } from 'react-redux';
 import { fetchEndpoint, fetchProfile } from '../Globals';
 
@@ -75,15 +75,19 @@ export default function LoginStreak() {
                         // New View, containing only a button
                         <div>
                             {alreadyClaimedToday ? (
-                                <Button disabled variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}>
-                                    <img width="20px" style={{ marginRight: "5px" }} src='/assets/treasure.png' alt="treasure"></img>
-                                    Napi jutalom kiváltása
-                                </Button>
+                                <Center>
+                                    <Button disabled variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}>
+                                        <img width="20px" style={{ marginRight: "5px" }} src='/assets/treasure.png' alt="treasure"></img>
+                                        Napi jutalom kiváltása
+                                    </Button>
+                                </Center>
                             ) : (
-                                <Button variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}>
-                                    <img width="20px" style={{ marginRight: "5px" }} src='/assets/treasure.png' alt="treasure"></img>
-                                    Napi jutalom kiváltása
-                                </Button>
+                                <Center>
+                                    <Button variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} onClick={handleButtonClick}>
+                                        <img width="20px" style={{ marginRight: "5px" }} src='/assets/treasure.png' alt="treasure"></img>
+                                        Napi jutalom kiváltása
+                                    </Button>
+                                </Center>
                             )}
                         </div>
 

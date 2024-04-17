@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Radio, Checkbox, Card, Text, Badge, Button, Group, NumberInput, Space, NumberFormatter, Modal } from '@mantine/core';
 import { Link } from "react-router-dom";
 import { useForm } from '@mantine/form';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../settings";
-import store from "../store";
 import { useDisclosure } from "@mantine/hooks";
+import { fetchProfile } from "../Globals";
+import store, { actions } from "../store";
+const { setProfile } = actions;
 
 export default function TopUpPage() {
   const form = useForm({
@@ -17,8 +19,10 @@ export default function TopUpPage() {
     }
   });
 
+  const dispatch = useDispatch();
   const { profile } = useSelector(state => state.data);
   const successfulPaymentModal = useDisclosure(false);
+  const [successfulPayment, setSuccessfulPayment] = useState(false);
 
   const round = (num) => {
     var p = Math.pow(10, 2);
@@ -44,11 +48,19 @@ export default function TopUpPage() {
         }
       });
       successfulPaymentModal[1].open();
+      setSuccessfulPayment(true);
     } catch (error) {
       console.log(error);
       console.log(amount);
     }
   }
+
+  useEffect(() => {
+    fetchProfile().then(() => {
+      dispatch(setProfile(store.getState().data.profile));
+    })
+    setSuccessfulPayment(false);
+  }, [dispatch, successfulPayment])
 
   return (
     <div className="topup">
