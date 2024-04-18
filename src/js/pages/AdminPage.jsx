@@ -34,6 +34,8 @@ export default function ProfilePage() {
   const uploadImageModal = useDisclosure(false);
   const uploadSuccesModal = useDisclosure(false);
 
+  const [span, setSpan] = useState(3);
+
   const allModals = [newCaseModal, newItemModal, editCaseModal, showCaseModal, showDeleteCaseModal, newCaseItemModal, actionsModal, uploadImageModal, uploadSuccesModal];
   const [newItem, setNewItem] = useState({
     itemName: '',
@@ -125,6 +127,24 @@ export default function ProfilePage() {
 
     confirmDeleteItemModal[1].open();
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 820) {
+        setSpan(6);
+      } else if (width < 1200) {
+        setSpan(4);
+      } else {
+        setSpan(3);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [window.innerWidth]);
 
   // Láda létrehozása
   const createCase = async () => {
@@ -549,7 +569,7 @@ export default function ProfilePage() {
         {/* Tárgy szerkesztése selection*/}
         <Modal opened={editItemModal[0]} onClose={editItemModal[1].close} title="Tárgy szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Grid>
-            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleSelect} />)}
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleSelect} spanWidth={span}/>)}
           </Grid>
         </Modal>
 
@@ -602,7 +622,7 @@ export default function ProfilePage() {
         {/* Tárgy törlése */}
         <Modal opened={deleteItemModal[0]} onClose={deleteItemModal[1].close} title="Tárgy törlése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Grid>
-            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleDelete} />)}
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleDelete} spanWidth={span}/>)}
           </Grid>
         </Modal>
 
@@ -647,7 +667,7 @@ export default function ProfilePage() {
           <Text size="xl">Tárgyak ({selectedCase.items.length} db):</Text>
           <Space h="md" />
           <Grid>
-            {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem} />)}
+            {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem} spanWidth={span}/>)}
           </Grid>
           <Button style={{ margin: "5px" }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
           <Button onClick={() => { deleteSelectedItems(selectedCaseId) }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>Kiválasztott tárgyak törlése</Button>
@@ -668,7 +688,7 @@ export default function ProfilePage() {
         <Modal size="lg" opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
           <Grid>
-            {itemList.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem} />)}
+            {itemList.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem} spanWidth={span}/>)}
           </Grid>
           <Space h="xs"></Space>
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={newCaseItemModal[1].close}>Mégsem</Button>
