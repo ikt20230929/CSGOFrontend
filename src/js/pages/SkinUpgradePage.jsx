@@ -3,7 +3,6 @@ import { Button, Text, Card, Space, Group, TextInput, Grid, ScrollArea, Modal } 
 import FortuneWheel from '../components/FortuneWheel';
 import { useSelector, useDispatch } from "react-redux";
 import InventorySearchWrapper from "../components/InventorySearchWrapper";
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../settings';
 import { fetchProfile } from '../Globals';
@@ -22,6 +21,7 @@ const MultiplierWheel = () => {
     const [isSuccess, setIsSuccess] = useState(true); // A fejlesztés kimenetele (true, false)
     const [openModel, setOpenModal] = useState(false); // Párbeszéd ablak megnyitása
     const [itemAccepted, setItemAccepted] = useState(false) // A párbeszédablak bezárása
+    const [span, setSpan] = useState(3); // Kártya szélesség beállítása
     const dispatch = useDispatch();
 
     // Pörgetés elindítása
@@ -130,6 +130,24 @@ const MultiplierWheel = () => {
         setSelectedItems([]);
     }, [dispatch, itemAccepted == true])
 
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            if (width < 820) {
+                setSpan(6);
+            } else if (width < 1200) {
+                setSpan(4);
+            } else {
+                setSpan(3);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <Card style={{ width: "100%", maxWidth: "100%", backgroundColor: "transparent" }}>
             <Text size='5vw' style={{ width: "100%", maxWidth: "100%", marginBottom: "30px" }} fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
@@ -149,7 +167,7 @@ const MultiplierWheel = () => {
                         <Space h="xs"></Space>
                         <ScrollArea h={450} scrollbarSize={2}>
                             <Grid gutter="md">
-                                <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} />
+                                <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} spanWidth={span}/>
                             </Grid>
                         </ScrollArea>
                     </Card>
@@ -179,7 +197,7 @@ const MultiplierWheel = () => {
                         {selectedItems.length > 0 && (
                             <ScrollArea h={450} scrollbarSize={2}>
                                 <Grid gutter="md">
-                                    <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} />
+                                    <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} spanWidth={span} />
                                 </Grid>
                             </ScrollArea>
                         )}

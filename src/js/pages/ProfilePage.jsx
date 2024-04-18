@@ -11,6 +11,7 @@ const { setProfile, setInventory } = actions;
 
 export default function ProfilePage() {
     const errorModal = useDisclosure(false);
+    const [span, setSpan] = useState(3);
 
     const dispatch = useDispatch();
     const { profile, inventory } = useSelector(state => state.data);
@@ -91,6 +92,24 @@ export default function ProfilePage() {
         }
     };
 
+    useEffect(() => {
+        const handleResize = () => {
+          const width = window.innerWidth;
+          if (width < 820) {
+            setSpan(6);
+          } else if (width < 1200) {
+            setSpan(4);
+          } else {
+            setSpan(3);
+          }
+        };
+    
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    
+        return () => window.removeEventListener('resize', handleResize);
+      }, [window.innerWidth]);
+
     return (
         <div>
             <Card className="regpage" shadow="sm" padding="lg" radius="md" withBorder style={{ minHeight: "calc(100vh - 3.5rem)" }}>
@@ -132,7 +151,7 @@ export default function ProfilePage() {
                     <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
                 </Group>
                 <Grid gutter="lg">
-                    <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} onProfile={true}/>
+                    <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} onProfile={true} spanWidth={span}/>
                 </Grid>
                 <Modal opened={confirmSellModal} onClose={closeConfirmSellModal} title="Eladás megerősítése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
                     <Text>Biztosan el akarod adni a kiválasztott tárgyakat?</Text>

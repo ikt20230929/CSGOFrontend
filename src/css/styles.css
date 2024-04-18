@@ -15,7 +15,7 @@
   border: 1px solid transparent;
   color: black;
   font-size: 30px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .calendar-cell.active:hover {
@@ -35,6 +35,7 @@
 .calendar-cell.today:hover {
   border-color: aqua;
 }
+
 .hidden {
   visibility: hidden;
 }
@@ -43,11 +44,11 @@
   pointer-events: none;
 }
 
-.logpage{
+.logpage {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.regpage{
+.regpage {
   background-color: rgba(0, 0, 0, 0.7);
   margin: auto;
   display: flex;
@@ -56,7 +57,7 @@
   max-width: 120vh;
 }
 
-.streak{
+.streak {
   background-color: rgba(0, 0, 0, 0.7);
   margin: auto;
   display: flex;
@@ -65,14 +66,14 @@
   width: 60vw;
 }
 
-.upgradeinput{
+.upgradeinput {
   background-color: rgba(0, 0, 0, 0.7);
   max-width: 100px;
   margin: auto;
   margin-top: 10px;
 }
 
-.balupgrdcard{
+.balupgrdcard {
   background-color: rgba(0, 0, 0, 0.7);
   max-width: 90vh;
   width: 60vh;
@@ -83,7 +84,7 @@
   position: relative;
 }
 
-.upgrdcard{
+.upgrdcard {
   background-color: rgba(0, 0, 0, 0.7);
   max-width: 90vh;
   width: 60vh;
@@ -94,7 +95,7 @@
   position: relative;
 }
 
-.upgrdcard2{
+.upgrdcard2 {
   background-color: rgba(0, 0, 0, 0.7);
   max-width: 90vh;
   width: 60vh;
@@ -105,7 +106,7 @@
   position: relative;
 }
 
-.admincase{
+.admincase {
   margin: auto;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
@@ -114,34 +115,34 @@
   max-width: 120vh;
 }
 
-.topup{
+.topup {
   margin: auto;
   max-width: 100%;
   padding-top: 150px;
 }
 
-.loginstreak{
+.loginstreak {
   margin: auto;
   height: 100vh;
   padding-top: 20px;
 }
 
-.alerteles{
+.alerteles {
   max-width: 300px;
   max-height: 100px;
   margin: 10px;
   position: absolute;
 }
 
-.openalert{
-top: 130px;
-position: absolute;
+.openalert {
+  top: 130px;
+  position: absolute;
 }
 
 body {
   -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
   -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);
-  background-image: url("../../public/assets/background.png") ;
+  background-image: url("../../public/assets/background.png");
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--mantine-color-text);
@@ -176,7 +177,8 @@ body {
   font-weight: 500;
 }
 
-.link:not(.active):hover, .mantine-Menu-item[data-hovered]:not(.active) {
+.link:not(.active):hover,
+.mantine-Menu-item[data-hovered]:not(.active) {
   background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
 }
 

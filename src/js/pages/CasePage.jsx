@@ -47,14 +47,13 @@ function CasePage() {
       } else {
         setSpan(3);
       }
-      console.log(width);
     };
 
     window.addEventListener('resize', handleResize);
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [window.innerWidth]);
 
   return (
     <div>
