@@ -126,8 +126,6 @@ public/dist
 public/docs
 config/settings-prod.js
 src/js/settings.js
-cypress/downloads
-cypress/logs
 
 ca.crt
 localhost.crt

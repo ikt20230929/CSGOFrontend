@@ -14,10 +14,8 @@
     "open": "opener https://localhost:3000",
     "build": "npm run config && npm run build:esbuild",
     "build:dev": "npm run config:dev && npm run build:esbuild",
-    "watch": "npm run cert && concurrently --kill-others-on-fail npm:config:dev:watch npm:watch:esbuild npm:serve npm:open",
-    "cypress": "wait-on https://localhost:3000 && cypress run",
-    "test": "npm run cert && concurrently --kill-others npm:serve npm:cypress"
-  },
+    "watch": "npm run cert && concurrently --kill-others-on-fail npm:config:dev:watch npm:watch:esbuild npm:serve npm:open"
+    },
   "browserslist": "defaults, not IE 11, not dead",
   "homepage": "./",
   "keywords": [],
@@ -27,7 +25,6 @@
     "@testing-library/cypress": "^10.0.1",
     "autoprefixer": "^10.4.19",
     "concurrently": "^8.2.2",
-    "cypress": "^13.7.2",
     "esbuild": "^0.20.2",
     "esbuild-sass-plugin": "^3.2.0",
     "execa": "^8.0.1",
@@ -38,8 +35,7 @@
     "postcss": "^8.4.38",
     "postcss-preset-mantine": "^1.14.0",
     "postcss-simple-vars": "^7.0.1",
-    "serve": "^14.2.1",
-    "wait-on": "^7.2.0"
+    "serve": "^14.2.1"
   },
   "dependencies": {
     "@mantine/core": "^7.7.1",
