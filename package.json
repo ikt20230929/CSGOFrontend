@@ -33,7 +33,7 @@
     "nodemon": "^3.1.0",
     "opener": "^1.5.2",
     "postcss": "^8.4.38",
-    "postcss-preset-mantine": "^1.14.0",
+    "postcss-preset-mantine": "^1.14.4",
     "postcss-simple-vars": "^7.0.1",
     "serve": "^14.2.1"
   },
