@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useRef } from 'react';
 import { coerceToBase64Url, fetchProfile } from '../Globals';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginContext } from '../context/LoginContext';
 import { API_URL } from '../settings';
 import { actions } from '../store';
@@ -116,8 +116,9 @@ export default function WebAuthnPage() {
                 <h1>Kétfaktoros hitelesítés</h1>
                 <p>Helyezd be a biztonsági kulcsot, és érintsd meg.</p>
                 <p>Ha a biztonsági kulcs nem válaszol, kattints <a onClick={() => fetchWebAuthn()} style={{ cursor: "pointer", color: "lightblue" }}>ide</a>
-                    {data.mfa.mfaType === "PickTwoFactor" ? <a href="/two-factor">, vagy próbálj meg egy másik hitelesítési módszert.</a> : "."}
+                    {data.mfa.mfaType === "PickTwoFactor" ? <>, vagy próbálj meg egy <Link to={"/login/totp"}>másik hitelesítési módszert.</Link></> : "."}
                 </p>
+                <h2>Várakozás a biztonsági kulcsra...</h2>
             </Paper>
         </CenteredContainer>
     );

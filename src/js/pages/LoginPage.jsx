@@ -36,7 +36,8 @@ export default function LoginPage() {
                         setInvalid(true);
                         break;
                     case "EnterWebAuthn":
-                        data.mfa.mfaType = "WebAuthn";
+                    case "PickTwoFactor":
+                        data.mfa.mfaType = "PickTwoFactor";
                         navigate("/login/webauthn");
                         break;
                     default:

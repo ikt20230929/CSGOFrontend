@@ -18,7 +18,7 @@ export default function TwoFactorPage() {
         if(data.mfa.mfaType !== "TOTP" && data.mfa.mfaType !== "PickTwoFactor") return navigate("/login");
     }, []);
 
-    return <TwoFactorForm onSubmit={async (values) => {
+    return <TwoFactorForm showWebAuthn={data.mfa.mfaType === "PickTwoFactor"} onSubmit={async (values) => {
         try {
             const response = await axios.post(`${API_URL}/login`, {
                 username: data.username,
