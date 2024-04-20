@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { loginContext } from "../context/LoginContext";
 import { useContext } from "react";
@@ -13,13 +13,19 @@ export default function TwoFactorPage() {
     const data = useContext(loginContext);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [isInvalid, setIsInvalid] = useState(false);
+    const [error, setError] = useState("");
     
     useEffect(() => {
         if(data.mfa.mfaType !== "TOTP" && data.mfa.mfaType !== "PickTwoFactor") return navigate("/login");
     }, []);
 
-    return <TwoFactorForm showWebAuthn={data.mfa.mfaType === "PickTwoFactor"} onSubmit={async (values) => {
+    return <TwoFactorForm isInvalid={isInvalid} error={error} showWebAuthn={data.mfa.mfaType === "PickTwoFactor"} onSubmit={async (values) => {
         try {
+
+            setError("");
+            setIsInvalid(false);
+            
             const response = await axios.post(`${API_URL}/login`, {
                 username: data.username,
                 password: data.password,
@@ -40,11 +46,13 @@ export default function TwoFactorPage() {
                 }
             } else {
                 console.error("Login error:", response.data.message);
-                alert(response.data.message);
+                setError(response.data.message);
+                setIsInvalid(true);
             }
         } catch (error) {
             console.error("Login error:", error);
-            alert(error);
+            setError(error.message);
+            setIsInvalid(true);
         }
     }} />;
 }

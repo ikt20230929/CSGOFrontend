@@ -12,6 +12,7 @@ const { setProfile } = actions;
 
 export default function TopUpPage() {
   const form = useForm({
+    mode: 'uncontrolled',
     initialValues: {
       amount: '',
       termsOfService: false,
@@ -31,9 +32,11 @@ export default function TopUpPage() {
   };
 
   const handleDeposit = async () => {
-    const modifier = form.values.paymentMethod == 'Bankkártyás fizetés' ? 1.1 :
-                     form.values.paymentMethod == 'PayPal' ? 1.15 : 1;
-    const amount = round(form.values.amount * modifier);
+    const values = form.getValues();
+
+    const modifier = values.paymentMethod == 'Bankkártyás fizetés' ? 1.1 :
+      values.paymentMethod == 'PayPal' ? 1.15 : 1;
+    const amount = round(values.amount * modifier);
 
     try {
       const response = await axios({
@@ -70,53 +73,46 @@ export default function TopUpPage() {
           <Badge color="pink">Adataid biztonságban vannak</Badge>
         </Group>
         <Space h="lg"></Space>
-        <form>
-          <Radio
-            classNames={{ radio: 'logpage' }}
-            label="Bankkártyás fizetés"
-            value="Bankkártyás fizetés"
-            name="paymentMethod"
-            description="Ezzel a fizetési móddal +10% jóváírásra kerül az egyenlegedre."
-            color="cyan"
-            size="lg"
-            checked={form.values.paymentMethod === 'Bankkártyás fizetés'}
-            onChange={() => form.setFieldValue('paymentMethod', 'Bankkártyás fizetés')}
-          />
-          <Space h="sm"></Space>
-          <Radio
-            classNames={{ radio: 'logpage' }}
-            label="PaySafeCard"
-            value="PaySafeCard"
-            name="paymentMethod"
-            description="Pötyögd be a hátoldalán található kódot, és már pörgethetsz is!"
-            color="cyan"
-            size="lg"
-            checked={form.values.paymentMethod === 'PaySafeCard'}
-            onChange={() => form.setFieldValue('paymentMethod', 'PaySafeCard')}
-          />
-          <Radio
-            classNames={{ radio: 'logpage' }}
-            label="Paypal"
-            value="Paypal"
-            name="paymentMethod"
-            description="Ezzel a fizetési móddal +15% jóváírásra kerül az egyenlegedre."
-            color="cyan"
-            size="lg"
-            checked={form.values.paymentMethod === 'Paypal'}
-            onChange={() => form.setFieldValue('paymentMethod', 'Paypal')}
-          />
-          <Space h="sm"></Space>
-          <Radio
-            classNames={{ radio: 'logpage' }}
-            label="Fizess skinekkel"
-            value="Fizess skinekkel"
-            name="paymentMethod"
-            description="Van néhány skined, amire nincs szükséged már, és szerencsét próbálnál? Akkor ez a te választásod!"
-            color="cyan"
-            size="lg"
-            checked={form.values.paymentMethod === 'Fizess skinekkel'}
-            onChange={() => form.setFieldValue('paymentMethod', 'Fizess skinekkel')}
-          />
+        <form onSubmit={form.onSubmit(handleDeposit)}>
+          <Radio.Group
+            {...form.getInputProps('paymentMethod')}
+          >
+            <Radio
+              classNames={{ radio: 'logpage' }}
+              label="Bankkártyás fizetés"
+              value="Bankkártyás fizetés"
+              description="Ezzel a fizetési móddal +10% jóváírásra kerül az egyenlegedre."
+              color="cyan"
+              size="lg"
+              required
+            />
+            <Space h="sm"></Space>
+            <Radio
+              classNames={{ radio: 'logpage' }}
+              label="PaySafeCard"
+              value="PaySafeCard"
+              description="Pötyögd be a hátoldalán található kódot, és már pörgethetsz is!"
+              color="cyan"
+              size="lg"
+            />
+            <Radio
+              classNames={{ radio: 'logpage' }}
+              label="PayPal"
+              value="PayPal"
+              description="Ezzel a fizetési móddal +15% jóváírásra kerül az egyenlegedre."
+              color="cyan"
+              size="lg"
+            />
+            <Space h="sm"></Space>
+            <Radio
+              classNames={{ radio: 'logpage' }}
+              label="Fizess skinekkel"
+              value="Fizess skinekkel"
+              description="Van néhány skined, amire nincs szükséged már, és szerencsét próbálnál? Akkor ez a te választásod!"
+              color="cyan"
+              size="lg"
+            />
+          </Radio.Group>
           <Space h="md"></Space>
           <NumberInput withAsterisk
             classNames={{ input: 'logpage' }}
@@ -124,6 +120,7 @@ export default function TopUpPage() {
             placeholder="$100"
             prefix="$"
             mb="md"
+            required
             allowNegative={false}
             {...form.getInputProps('amount')}
           />
@@ -134,6 +131,7 @@ export default function TopUpPage() {
             mt="md"
             color="cyan"
             label="Elfogadom az Adatvédelmi és Általános Szerződési Feltételeket, beleértve, hogy adataim nem kerülnek publikálásra, és biztonságban lesznek."
+            required
             error="Mező kijelölése kötelező!"
             {...form.getInputProps('termsOfService', { type: 'checkbox' })}
           />
@@ -143,19 +141,13 @@ export default function TopUpPage() {
                 Vissza
               </Button>
             </Link>
-            <Button variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg" onClick={
-              () => {
-                console.log(form.values);
-                handleDeposit();
-              }
-            }
-            disabled={!form.values.termsOfService || form.values.amount <= 0 || form.values.paymentMethod === ''}>Befizetés</Button>
+            <Button variant="gradient" type="submit" gradient={{ from: 'rgba(255, 255, 255, 0.2)', to: 'rgba(99, 234, 255, 0.8)', deg: 90 }} radius="lg">Befizetés</Button>
           </Group>
         </form>
       </Card>
 
       <Modal opened={successfulPaymentModal[0]} onClose={successfulPaymentModal[1].close} title={"Sikeres befizetés"}>
-            <Text>Köszönjük, hogy minket választottál!</Text>
+        <Text>Köszönjük, hogy minket választottál!</Text>
       </Modal>
     </div>
   )

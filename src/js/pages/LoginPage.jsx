@@ -13,10 +13,14 @@ export default function LoginPage() {
     const dispatch = useDispatch();
     const data = useContext(loginContext);
     const [invalid, setInvalid] = useState(false);
+    const [error, setError] = useState("");
 
     const handleLogin = async(values) => {
         data.username = values.username;
         data.password = values.password;
+
+        setError("");
+        setInvalid(false);
 
         try {
             const loginResponse = await axios.post(`${API_URL}/login`, {
@@ -32,17 +36,14 @@ export default function LoginPage() {
                         data.mfa.mfaType = "TOTP";
                         navigate("/login/totp");
                         break;
-                    case "InvalidCredential":
-                        setInvalid(true);
-                        break;
                     case "EnterWebAuthn":
                     case "PickTwoFactor":
                         data.mfa.mfaType = "PickTwoFactor";
                         navigate("/login/webauthn");
                         break;
                     default:
-                        console.error("Unknown error!" + loginResponse.data.message);
-                        alert(loginResponse.data.message);
+                        setError(loginResponse.data.message);
+                        setInvalid(true);
                         break;
                 }
             } else {
@@ -57,7 +58,8 @@ export default function LoginPage() {
             }
         } catch (error) {
             console.error("Login error:", error);
-            alert(error);
+            setError(error.message);
+            setInvalid(true);
         }
     };
 
@@ -65,6 +67,7 @@ export default function LoginPage() {
         <LoginForm
             onSubmit={handleLogin}
             isInvalid={invalid}
+            error={error}
         />
     );
 }
