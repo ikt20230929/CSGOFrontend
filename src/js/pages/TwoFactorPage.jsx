@@ -15,7 +15,7 @@ export default function TwoFactorPage() {
     const navigate = useNavigate();
     
     useEffect(() => {
-        if(data.mfa.mfaType !== "TOTP") return navigate("/login");
+        if(data.mfa.mfaType !== "TOTP" && data.mfa.mfaType !== "PickTwoFactor") return navigate("/login");
     }, []);
 
     return <TwoFactorForm onSubmit={async (values) => {
