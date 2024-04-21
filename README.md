@@ -14,6 +14,7 @@ A függőségekre vonatkozó szerzői jogi és licencadatok a [NOTICE.txt](NOTIC
 `cd CSGOFrontend`
 
 4. Konfigurációs fájl szerkesztése
+
 Az alkalmazás mappájában egy `config\settings-dev.js` nevű fájl található.
 
 Nyisd meg, és váloztatsd meg az alábbi értékeket a környezetedhez képest:
