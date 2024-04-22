@@ -5,15 +5,14 @@ import { MemoryRouter } from 'react-router-dom';
 import { TwoFactorForm } from './TwoFactorForm';
 import '@testing-library/jest-dom';
 
-// Polyfill for window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),

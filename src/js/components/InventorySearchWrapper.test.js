@@ -3,7 +3,6 @@ import { render, fireEvent } from '@testing-library/react';
 import InventorySearchWrapper from './InventorySearchWrapper';
 import '@testing-library/jest-dom';
 
-// Mock the ItemContainer component
 jest.mock('./ItemContainer', () => {
   return jest.fn(({ item, onToggleItem, chance, selected }) => (
     <div>
@@ -17,7 +16,6 @@ describe('InventorySearchWrapper', () => {
   const items = [
     { itemId: 1, itemName: 'Item 1' },
     { itemId: 2, itemName: 'Item 2' },
-    // Add more items for testing if needed
   ];
 
   it('renders items based on search term', () => {

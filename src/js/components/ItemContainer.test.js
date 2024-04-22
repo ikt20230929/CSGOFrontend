@@ -9,8 +9,8 @@ Object.defineProperty(window, 'matchMedia', {
       matches: false,
       media: query,
       onchange: null,
-      addListener: jest.fn(), // Deprecated
-      removeListener: jest.fn(), // Deprecated
+      addListener: jest.fn(), 
+      removeListener: jest.fn(), 
       addEventListener: jest.fn(),
       removeEventListener: jest.fn(),
       dispatchEvent: jest.fn(),
@@ -19,11 +19,10 @@ Object.defineProperty(window, 'matchMedia', {
 
 describe('ItemContainer tesztek', () => {
   it('handleClick függvény működésének tesztelése', () => {
-    // Teszteset inicializálása
-    const onToggleItem = jest.fn(); // Mockolt onToggleItem függvény
-    const item = { itemId: 1 }; // Tesztelt item objektum
-    const chance = 0.5; // Tesztelt chance változó
-    const showChance = true; // Tesztelt showChance változó
+    const onToggleItem = jest.fn();
+    const item = { itemId: 1 };
+    const chance = 0.5; 
+    const showChance = true; 
     const { container } = render(
 <MantineProvider>
 <Grid>
@@ -41,11 +40,9 @@ describe('ItemContainer tesztek', () => {
     );
     
 
-    // Teszteljük a handleClick függvény működését, amikor a chance nem null
-    fireEvent.click(container.firstChild); // Kattintás az ItemContainer-en belüli első elemre
+    fireEvent.click(container.firstChild);
 
-    // Teszteljük a handleClick függvény működését, amikor a chance null
-    const onToggleItemWithObject = jest.fn(); // Mockolt onToggleItem függvény a chance null esetére
+    const onToggleItemWithObject = jest.fn();
     render(
         <MantineProvider>
             <Grid>
@@ -61,6 +58,6 @@ describe('ItemContainer tesztek', () => {
       </Grid>
       </MantineProvider>
     );
-    fireEvent.click(container.firstChild); // Kattintás az ItemContainer-en belüli első elemre
+    fireEvent.click(container.firstChild);
   });
 });

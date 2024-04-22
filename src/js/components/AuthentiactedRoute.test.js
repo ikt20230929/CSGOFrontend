@@ -6,14 +6,13 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthenticatedRoute } from "./AuthenticatedRoute";
 import '@testing-library/jest-dom';
 
-// Mock Redux store
 const initialState = {
   auth: {
-    accessToken: "mockAccessToken" // Assuming the user is authenticated
+    accessToken: "mockAccessToken" 
   },
   data: {
     profile: {
-      userIsAdmin: true // Assuming the user is an admin
+      userIsAdmin: true 
     }
   }
 };

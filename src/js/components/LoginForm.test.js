@@ -1,19 +1,18 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom'; // For additional matchers like toBeInTheDocument
-import { MantineProvider } from '@mantine/core'; // Import MantineProvider
-import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter
-import { LoginForm } from './LoginForm'; // Import your LoginForm component
+import '@testing-library/jest-dom'; 
+import { MantineProvider } from '@mantine/core'; 
+import { BrowserRouter } from 'react-router-dom';
+import { LoginForm } from './LoginForm'; 
 
-// Mock window.matchMedia
 window.matchMedia = jest.fn().mockImplementation(query => ({
   matches: false,
   media: query,
   onchange: null,
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
-  addListener: jest.fn(), // Deprecated
-  removeListener: jest.fn(), // Deprecated
+  addListener: jest.fn(), 
+  removeListener: jest.fn(), 
 }));
 describe('LoginForm tesztek', () => {
     it('useEffect működésének tesztelése', () => {
