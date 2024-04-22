@@ -34,14 +34,14 @@ Ha csak helyileg tesztelsz, futtasd a `npm run watch` parancsot, különben, kö
 ```bash
 # Másold át a fejlesztési konfigurációs fájlt a produkciós helyére.
 copy config\settings-dev.js config\settings-prod.js
-(Linux-on: cp config\settings-dev.js config\settings-prod.js)
+(Linux-on: cp config/settings-dev.js config/settings-prod.js)
 
 # Az alkalmazás build-elése.
 npm run build
 
 # Másold a "public" mappa tartalmát a webszervered mappájába, például:
 xcopy public C:\xampp\htdocs /s /e
-(Linux-on: cp -Rv public /var/www/html)
+(Linux-on: cp -Rv public/. /var/www/html)
 ```
 
 ## Tesztelés
