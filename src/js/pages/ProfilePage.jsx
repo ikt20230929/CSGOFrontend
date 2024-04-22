@@ -121,18 +121,6 @@ export default function ProfilePage() {
                 <Space h="sm" />
                 <Text size="xl">Egyenleged: <NumberFormatter prefix="$" fixedDecimalScale={true} decimalScale={2} value={profile.userBalance} /></Text>
                 <Space h="xl" />
-                <Modal opened={opened} onClose={close} title="Adataid szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-                    <TextInput label="Steam URL módosítása" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=yourowntoken" />
-                    <TextInput label="Partner kód" placeholder="FREE3USD" />
-                    <FileInput variant="filled" label="Profilkép" description="Válassz magadnak egy új profilképet!" placeholder="Katt!" />
-                    <Space h="md" />
-                    <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={close}>
-                        Mentés
-                    </Button>
-                </Modal>
-                <Button onClick={open} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
-                    Adatok módosítása
-                </Button>
                 <Space h="xs"></Space>
                 <Button onClick={() => handleSell(selectedItems)} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }}>
                     Kiválasztott tárgyak eladása

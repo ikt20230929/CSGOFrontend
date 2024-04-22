@@ -34,6 +34,7 @@ export default function MainPage() {
                 border: hoveredCard === _case.caseId ? '1px solid aqua' : '1px solid #cbd5e0' ,
                 width: "100%", maxWidth: "100%"
               }}>
+                <img style={{margin:"auto"}} width="300vh" src={_case.assetUrl}></img>
                 <Text>{_case.caseName}</Text>
                 <Text size="sm" color="dimmed">({_case.items.length} db)</Text>
                 <Text size="sm" color="dimmed" fw={500}>{_case.itemValue} $</Text>
