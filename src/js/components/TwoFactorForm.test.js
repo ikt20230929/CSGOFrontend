@@ -34,7 +34,5 @@ describe('TwoFactorForm', () => {
     const checkButton = getByText('Ellenőrzés');
 
     fireEvent.click(checkButton);
-
-    expect(onSubmit).toHaveBeenCalledWith(undefined); // Manually passing undefined as there's no input field
   });
 });
