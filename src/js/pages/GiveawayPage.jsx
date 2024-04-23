@@ -67,7 +67,7 @@ export default function GiveawayPage() {
                 <div key={giveaway.giveawayId}>
                   <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                   <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{ float: "right", margin: "auto", display: "block" }}>
-                    <img src={giveaway.giveawayItemAssetUrl} style={{ float: "right", width: "6vw" }}></img>
+                    <img src={`${API_URL}${giveaway.giveawayItemAssetUrl}`} style={{ float: "right", width: "6vw" }}></img>
                   </Card>
                   <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
                   <Text c="dimmed">Sorsolás lejárta: {dayjs(giveaway.giveawayDate).format('LLL')}</Text>
