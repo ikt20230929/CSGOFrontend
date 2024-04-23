@@ -126,8 +126,9 @@ const CardList = ({ caseId }) => {
                 onClose={() => setIsModalOpen(false)}
                 title="Gratulálunk!"
             >
-                <div>Nyereményed: {winnerItem.itemSkinName}</div>
-                <img src={`${API_URL}${winnerItem.itemAssetUrl}`} style={{ width: "200px" }}></img>
+                <div>Nyereményed: {winnerItem.itemName} - {winnerItem.itemSkinName}</div>
+                <div>Ár: {winnerItem.itemValue}$</div>
+                <img src={`${API_URL}${winnerItem.itemAssetUrl}`} style={{ width: "200px", margin:"auto" }}></img>
             </Modal>
             <Modal
                 opened={onError}
