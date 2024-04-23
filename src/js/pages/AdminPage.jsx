@@ -652,7 +652,7 @@ export default function ProfilePage() {
         <Modal opened={editCaseModal[0]} onClose={editCaseModal[1].close} title="Láda szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <TextInput label="Név" value={newCaseName} onChange={(e) => { setNewCaseName(e.target.value) }} />
           <TextInput label="Ár" value={newCasePrice} onChange={(e) => { setNewCasePrice(e.target.value) }} />
-          <TextInput label="Láda képe" placeholder="Illeszd ide a kép URL-ét..." description="Válassz az új ládának egy képet!" onChange={(e) => setNewCaseImage(e.target.value)}/>
+          <TextInput label="Láda képe" value={newCaseImg} description="Válassz az új ládának egy képet!" onChange={(e) => setNewCaseImg(e.target.value)}/>
           <Space h="md" />
           <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} type="submit" onClick={() => { editCaseModal[1].close; editCase(selectedCase.caseId) }}>
             Mentés
@@ -739,6 +739,7 @@ export default function ProfilePage() {
                     editCaseModal[1].open();
                     setNewCaseName(_case.caseName);
                     setNewCasePrice(_case.itemValue);
+                    setNewCaseImg(_case.itemAssetUrl);
                   }} variant="outline" color="yellow">Szerkesztés</Button>
                   <Space h="xs"></Space>
                   <Button variant="outline" color="red" onClick={() => { showDeleteCaseModal[1].open(); setSelectedCaseId(_case.caseId); }}>Törlés</Button>

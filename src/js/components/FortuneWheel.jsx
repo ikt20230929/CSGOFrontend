@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, success, setOpenModal }) {
+export default function FortuneWheel({ number, spinTrigger, resetSpinTrigger, success, setOpenModal, winSel }) {
   const [value, setValue] = useState(1800);
   const [isSpinning, setIsSpinning] = useState(false);
   const [transitionEnabled, setTransitionEnabled] = useState(false)

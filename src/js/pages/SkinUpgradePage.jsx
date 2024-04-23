@@ -12,6 +12,7 @@ const { setProfile, setInventory } = actions;
 const MultiplierWheel = () => {
     const { profile, inventory } = useSelector(state => state.data);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchTermWin, setSearchTermWin] = useState('');
     const [allItems, setAllItems] = useState([]); // A lehetséges nyeremények
     const [selectedItems, setSelectedItems] = useState([]); // A fejlesztésre kiválasztott tárgyak listája
     const [upgradeChance, setUpgradeChance] = useState([]); // A lehetséges nyeremények, és azok esélyét tartalmazó objektum tömb
@@ -22,6 +23,7 @@ const MultiplierWheel = () => {
     const [openModel, setOpenModal] = useState(false); // Párbeszéd ablak megnyitása
     const [itemAccepted, setItemAccepted] = useState(false) // A párbeszédablak bezárása
     const [span, setSpan] = useState(3); // Kártya szélesség beállítása
+    const [winSel, setWinSel] = useState(true);
     const dispatch = useDispatch();
 
     // Pörgetés elindítása
@@ -153,7 +155,7 @@ const MultiplierWheel = () => {
             <Text size='5vw' style={{ width: "100%", maxWidth: "100%", marginBottom: "30px" }} fw={700} tt="uppercase" variant="gradient" gradient={{ from: 'rgba(255, 255, 255, 1)', to: 'rgba(99, 234, 255, 1)', deg: 90 }}>
                 Skin Upgrader
             </Text>
-            <FortuneWheel number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess} setOpenModal={setOpenModal} />
+            <FortuneWheel winSel={winSel} number={chance} spinTrigger={spinTrigger} resetSpinTrigger={resetSpinTrigger} success={isSuccess} setOpenModal={setOpenModal} />
             <Grid align='center' justify="center">
                 <Grid.Col span={{ xs: 14, sm: 10, md: 5, lg: 4 }}>
                     <Card className="upgrdcard" shadow="sm" padding="lg" radius="md" withBorder style={{ textAlign: 'center', width: "100%", maxWidth: "100%" }}>
@@ -177,7 +179,10 @@ const MultiplierWheel = () => {
                     <Button fullWidth
                         variant="gradient"
                         style={{ marginTop: 20 }}
-                        onClick={triggerSpin}
+                        onClick={() => {
+                            triggerSpin();
+                            setWinSel(false);
+                        }}
                         disabled={!winSelection}
                     >
                         UPGRADE
@@ -191,13 +196,17 @@ const MultiplierWheel = () => {
                         </Text>
                         <Space h="xs"></Space>
                         <Group justify="space-between">
-                            <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTerm(event.currentTarget.value)} />
+                            <TextInput placeholder="Keresés" classNames={{ input: 'regpage' }} onChange={event => setSearchTermWin(event.currentTarget.value)} />
                         </Group>
                         <Space h="xs"></Space>
                         {selectedItems.length > 0 && (
                             <ScrollArea h={450} scrollbarSize={2}>
                                 <Grid gutter="md">
-                                    <InventorySearchWrapper searchTerm={searchTerm} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} spanWidth={span} />
+                                    {winSel == true ? (
+                                        <InventorySearchWrapper searchTerm={searchTermWin} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} spanWidth={span} />
+                                    ) : (
+                                        ''
+                                    )}
                                 </Grid>
                             </ScrollArea>
                         )}
@@ -207,13 +216,17 @@ const MultiplierWheel = () => {
             <Modal
                 title={isSuccess ? "Sikeres fejlesztés!" : "A fejlesztés sikertelen!"}
                 opened={openModel}
-                onClose={() => setOpenModal(false)}
+                onClose={() => {
+                    setOpenModal(false);
+                    setWinSel(true);
+                }}
             >
                 {isSuccess ? (
                     <>
                         <Button onClick={() => {
                             setItemAccepted(true);
                             setOpenModal(false);
+                            setWinSel(true);
                         }}>OK</Button>
                     </>) : (
                     <>
@@ -221,6 +234,7 @@ const MultiplierWheel = () => {
                         <Button onClick={() => {
                             setItemAccepted(true);
                             setOpenModal(false);
+                            setWinSel(true);
                         }}>OK</Button>
                     </>)}
             </Modal>
