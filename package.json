@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@mantine/core": "^7.9.1",
-    "@mantine/dates": "^7.9.1",
+    "@mantine/dates": "^7.10.0",
     "@mantine/form": "^7.9.1",
     "@mantine/hooks": "^7.9.1",
     "@mantine/nprogress": "^7.9.1",
