@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Text, Badge, Grid, Group } from '@mantine/core';
-import CenteredContainer from "../components/CenteredContainer";
 import { useSelector } from "react-redux";
+import { API_URL } from '../settings';
 
 export default function MainPage() {
   const { cases } = useSelector(state => state.data);
@@ -34,7 +34,7 @@ export default function MainPage() {
                 border: hoveredCard === _case.caseId ? '1px solid aqua' : '1px solid #cbd5e0' ,
                 width: "100%", maxWidth: "100%"
               }}>
-                <img style={{margin:"auto"}} width="300vh" src={_case.itemAssetUrl}></img>
+                <img style={{margin:"auto"}} width="300vh" src={`${API_URL}${_case.itemAssetUrl}`}></img>
                 <Text>{_case.caseName}</Text>
                 <Text size="sm" color="dimmed">({_case.items.length} db)</Text>
                 <Text size="sm" color="dimmed" fw={500}>{_case.itemValue} $</Text>
