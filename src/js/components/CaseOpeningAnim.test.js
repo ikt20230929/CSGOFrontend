@@ -16,6 +16,8 @@ window.matchMedia = jest.fn().mockImplementation(query => ({
     removeListener: jest.fn(), 
   }));
 
+console.error = jest.fn()
+
 describe('CaseOpeningAnim tesztek', () => {
   it('teszteli a komponens működését', () => {
     render(
