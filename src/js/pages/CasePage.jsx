@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Card, Text, Grid, Space } from '@mantine/core';
 import ItemContainerCase from '../components/ItemContainerCase';
 import CaseOpeningAnim from '../components/CaseOpeningAnim';
+import { API_URL } from '../settings';
 
 function CasePage() {
   const { caseId } = useParams();
