@@ -34,13 +34,10 @@ export default function MainPage() {
                 border: hoveredCard === _case.caseId ? '1px solid aqua' : '1px solid #cbd5e0' ,
                 width: "100%", maxWidth: "100%"
               }}>
-                <img style={{margin:"auto"}} width="300vh" src={_case.assetUrl}></img>
+                <img style={{margin:"auto"}} width="300vh" src={_case.itemAssetUrl}></img>
                 <Text>{_case.caseName}</Text>
                 <Text size="sm" color="dimmed">({_case.items.length} db)</Text>
                 <Text size="sm" color="dimmed" fw={500}>{_case.itemValue} $</Text>
-                {/*{_case.items.map(_caseItem => (
-                  <Text key={_caseItem.itemId} size="sm" color="dimmed">{_caseItem.itemName} - {_caseItem.itemSkinName} (Ár: {_caseItem.itemSkinValue} $)</Text>
-                ))}*/}
               </Card>
             </Grid.Col>
           ))}

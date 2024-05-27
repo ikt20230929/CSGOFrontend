@@ -104,7 +104,7 @@ export default function GiveawayPage() {
                 <Space h="sm" />
                 <Text fw={700} tt="uppercase">{giveaway.giveawayName}</Text>
                 <Card className="regpage" shadow="sm" padding="lg" radius="xl" withBorder style={{ float: "right", margin: "auto" }}>
-                  <img src={giveaway.giveawayItemAssetUrl} style={{ float: "right", width: "6vw" }}></img>
+                  <img src={`${API_URL}${giveaway.giveawayItemAssetUrl}`} style={{ float: "right", width: "6vw" }}></img>
                 </Card>
                 <Text c="dimmed">Nyeremény: {giveaway.giveawayItem} - {giveaway.giveawayItemSkinName}</Text>
                 <Text c="dimmed">Nyertes: {giveaway.winnerName}</Text>
