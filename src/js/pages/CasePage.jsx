@@ -58,9 +58,16 @@ function CasePage() {
   return (
     <div>
       <Space h="sm" />
-      <Text size="5vw" fw={700} tt="uppercase" variant="gradient">
+      <Text size="3vw" fw={700} tt="uppercase" variant="gradient" style={{
+        textAlign: 'center'
+      }}>
         {caseData.caseName}
       </Text>
+      <img style={{
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }} width="300vh" src={`${API_URL}${caseData.itemAssetUrl}`} />
       {navigateAway ? (
         <Navigate to="/home" replace />
       ) : (
