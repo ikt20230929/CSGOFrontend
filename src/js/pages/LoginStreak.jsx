@@ -44,7 +44,9 @@ export default function LoginStreak() {
     return (
         <>
             {claimSuccess && (
-                <Notification withCloseButton={false} className='alerteles regpage' withBorder color="cyan" radius="lg" title="Sikeresen kiváltottad a napi jutalmad!">
+                <Notification withCloseButton={false} className='alerteles regpage' style={{
+                    zIndex: 1
+                }} withBorder color="cyan" radius="lg" title="Sikeresen kiváltottad a napi jutalmad!">
                     A mai jutalmad: ${amount}!<br />Gyere vissza holnap is!
                 </Notification>
             )}
