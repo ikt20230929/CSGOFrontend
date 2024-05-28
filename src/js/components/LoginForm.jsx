@@ -31,6 +31,10 @@ export function LoginForm({ onSubmit, isInvalid, error}) {
     });
   }, [isInvalid === true]);
 
+  useEffect(() => {
+    document.getElementById("forgotPw").disabled = true;
+  }, [])
+
   return (
     <CenteredContainer>
       <Paper className="logpage" withBorder={true} shadow="md" p={40} mt={20} radius="md">
@@ -57,7 +61,7 @@ export function LoginForm({ onSubmit, isInvalid, error}) {
                 color="teal"
                 size="md"
               />
-              <Anchor component="button" size="sm" disabled={true}>
+              <Anchor component="button" size="sm" id="forgotPw">
                 Elfelejtetted a jelszavad?
               </Anchor>
             </Group>
