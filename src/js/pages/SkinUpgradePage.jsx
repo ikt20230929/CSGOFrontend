@@ -168,7 +168,7 @@ const MultiplierWheel = () => {
                         </Group>
                         <Space h="xs"></Space>
                         <ScrollArea h={450} scrollbarSize={2}>
-                            <Grid gutter="md">
+                            <Grid gutter="md" columns={9}>
                                 <InventorySearchWrapper searchTerm={searchTerm} items={[...inventory].sort((a, b) => b.itemRarity - a.itemRarity)} onToggleItem={toggleItemSelection} spanWidth={span}/>
                             </Grid>
                         </ScrollArea>
@@ -201,7 +201,7 @@ const MultiplierWheel = () => {
                         <Space h="xs"></Space>
                         {selectedItems.length > 0 && (
                             <ScrollArea h={450} scrollbarSize={2}>
-                                <Grid gutter="md">
+                                <Grid gutter="md" columns={9}>
                                     {winSel == true ? (
                                         <InventorySearchWrapper searchTerm={searchTermWin} items={[...allItems].sort((a, b) => b.itemRarity - a.itemRarity)} showChance={true} chances={upgradeChance} onToggleItem={winSelectedItems} spanWidth={span} />
                                     ) : (

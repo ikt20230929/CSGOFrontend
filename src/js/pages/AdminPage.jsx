@@ -568,7 +568,7 @@ export default function ProfilePage() {
 
         {/* Tárgy szerkesztése selection*/}
         <Modal opened={editItemModal[0]} onClose={editItemModal[1].close} title="Tárgy szerkesztése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <Grid>
+          <Grid columns={6}>
             {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleSelect} spanWidth={span}/>)}
           </Grid>
         </Modal>
@@ -621,7 +621,7 @@ export default function ProfilePage() {
 
         {/* Tárgy törlése */}
         <Modal opened={deleteItemModal[0]} onClose={deleteItemModal[1].close} title="Tárgy törlése" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
-          <Grid>
+          <Grid columns={6}>
             {itemList.map(item => <ItemContainer key={item.itemId} item={item} showChance={true} onToggleItem={handleDelete} spanWidth={span}/>)}
           </Grid>
         </Modal>
@@ -666,7 +666,7 @@ export default function ProfilePage() {
           <Text size="sm" c="dimmed">Ár: {selectedCase.itemValue}</Text>
           <Text size="xl">Tárgyak ({selectedCase.items.length} db):</Text>
           <Space h="md" />
-          <Grid>
+          <Grid columns={9}>
             {selectedCase.items.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem} spanWidth={span}/>)}
           </Grid>
           <Button style={{ margin: "5px" }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 90 }} onClick={showCaseModal[1].close}>Bezárás</Button>
@@ -687,7 +687,7 @@ export default function ProfilePage() {
 
         <Modal size="lg" opened={newCaseItemModal[0]} onClose={newCaseItemModal[1].close} title="Skin hozzáadása ládához" transitionProps={{ transition: 'pop', duration: 400, timingFunction: 'ease' }}>
           <Space h="xs" />
-          <Grid>
+          <Grid columns={9}>
             {itemList.map(item => <ItemContainer key={item.itemId} item={item} onToggleItem={handleToggleItem} spanWidth={span}/>)}
           </Grid>
           <Space h="xs"></Space>
