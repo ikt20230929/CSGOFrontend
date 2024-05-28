@@ -57,7 +57,7 @@ export function LoginForm({ onSubmit, isInvalid, error}) {
                 color="teal"
                 size="md"
               />
-              <Anchor component="button" size="sm">
+              <Anchor component="button" size="sm" disabled={true}>
                 Elfelejtetted a jelszavad?
               </Anchor>
             </Group>
