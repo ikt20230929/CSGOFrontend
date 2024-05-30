@@ -47,7 +47,7 @@
     "serve": "^14.2.3"
   },
   "dependencies": {
-    "@mantine/core": "^7.10.0",
+    "@mantine/core": "^7.10.1",
     "@mantine/dates": "^7.10.0",
     "@mantine/form": "^7.10.0",
     "@mantine/hooks": "^7.10.0",
