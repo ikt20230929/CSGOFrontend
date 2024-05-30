@@ -51,7 +51,7 @@
     "@mantine/dates": "^7.10.0",
     "@mantine/form": "^7.10.0",
     "@mantine/hooks": "^7.10.0",
-    "@mantine/nprogress": "^7.10.0",
+    "@mantine/nprogress": "^7.10.1",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",
